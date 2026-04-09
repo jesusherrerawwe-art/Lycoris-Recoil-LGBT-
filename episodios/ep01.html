@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Episodio 01 — Un Café con Dos de Azúcar | Corazones Prestados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       EPISODIO 01 — UN CAFÉ CON DOS DE AZÚCAR
+       Theme: Primavera / Cherry Blossom Morning
+       ═══════════════════════════════════════════ */
+
+    :root {
+      --bg-primary: #0d0b10;
+      --bg-page: #13111a;
+      --bg-panel: #1a1722;
+      --text-body: #e0d6df;
+      --text-dialogue: #f2ecf1;
+      --text-narration: #c4b5d0;
+      --text-muted: #7e6d92;
+      --text-stage: #9b8aaf;
+      --accent-sakura: #f7a0b8;
+      --accent-pink: #e8456b;
+      --accent-cherry: #ff7096;
+      --accent-warm: #f5c87a;
+      --accent-gold: #d4a855;
+      --accent-leaf: #8bc7a3;
+      --accent-blue: #7ba4d4;
+      --border-soft: rgba(247, 160, 184, 0.12);
+      --border-chapter: rgba(247, 160, 184, 0.25);
+      --glow-sakura: rgba(247, 160, 184, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Lora', 'Noto Sans JP', serif;
+      background: var(--bg-primary);
+      color: var(--text-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.9;
+    }
+
+    /* ── Sakura Ambient ── */
+    .sakura-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .sakura-bg .petal {
+      position: absolute;
+      top: -15px;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-sakura);
+      border-radius: 50% 0 50% 50%;
+      opacity: 0;
+      animation: drift linear infinite;
+    }
+
+    .sakura-bg .petal:nth-child(1)  { left: 8%;  animation-duration: 18s; animation-delay: 0s;   }
+    .sakura-bg .petal:nth-child(2)  { left: 22%; animation-duration: 22s; animation-delay: 3s;   }
+    .sakura-bg .petal:nth-child(3)  { left: 45%; animation-duration: 20s; animation-delay: 7s;   }
+    .sakura-bg .petal:nth-child(4)  { left: 68%; animation-duration: 25s; animation-delay: 2s;   }
+    .sakura-bg .petal:nth-child(5)  { left: 85%; animation-duration: 19s; animation-delay: 5s;   }
+    .sakura-bg .petal:nth-child(6)  { left: 52%; animation-duration: 23s; animation-delay: 10s;  }
+
+    @keyframes drift {
+      0%   { transform: translateY(-15px) rotate(0deg) translateX(0);   opacity: 0; }
+      8%   { opacity: 0.10; }
+      85%  { opacity: 0.10; }
+      100% { transform: translateY(100vh) rotate(270deg) translateX(60px); opacity: 0; }
+    }
+
+    /* ── Episode Header ── */
+    .ep-header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(247, 160, 184, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 40%, rgba(232, 69, 107, 0.05) 0%, transparent 50%),
+        var(--bg-primary);
+    }
+
+    .ep-back-link {
+      display: inline-block;
+      margin-bottom: 2.5rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border-soft);
+      padding: 0.35rem 1.2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .ep-back-link:hover {
+      color: var(--accent-sakura);
+      border-color: var(--accent-sakura);
+      background: rgba(247, 160, 184, 0.05);
+    }
+
+    .ep-number {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .ep-act-badge {
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--accent-sakura);
+      color: var(--accent-sakura);
+      border-radius: 50px;
+      background: rgba(247, 160, 184, 0.05);
+      margin-bottom: 1.5rem;
+    }
+
+    .ep-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--text-dialogue) 0%, var(--accent-sakura) 60%, var(--accent-cherry) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ep-title-jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .ep-opening-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 450px;
+      margin: 0 auto;
+      line-height: 1.8;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    /* ── Main Content / Reading Area ── */
+    .ep-content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* ── Scene Blocks ── */
+    .scene {
+      margin-bottom: 3.5rem;
+    }
+
+    .scene-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent-sakura);
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .scene-heading .scene-icon {
+      margin-right: 0.5rem;
+    }
+
+    /* ── Narrative Paragraphs ── */
+    .narration {
+      font-size: 1rem;
+      color: var(--text-narration);
+      margin-bottom: 1.4rem;
+      text-indent: 1.5rem;
+      line-height: 2;
+    }
+
+    .narration:first-of-type {
+      text-indent: 0;
+    }
+
+    .narration em {
+      color: var(--accent-sakura);
+      font-style: italic;
+    }
+
+    .narration strong {
+      color: var(--text-dialogue);
+      font-weight: 600;
+    }
+
+    /* ── First Letter Drop Cap ── */
+    .drop-cap::first-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 3.2rem;
+      float: left;
+      line-height: 0.8;
+      margin-right: 0.12em;
+      margin-top: 0.1em;
+      color: var(--accent-sakura);
+      font-weight: 700;
+    }
+
+    /* ── Dialogue ── */
+    .dialogue {
+      margin: 1.5rem 0;
+      padding: 0 0 0 1.2rem;
+      border-left: 2px solid var(--border-chapter);
+    }
+
+    .dialogue .speaker {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+
+    .dialogue .line {
+      font-size: 1rem;
+      color: var(--text-dialogue);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .dialogue .line .action {
+      font-style: normal;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Speaker Colors */
+    .speaker-chisato  { color: var(--accent-warm); }
+    .speaker-takina   { color: var(--accent-blue); }
+    .speaker-ken      { color: var(--accent-leaf); }
+    .speaker-kurumi   { color: #c792ea; }
+    .speaker-mizuki   { color: #f7768e; }
+    .speaker-mika     { color: #a9b1d6; }
+
+    .dialogue.chisato { border-left-color: var(--accent-warm); }
+    .dialogue.takina  { border-left-color: var(--accent-blue); }
+    .dialogue.ken     { border-left-color: var(--accent-leaf); }
+    .dialogue.kurumi  { border-left-color: #c792ea; }
+    .dialogue.mizuki  { border-left-color: #f7768e; }
+    .dialogue.mika    { border-left-color: #a9b1d6; }
+
+    /* ── Internal Thought ── */
+    .thought {
+      font-style: italic;
+      color: var(--text-muted);
+      text-align: center;
+      margin: 2rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .thought::before,
+    .thought::after {
+      content: '·  ·  ·';
+      display: block;
+      color: var(--accent-sakura);
+      opacity: 0.3;
+      font-size: 0.8rem;
+      margin: 0.8rem 0;
+    }
+
+    /* ── Stage Directions ── */
+    .stage {
+      font-size: 0.82rem;
+      color: var(--text-stage);
+      font-style: italic;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* ── Scene Dividers ── */
+    .scene-break {
+      text-align: center;
+      margin: 3rem 0;
+      color: var(--accent-sakura);
+      font-size: 1.2rem;
+      opacity: 0.4;
+      letter-spacing: 0.5em;
+    }
+
+    .cherry-divider {
+      text-align: center;
+      margin: 2.5rem 0;
+      font-size: 0.9rem;
+      opacity: 0.5;
+    }
+
+    /* ── Sound Effects / Onomatopoeia ── */
+    .sfx {
+      text-align: center;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.3em;
+      margin: 1.5rem 0;
+      opacity: 0.7;
+    }
+
+    /* ── End Card ── */
+    .end-card {
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-chapter);
+    }
+
+    .end-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .end-preview {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+
+    .end-preview em {
+      color: var(--accent-sakura);
+    }
+
+    /* ── Navigation ── */
+    .ep-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .ep-nav a {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .ep-nav a:hover {
+      color: var(--accent-sakura);
+      border-color: var(--accent-sakura);
+      background: rgba(247, 160, 184, 0.05);
+    }
+
+    .ep-nav .disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* ── Footer ── */
+    .ep-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .ep-header {
+        padding: 3rem 1.5rem 2rem;
+      }
+
+      .ep-content {
+        padding: 2rem 1.2rem 3rem;
+      }
+
+      .narration {
+        text-indent: 1rem;
+      }
+
+      .dialogue {
+        padding-left: 0.8rem;
+      }
+
+      .drop-cap::first-letter {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* ── Accessibility ── */
+    @media (prefers-reduced-motion: reduce) {
+      .sakura-bg .petal {
+        animation: none;
+        display: none;
+      }
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--accent-sakura);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sakura Petals (ambient) -->
+  <div class="sakura-bg" aria-hidden="true">
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+  </div>
+
+  <!-- ═══════════ EPISODE HEADER ═══════════ -->
+  <header class="ep-header">
+    <a href="../index.html" class="ep-back-link">← Índice de Episodios</a>
+    <span class="ep-number">Episodio 01</span>
+    <div class="ep-act-badge">Acto I — Primavera</div>
+    <h1 class="ep-title">Un Café con Dos de Azúcar</h1>
+    <p class="ep-title-jp">砂糖ふたつのコーヒー</p>
+    <blockquote class="ep-opening-quote">
+      "Hay personas que entran a un café buscando algo caliente.<br>
+      Y otras que entran sin saber que lo que buscan<br>
+      ya lleva tiempo esperándolas."
+    </blockquote>
+  </header>
+
+  <!-- ═══════════ CHAPTER CONTENT ═══════════ -->
+  <article class="ep-content">
+
+    <!-- ╌╌╌╌╌ ESCENA 1: MAÑANA EN LYCORIS ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🌸</span> Escena I — La Mañana del Cerezo
+      </div>
+
+      <p class="narration drop-cap">La campanilla sobre la puerta llevaba tres años sonando igual. Dos notas agudas, ligeramente desafinadas, que se tragaba el aroma del café recién molido antes de que llegaran al fondo de la barra. Para Takina Inoue, ese sonido era lo más parecido a un reloj — marcaba el inicio de otro día en LycoReco, y con él, la certeza tranquila de que el mundo seguía girando.</p>
+
+      <p class="narration">Afuera, los cerezos del paseo de Sumida habían reventado de golpe esa semana. Tokio entero olía a primavera — ese perfume húmedo y dulce que se colaba por la ventana entreabierta y se mezclaba con las notas de la Cavatina de Stanley Myers que salía, a volumen imprudente, del altavoz bluetooth de Chisato.</p>
+
+      <p class="narration"><strong>Chisato Nishikigi</strong> no caminaba: <em>rebotaba</em>. Moverse era su forma de existir. Esa mañana llevaba el delantal de LycoReco atado en un moño torcido — como siempre — y tarareaba entre los dientes mientras acomodaba las servilletas con la precisión de alguien que jamás ha sido precisa en nada que no involucre un arma.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Ta~ki~na! ¿Ya viste afuera? Los cerezos están que no se aguantan. Deberíamos poner una mesa en la banqueta. ¡Como en París! ¿Has ido a París? ¡Yo tampoco! ¡Pero así me lo imagino!</p>
+      </div>
+
+      <p class="narration">Takina no levantó la vista del filtro que estaba calibrando. Sus manos se movían con la eficiencia quirúrgica de quien ha desarmado rifles de francotirador — ahora al servicio de un V60 pour-over. Tres vueltas concéntricas. Agua a noventa y dos grados. Ni uno más.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">En París usan sillas de mimbre. No tenemos sillas de mimbre.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Takina! ¡Eso es lo que tú elegiste escuchar de todo lo que dije! <span class="action">(Inflando las mejillas.)</span> ¿Y el romance? ¿Y la atmósfera? ¿Y los cerezos?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Los cerezos están ahí desde marzo. No es una novedad. <span class="action">(Pausa. Un suspiro casi inaudible.)</span> ...Pero sí. Son bonitos hoy.</p>
+      </div>
+
+      <p class="narration">Chisato se detuvo en seco. Giró sobre sus talones, los ojos abiertos como dos soles.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Takina Inoue acaba de decir que algo es <em>bonito</em>? <span class="action">(Llevándose las manos al pecho de forma teatral.)</span> Necesito sentarme. Creo que me voy a desmayar. ¡Mika-san! ¡Llama a una ambulancia!</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Eres imposible.</p>
+      </div>
+
+      <p class="narration">Pero había algo — apenas una sombra — en la comisura de los labios de Takina que podría, bajo la luz correcta y con suficiente imaginación, parecerse a una sonrisa.</p>
+    </section>
+
+    <div class="cherry-divider" aria-hidden="true">🌸 ✦ 🌸</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 2: LA FAMILIA DE LYCORIS ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">☕</span> Escena II — Rutina con Familia Elegida
+      </div>
+
+      <p class="narration">El café abrió a las diez, como cada día. Y como cada día, los primeros quince minutos le pertenecían a la familia.</p>
+
+      <p class="narration"><strong>Kurumi</strong> ya estaba instalada en su rincón sagrado: la mesa del fondo, junto al enchufe, con tres monitores portátiles formando un arco protector alrededor de su persona. Llevaba los audífonos puestos pero sin música — una costumbre que le permitía escuchar todo mientras fingía no escuchar nada.</p>
+
+      <div class="dialogue kurumi">
+        <span class="speaker speaker-kurumi">Kurumi</span>
+        <p class="line"><span class="action">(Sin apartar la vista de la pantalla.)</span> Chisato, estás tarareando la misma canción desde hace cuarenta y tres minutos. ¿Estás bien o necesito preocuparme?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Es Cavatina! ¿Cómo alguien no puede querer escuchar Cavatina cuarenta y tres minutos? ¿Cuarenta y tres <em>horas</em>?</p>
+      </div>
+
+      <div class="dialogue kurumi">
+        <span class="speaker speaker-kurumi">Kurumi</span>
+        <p class="line">Cuarenta y tres segundos ya era mucho, pero tú haz lo que quieras.</p>
+      </div>
+
+      <p class="narration">Desde el otro lado de la barra, <strong>Mizuki</strong> aparecía con una taza de matcha latte entre las manos y el ceño fruncido de alguien que ha revisado treinta y siete perfiles de citas antes de las diez de la mañana.</p>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Nada. <em>Nada.</em> Treinta y siete perfiles y ni uno solo sabe la diferencia entre "hay", "ahí" y "ay". <span class="action">(Dejándose caer en un taburete.)</span> ¿Es mucho pedir un hombre que sepa conjugar verbos Y que tenga mandíbula?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Mandíbula? ¡Todos tienen mandíbula, Mizuki-san!</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Sabes <em>exactamente</em> a qué tipo de mandíbula me refiero.</p>
+      </div>
+
+      <p class="narration">Takina siguió vertiendo agua en círculos perfectos. No dijo nada. Pero en la quietud de sus movimientos — en ese silencio suyo que no era vacío sino lleno, repleto de observaciones que nunca soltaba — registró algo que los demás no vieron:</p>
+
+      <p class="thought">Chisato estaba tarareando la canción equivocada.<br>
+      Normalmente tarareaba <em>Sakura</em> en primavera, o cualquier cosa de Yoasobi.<br>
+      Pero hoy era Cavatina.<br>
+      Cavatina es una canción de despedida.<br>
+      ¿Por qué tararea alguien una despedida cuando todo está en flor?</p>
+
+      <p class="narration">Takina sacudió el pensamiento como quien sacude el agua de un paraguas. No era nada. Solo una canción.</p>
+
+      <p class="narration"><strong>Mika</strong> salió de la trastienda secándose las manos con un paño. Su presencia llenaba el espacio de la forma en que lo hacen las personas que han visto demasiado y han elegido, deliberadamente, quedarse suaves. Se detuvo junto a la ventana. Miró los cerezos. Miró a Chisato. Miró a Takina.</p>
+
+      <div class="dialogue mika">
+        <span class="speaker speaker-mika">Mika</span>
+        <p class="line">Bonito día.</p>
+      </div>
+
+      <p class="narration">Lo dijo como si significara otra cosa. Con Mika, todo significaba otra cosa.</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 3: LA CAMPANILLA SUENA DIFERENTE ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🔔</span> Escena III — La Campanilla Suena Diferente
+      </div>
+
+      <p class="sfx">— tin, tin —</p>
+
+      <p class="narration">La campanilla sonó a las diez y cuarenta y siete. Las mismas dos notas desafinadas de siempre. Pero esta vez, Takina levantó la vista.</p>
+
+      <p class="narration">Años después, intentaría recordar por qué. Qué hubo de distinto en ese tintineo en particular, entre los cientos que escuchaba cada semana. No encontraría respuesta. Solo el recuerdo de haber levantado los ojos del V60 y haber visto, recortada contra la luz de los cerezos, la silueta de alguien que no conocía.</p>
+
+      <p class="narration">Era un joven. Más o menos de su edad — tal vez un año mayor, tal vez dos. Cabello oscuro y un poco largo, como si hubiera olvidado cortárselo o como si no le importara lo suficiente para hacerlo. Usaba una chaqueta ligera color arena sobre una camiseta blanca, y cargaba una mochila desgastada del hombro izquierdo — solo del izquierdo, como si el derecho le molestara.</p>
+
+      <p class="narration">Se detuvo en la entrada. Miró el menú escrito a mano en la pizarra. Luego miró las flores del mostrador — un ramo pequeño de <em>higanbana</em>, lirios araña rojos, que Chisato cambiaba cada lunes porque decía que "un café sin flores es solo un cuarto con sillas."</p>
+
+      <p class="narration">El joven miró las flores un segundo de más.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Bienvenido a LycoReco! <span class="action">(Ya estaba a metro y medio de él, como materializada del aire.)</span> ¿Es tu primera vez? ¿Qué te apetece? ¿Café? ¿Té? ¿Un sándwich? ¿Los tres? ¡Puedo hacer los tres!</p>
+      </div>
+
+      <p class="narration">El joven parpadeó. La velocidad de Chisato tenía ese efecto en las personas: les robaba un parpadeo antes de que pudieran reaccionar.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Con una voz tranquila, casi suave.)</span> Café, por favor. Solo. Con... <span class="action">(una pausa diminuta, como si estuviera eligiendo las palabras con cuidado)</span> ...dos de azúcar.</p>
+      </div>
+
+      <p class="stage">Un silencio breve. El tipo de silencio que solo notan las personas que escuchan demasiado.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Los ojos iluminándose.)</span> ¡¿Dos de azúcar?! ¡Igual que yo! Takina siempre me dice que es demasiado, que arruina el perfil del grano, que no sé qué del tueste medio — <span class="action">(bajando la voz en complicidad)</span> — pero entre tú y yo, el café sin azúcar es solo agua caliente marrón con pretensiones.</p>
+      </div>
+
+      <p class="narration">El joven soltó algo que no era del todo una risa. Era más pequeño que eso — un sonido que nació en la garganta y se detuvo antes de llegar a los labios. Pero le cambió la cara entera. Por un segundo, la cautela se le cayó como un abrigo.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Mi madre decía lo mismo. Que el azúcar no se le niega a nadie.</p>
+      </div>
+
+      <p class="narration">Dijo <em>"decía"</em>. En pasado. Chisato lo notó. Chisato siempre notaba esas grietas — las reconocía porque tenía las suyas propias, solo que las había llenado de luz para que nadie mirara adentro.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Suena como una mujer sabia. <span class="action">(Sin cambiar el tono. Sin preguntar. Solo dejando espacio.)</span> Siéntate donde quieras. Te lo llevo en un momento.</p>
+      </div>
+
+      <p class="narration">Él asintió, se sentó junto a la ventana y dejó la mochila en el suelo con un cuidado extraño — como si dentro hubiera algo frágil, o como si él mismo fuera lo frágil.</p>
+
+      <p class="narration">Desde detrás de la barra, Takina observó toda la escena con los ojos de alguien entrenada para leer habitaciones. Catalogó los datos sin querer: la inclinación al sentarse (evitando cargar peso del lado derecho), el reloj digital en la muñeca izquierda (no era un reloj normal — tenía la forma de un monitor médico), la forma en que tocó involuntariamente un punto debajo de su clavícula al respirar hondo.</p>
+
+      <p class="thought">Marcapasos, probablemente.<br>
+      Joven para uno.<br>
+      Demasiado joven.</p>
+
+      <p class="narration">Takina apartó la mirada. No era asunto suyo.</p>
+    </section>
+
+    <div class="cherry-divider" aria-hidden="true">🌸 ✦ 🌸</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 4: DOS TAZAS, UN REFLEJO ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">☕☕</span> Escena IV — Dos Tazas, Un Reflejo
+      </div>
+
+      <p class="narration">Chisato llevó el café a la mesa de la ventana con la misma energía con la que hacía todo: demasiada.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Aquí tienes. Café de la casa — blend centroamericano, tueste medio, notas de caramelo y cereza. ¡Y tus dos cucharadas de azúcar, que conste que las puse con amor!</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Gracias. <span class="action">(Envolviendo la taza con ambas manos, como si necesitara el calor.)</span> ¿Cereza, dijiste?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Sí! Irónico, ¿no? Un café con notas de cereza servido bajo cerezos en flor. Es como si el universo rimara.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Mirando las flores del mostrador.)</span> Esas flores de allá... son higanbana, ¿verdad? Lirios araña.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Tienes buen ojo! Las pongo yo. Me gustan porque son rojas y dramáticas. <span class="action">(Bajando la voz con una sonrisa traviesa.)</span> Y porque se supone que guían a las almas entre mundos, lo cual le da al café un toque... místico. ¿No crees?</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">En algunos lugares dicen que florecen donde la gente se despide. <span class="action">(Una pausa.)</span> Pero a mí siempre me gustó pensar que también florecen donde la gente se encuentra.</p>
+      </div>
+
+      <p class="narration">Chisato se quedó quieta. No era algo que le pasara seguido — Chisato en reposo era un fenómeno tan raro como un eclipse, y duraba más o menos lo mismo. Pero por tres segundos completos, se quedó ahí, de pie junto a la mesa, mirando a este extraño que acababa de convertir una flor fúnebre en algo esperanzador.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Con una sonrisa diferente. Más lenta. Más real.)</span> ...Me gusta esa versión.</p>
+      </div>
+
+      <p class="sfx">— CRACK —</p>
+
+      <p class="narration">El sonido llegó desde la mesa junto a la ventana. El joven — <em>Ken</em>, aunque Chisato aún no sabía su nombre — había levantado la taza para dar el primer sorbo, pero sus manos temblaron. No mucho. Lo suficiente. La taza se resbaló de entre sus dedos y golpeó el borde de la mesa antes de caer al suelo.</p>
+
+      <p class="narration">El café se derramó en un charco oscuro sobre las baldosas blancas. La taza rodó, intacta por algún milagro, pero el líquido se extendió como una mancha de tinta sobre papel.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Agachándose rápido, las orejas rojas.)</span> Lo siento — lo siento mucho — yo... <span class="action">(las manos temblando todavía, tratando de recoger la taza)</span> a veces me pasa, no es... no puedo...</p>
+      </div>
+
+      <p class="narration">Chisato ya estaba en el suelo junto a él. No se agachó con prisa ni con lástima — se arrodilló como alguien que se sienta junto a un amigo en la banqueta, con naturalidad y sin peso.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Oye, oye. Tranquilo. Las tazas existen para ser llenadas, derramadas y vueltas a llenar. <span class="action">(Recogiendo la taza con una mano y poniendo la otra, sin pensarlo, sobre las de él para detener el temblor.)</span> ¿Ves? Ni un rasguño. La taza es más fuerte de lo que parece.</p>
+      </div>
+
+      <p class="narration">Ken miró sus manos. Las de Chisato sobre las suyas. Cálidas. Firmes. Con una fuerza que no tenía nada que ver con los músculos.</p>
+
+      <p class="narration">Desde la barra, Takina vio el gesto. Vio las manos de Chisato envolver las de él, como si fuera lo más natural del mundo. Y sintió algo — pequeño, puntual, como una aguja que toca piel antes de que sepas que te has pinchado.</p>
+
+      <p class="thought">No fue celos. No fue enojo.<br>
+      Fue algo sin nombre.<br>
+      Una punzada — la primera — en un lugar que no sabía que podía doler.</p>
+
+      <p class="narration">Takina tomó un trapo limpio, rodeó la barra y se acercó a la mesa con pasos medidos. Se agachó junto a ellos y empezó a limpiar el charco de café sin decir una palabra. Sus movimientos eran precisos. Eficientes. Un poco demasiado rápidos.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Te prepararé otro. <span class="action">(Sin mirarlo. Mirando el suelo. Mirando el café derramado.)</span> Con dos de azúcar.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Gracias... <span class="action">(buscando su nombre)</span></p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Takina. <span class="action">(Poniéndose de pie. Llevándose el trapo manchado.)</span> No fue nada.</p>
+      </div>
+
+      <p class="narration">Pero había sido algo. Aunque ninguno de los tres lo sabía aún.</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 5: EL NOMBRE ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">✍️</span> Escena V — Un Nombre Entre Cerezos
+      </div>
+
+      <p class="narration">El segundo café llegó perfecto. Takina lo sirvió ella misma — sin el teatro de Chisato, sin florituras, solo la taza, el plato, y una servilleta extra doblada en triángulo.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Gracias, Takina-san. <span class="action">(Sosteniéndolo con más cuidado esta vez, los nudillos todavía ligeramente rosados de la vergüenza.)</span></p>
+      </div>
+
+      <p class="narration">Takina asintió y se dio la vuelta. Pero Chisato — que no conocía el concepto de "dejar ir una conversación" — ya había ocupado la silla de enfrente.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Entonces, Cliente Misterioso de los Dos Azúcares — ¿tienes nombre o voy a tener que inventarte uno? Porque te advierto: soy muy mala poniendo nombres. Le puse "Señor Bigotes" a un pez que ni tenía bigotes.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Esa casi-risa otra vez, un poco más larga esta vez.)</span> Ken. Fujimoto Ken.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Ken! ¡Me gusta! Corto, directo, va al grano. <span class="action">(Señalándose.)</span> Yo soy Chisato. Nishikigi Chisato. La de antes es Takina. Y la que parece que está hackeando un satélite allá al fondo es Kurumi. Y la que revisa su teléfono como si la vida dependiera de ello es Mizuki.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Es... un café bastante particular.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Lo es! Pero los cafés aburridos son solo oficinas con mejor iluminación. ¿No crees?</p>
+      </div>
+
+      <p class="narration">Ken dio el primer sorbo. Cerró los ojos un instante — ese microgestor inconsciente que hace la gente cuando algo sabe exactamente como necesitaba que supiera.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Está muy bueno. <span class="action">(Abriendo los ojos, mirando hacia la barra.)</span> ¿Lo hizo Takina-san?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Claro! Takina hace el mejor café de todo Tokio. Es su superpoder secreto. Bueno, uno de ellos.</p>
+      </div>
+
+      <p class="narration">Detrás de la barra, Takina escuchó su nombre en boca de Chisato — algo que pasaba cien veces al día — y en boca de este extraño, Ken, que lo pronunciaba con un respeto cuidadoso, como si las palabras fueran algo que no debía desperdiciarse.</p>
+
+      <p class="narration">No le dio importancia. Era solo un cliente. Los clientes iban y venían. Así funcionaba un café.</p>
+
+      <p class="narration">Ken se quedó dos horas. Sacó un cuaderno de la mochila y dibujó. Chisato pasaba cada veinte minutos para asomarse ("¡No espío, solo superviso la calidad del servicio!"). Takina rellenó su taza una vez, sin que él lo pidiera, porque notó que estaba vacía.</p>
+
+      <p class="narration">Cuando se levantó para irse, dejó una propina discreta bajo el plato y una nota en el reverso de la cuenta:</p>
+
+      <p class="stage"><em>"Gracias por el café y por las flores que guían encuentros. Volveré mañana, si la taza me perdona."</em></p>
+
+      <p class="narration">Chisato encontró la nota primero. La leyó en voz alta, con la alegría de alguien que acaba de descubrir un tesoro.</p>
+
+      <p class="narration">Takina la escuchó desde la barra. No dijo nada. Pero cuando Chisato no miraba, tomó la taza que Ken había usado — la que se había caído, la que había sobrevivido — y la lavó ella misma, con un cuidado que no solía dedicarle a la vajilla.</p>
+    </section>
+
+    <div class="cherry-divider" aria-hidden="true">🌸 ✦ 🌸</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 6: CIERRE ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🌙</span> Escena VI — Después del Cierre
+      </div>
+
+      <p class="narration">Cerraron a las ocho. Kurumi se fue primero ("Tengo un script que terminar, que no es lo mismo que querer irme, es que <em>tengo</em> que irme"). Mizuki salió después, todavía mirando el teléfono. Mika se despidió con un gesto silencioso y esa mirada suya — la que dejaba claro que veía más de lo que decía.</p>
+
+      <p class="narration">Se quedaron solas. Chisato y Takina. Como siempre, al final del día, el café les pertenecía.</p>
+
+      <p class="narration">Chisato estaba sentada sobre la barra — algo que Takina le había pedido que no hiciera al menos doscientas veces — con las piernas colgando y una taza de su propio café entre las manos. Dos de azúcar. Miraba la calle a través del vidrio. Los cerezos eran siluetas rosadas contra el cielo azul marino del anochecer.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(En voz baja, para variar.)</span> ¿Takina?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">¿Hmm?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Crees que los cerezos saben que van a perder las flores?</p>
+      </div>
+
+      <p class="narration">Takina dejó de barrer. No porque la pregunta fuera rara — con Chisato, las preguntas raras eran la norma. Sino porque la voz de Chisato sonaba diferente. No triste. Solo... desnuda. Sin el brillo habitual.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">No lo sé. Son árboles.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Ya, pero... si lo supieran. Si supieran que les quedan pocos días para estar así de bonitos. ¿Crees que florecerían igual? ¿O florecerían más fuerte?</p>
+      </div>
+
+      <p class="narration">Takina apoyó la escoba contra la pared. Se acercó a la barra. No se sentó sobre ella — eso jamás — pero se recargó lo suficiente para que su hombro quedara a centímetros del de Chisato.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Creo que florecerían igual. Porque eso es lo que hacen. No florecen porque les conviene. Florecen porque no saben hacer otra cosa.</p>
+      </div>
+
+      <p class="narration">Chisato la miró. La luz del atardecer le pintaba la cara en tonos de durazno y miel, y por un instante — brevísimo, efímero como un pétalo al viento — Takina tuvo la impresión de que estaba viendo algo que Chisato no le dejaba ver a nadie.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Sonriendo. La sonrisa de verdad. La que no era para el público.)</span> ...Eso fue casi poético, Takina.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">No lo repetiré.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">No hace falta. Ya lo escuché.</p>
+      </div>
+
+      <p class="narration">Se quedaron así un rato más. Sin hablar. Sin necesitarlo. Afuera, los pétalos de cerezo caían como confeti lento sobre la calle vacía, y si uno escuchaba con atención — con el tipo de atención que Takina le ponía a todo — podía casi oír el susurro de cada uno al soltar la rama.</p>
+
+      <p class="narration">Chisato empezó a tararear de nuevo. Pero esta vez no era Cavatina.</p>
+
+      <p class="narration">Era <em>Sakura</em>.</p>
+
+      <p class="narration">Y Takina, sin saber por qué, sintió que algo dentro de ella se relajaba. Como si la canción correcta hubiera vuelto al lugar correcto. Como si el día, a pesar de sus pequeñas grietas, hubiera terminado entero.</p>
+
+      <p class="narration">No pensó en Ken. No pensó en tazas caídas ni manos que se encuentran sobre café derramado.</p>
+
+      <p class="narration">Aún no.</p>
+
+      <p class="narration">Mañana, la campanilla volvería a sonar. Y con ella, un joven con una sonrisa cautelosa y un corazón que necesitaba ayuda para latir.</p>
+
+      <p class="narration">Pero esta noche, el café olía a cereza y a primavera, y el mundo era solo de ellas dos.</p>
+
+      <p class="stage"><em>Solo de ellas dos.</em></p>
+    </section>
+
+    <!-- ═══════════ END CARD ═══════════ -->
+    <div class="end-card">
+      <p class="end-title">Fin del Episodio 01</p>
+      <div class="cherry-divider" aria-hidden="true">🌸 ✦ 🌸 ✦ 🌸</div>
+      <p class="end-preview">
+        <strong>Próximo episodio:</strong><br>
+        <em>"Latidos Compartidos"</em><br><br>
+        Ken regresa. Chisato descubre algo.<br>
+        Y Takina escucha un sonido que no debería reconocer.
+      </p>
+    </div>
+
+  </article>
+
+  <!-- ═══════════ NAVIGATION ═══════════ -->
+  <nav class="ep-nav" aria-label="Navegación de episodios">
+    <a href="../index.html">← Índice</a>
+    <span class="disabled">Episodio 02 →</span>
+  </nav>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="ep-footer">
+    Lycoris Recoil — Corazones Prestados · Temporada 1<br>
+    Lycoris Recoil © Spider Lily / A-1 Pictures · Fan fiction sin fines de lucro
+  </footer>
+
+</body>
+</html>
