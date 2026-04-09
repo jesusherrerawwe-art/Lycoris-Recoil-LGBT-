@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Episodio 02 — Latidos Compartidos | Corazones Prestados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       EPISODIO 02 — LATIDOS COMPARTIDOS
+       Theme: Heartbeat / Cardiac Warmth
+       ═══════════════════════════════════════════ */
+
+    :root {
+      --bg-primary: #0c0a10;
+      --bg-page: #110f18;
+      --bg-panel: #1b1724;
+      --text-body: #e0d6df;
+      --text-dialogue: #f2ecf1;
+      --text-narration: #c8b8d6;
+      --text-muted: #7e6d92;
+      --text-stage: #9b8aaf;
+      --accent-heart: #e05580;
+      --accent-pulse: #ff6b8a;
+      --accent-rose: #d4456e;
+      --accent-warm: #f5c87a;
+      --accent-gold: #d4a855;
+      --accent-leaf: #8bc7a3;
+      --accent-blue: #7ba4d4;
+      --border-soft: rgba(224, 85, 128, 0.12);
+      --border-chapter: rgba(224, 85, 128, 0.25);
+      --glow-heart: rgba(224, 85, 128, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Lora', 'Noto Sans JP', serif;
+      background: var(--bg-primary);
+      color: var(--text-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.9;
+    }
+
+    /* ── Heartbeat Ambient ── */
+    .heartbeat-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--accent-heart);
+      opacity: 0;
+      animation: pulse-expand ease-out infinite;
+    }
+
+    .pulse-ring:nth-child(1) {
+      top: 25%;
+      left: 15%;
+      width: 80px;
+      height: 80px;
+      animation-duration: 4s;
+      animation-delay: 0s;
+    }
+
+    .pulse-ring:nth-child(2) {
+      top: 60%;
+      right: 10%;
+      left: auto;
+      width: 120px;
+      height: 120px;
+      animation-duration: 5s;
+      animation-delay: 1.5s;
+    }
+
+    .pulse-ring:nth-child(3) {
+      bottom: 20%;
+      left: 40%;
+      top: auto;
+      width: 60px;
+      height: 60px;
+      animation-duration: 4.5s;
+      animation-delay: 3s;
+    }
+
+    .pulse-ring:nth-child(4) {
+      top: 40%;
+      right: 30%;
+      left: auto;
+      width: 100px;
+      height: 100px;
+      animation-duration: 6s;
+      animation-delay: 2s;
+    }
+
+    @keyframes pulse-expand {
+      0%   { transform: scale(0.5); opacity: 0.08; }
+      50%  { opacity: 0.04; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    /* ── EKG Line (decorative) ── */
+    .ekg-line {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.04;
+      overflow: hidden;
+    }
+
+    .ekg-line svg {
+      width: 200%;
+      height: 100%;
+      animation: ekg-scroll 8s linear infinite;
+    }
+
+    @keyframes ekg-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── Episode Header ── */
+    .ep-header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(224, 85, 128, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 50%, rgba(255, 107, 138, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(212, 69, 110, 0.04) 0%, transparent 40%),
+        var(--bg-primary);
+    }
+
+    .ep-back-link {
+      display: inline-block;
+      margin-bottom: 2.5rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border-soft);
+      padding: 0.35rem 1.2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .ep-back-link:hover {
+      color: var(--accent-heart);
+      border-color: var(--accent-heart);
+      background: rgba(224, 85, 128, 0.05);
+    }
+
+    .ep-number {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .ep-act-badge {
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--accent-heart);
+      color: var(--accent-heart);
+      border-radius: 50px;
+      background: rgba(224, 85, 128, 0.05);
+      margin-bottom: 1.5rem;
+    }
+
+    .ep-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--text-dialogue) 0%, var(--accent-heart) 50%, var(--accent-pulse) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ep-title-jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .ep-opening-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.8;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    /* ── Main Content / Reading Area ── */
+    .ep-content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* ── Scene Blocks ── */
+    .scene {
+      margin-bottom: 3.5rem;
+    }
+
+    .scene-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent-heart);
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .scene-heading .scene-icon {
+      margin-right: 0.5rem;
+    }
+
+    /* ── Narrative Paragraphs ── */
+    .narration {
+      font-size: 1rem;
+      color: var(--text-narration);
+      margin-bottom: 1.4rem;
+      text-indent: 1.5rem;
+      line-height: 2;
+    }
+
+    .narration:first-of-type {
+      text-indent: 0;
+    }
+
+    .narration em {
+      color: var(--accent-pulse);
+      font-style: italic;
+    }
+
+    .narration strong {
+      color: var(--text-dialogue);
+      font-weight: 600;
+    }
+
+    /* ── First Letter Drop Cap ── */
+    .drop-cap::first-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 3.2rem;
+      float: left;
+      line-height: 0.8;
+      margin-right: 0.12em;
+      margin-top: 0.1em;
+      color: var(--accent-heart);
+      font-weight: 700;
+    }
+
+    /* ── Dialogue ── */
+    .dialogue {
+      margin: 1.5rem 0;
+      padding: 0 0 0 1.2rem;
+      border-left: 2px solid var(--border-chapter);
+    }
+
+    .dialogue .speaker {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+
+    .dialogue .line {
+      font-size: 1rem;
+      color: var(--text-dialogue);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .dialogue .line .action {
+      font-style: normal;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Speaker Colors */
+    .speaker-chisato  { color: var(--accent-warm); }
+    .speaker-takina   { color: var(--accent-blue); }
+    .speaker-ken      { color: var(--accent-leaf); }
+    .speaker-kurumi   { color: #c792ea; }
+    .speaker-mizuki   { color: #f7768e; }
+    .speaker-mika     { color: #a9b1d6; }
+
+    .dialogue.chisato { border-left-color: var(--accent-warm); }
+    .dialogue.takina  { border-left-color: var(--accent-blue); }
+    .dialogue.ken     { border-left-color: var(--accent-leaf); }
+    .dialogue.kurumi  { border-left-color: #c792ea; }
+    .dialogue.mizuki  { border-left-color: #f7768e; }
+    .dialogue.mika    { border-left-color: #a9b1d6; }
+
+    /* ── Internal Thought ── */
+    .thought {
+      font-style: italic;
+      color: var(--text-muted);
+      text-align: center;
+      margin: 2rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .thought::before,
+    .thought::after {
+      content: '·  ·  ·';
+      display: block;
+      color: var(--accent-heart);
+      opacity: 0.3;
+      font-size: 0.8rem;
+      margin: 0.8rem 0;
+    }
+
+    /* ── Stage Directions ── */
+    .stage {
+      font-size: 0.82rem;
+      color: var(--text-stage);
+      font-style: italic;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* ── Scene Dividers ── */
+    .scene-break {
+      text-align: center;
+      margin: 3rem 0;
+      color: var(--accent-heart);
+      font-size: 1.2rem;
+      opacity: 0.4;
+      letter-spacing: 0.5em;
+    }
+
+    .heart-divider {
+      text-align: center;
+      margin: 2.5rem 0;
+      font-size: 0.9rem;
+      opacity: 0.5;
+    }
+
+    /* ── Sound Effects / Onomatopoeia ── */
+    .sfx {
+      text-align: center;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.3em;
+      margin: 1.5rem 0;
+      opacity: 0.7;
+    }
+
+    /* ── Heartbeat SFX (special) ── */
+    .heartbeat-sfx {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--accent-heart);
+      letter-spacing: 0.6em;
+      margin: 2rem 0;
+      opacity: 0.6;
+      animation: pulse-text 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-text {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50%      { opacity: 0.7; transform: scale(1.02); }
+    }
+
+    /* ── End Card ── */
+    .end-card {
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-chapter);
+    }
+
+    .end-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .end-preview {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+
+    .end-preview em {
+      color: var(--accent-heart);
+    }
+
+    /* ── Navigation ── */
+    .ep-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .ep-nav a {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .ep-nav a:hover {
+      color: var(--accent-heart);
+      border-color: var(--accent-heart);
+      background: rgba(224, 85, 128, 0.05);
+    }
+
+    .ep-nav .disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* ── Footer ── */
+    .ep-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .ep-header {
+        padding: 3rem 1.5rem 2rem;
+      }
+
+      .ep-content {
+        padding: 2rem 1.2rem 3rem;
+      }
+
+      .narration {
+        text-indent: 1rem;
+      }
+
+      .dialogue {
+        padding-left: 0.8rem;
+      }
+
+      .drop-cap::first-letter {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* ── Accessibility ── */
+    @media (prefers-reduced-motion: reduce) {
+      .pulse-ring {
+        animation: none;
+        display: none;
+      }
+
+      .ekg-line svg {
+        animation: none;
+      }
+
+      .heartbeat-sfx {
+        animation: none;
+        opacity: 0.6;
+      }
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--accent-heart);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Heartbeat Pulse Rings (ambient) -->
+  <div class="heartbeat-bg" aria-hidden="true">
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+  </div>
+
+  <!-- EKG Line (decorative) -->
+  <div class="ekg-line" aria-hidden="true">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <polyline fill="none" stroke="#e05580" stroke-width="1.5"
+        points="0,30 80,30 100,30 110,10 120,50 130,20 140,40 150,30 200,30 280,30 300,30 310,10 320,50 330,20 340,40 350,30 400,30 480,30 500,30 510,10 520,50 530,20 540,40 550,30 600,30 680,30 700,30 710,10 720,50 730,20 740,40 750,30 800,30 880,30 900,30 910,10 920,50 930,20 940,40 950,30 1000,30 1080,30 1100,30 1110,10 1120,50 1130,20 1140,40 1150,30 1200,30"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════ EPISODE HEADER ═══════════ -->
+  <header class="ep-header">
+    <a href="../index.html" class="ep-back-link">← Índice de Episodios</a>
+    <span class="ep-number">Episodio 02</span>
+    <div class="ep-act-badge">Acto I — Primavera</div>
+    <h1 class="ep-title">Latidos Compartidos</h1>
+    <p class="ep-title-jp">共有する鼓動</p>
+    <blockquote class="ep-opening-quote">
+      "Hay corazones que no laten solos.<br>
+      No porque alguien los acompañe,<br>
+      sino porque fueron construidos para necesitar ayuda."
+    </blockquote>
+  </header>
+
+  <!-- ═══════════ CHAPTER CONTENT ═══════════ -->
+  <article class="ep-content">
+
+    <!-- ╌╌╌╌╌ ESCENA 1: EL REGRESO ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🔔</span> Escena I — El Regreso del Segundo Día
+      </div>
+
+      <p class="narration drop-cap">Ken Fujimoto llegó a las diez y cuarenta y siete. Exactamente la misma hora que el día anterior. Chisato lo notó porque Chisato notaba todo lo que involucrara a personas, y Takina lo notó porque Takina notaba todo lo que involucrara patrones.</p>
+
+      <p class="sfx">— tin, tin —</p>
+
+      <p class="narration">La campanilla lo anunció con las mismas dos notas desafinadas. Pero esta vez, el sonido se sintió diferente — no más agudo ni más grave, sino más <em>esperado</em>. Como la segunda nota de una canción que ya conoces.</p>
+
+      <p class="narration">Llevaba la misma chaqueta arena. La misma mochila en el hombro izquierdo. Pero algo había cambiado: traía una bolsa de papel en la mano derecha, pequeña, con el logo de una panadería artesanal del barrio de Asakusa.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¡Ken! ¡Volviste! <span class="action">(Emergiendo de detrás del mostrador como un resorte, con harina en la mejilla izquierda de un experimento de repostería que claramente había salido mal.)</span> ¡Y la taza te perdonó, por cierto! Se lo pregunté. Dijo que sí.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Esa sonrisa cautelosa, un poco más amplia hoy.)</span> Me alegro. No quería empezar el día con una enemistad con la vajilla. <span class="action">(Extendiendo la bolsa de papel.)</span> Traje esto. Son dorayaki de la pastelería Umezono. Como... disculpa. Por el café de ayer.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Tomando la bolsa con los ojos enormes.)</span> ¿Dorayaki de Umezono? ¿LOS dorayaki de Umezono? Ken. Ken, Ken, Ken. Esto no era necesario, pero voy a actuar como si fuera absolutamente obligatorio. <span class="action">(Abriendo la bolsa y aspirando.)</span> Oh, Dios. Takina, huele esto.</p>
+      </div>
+
+      <p class="narration">Takina estaba calibrando el molino — la rutina de cada mañana, los granos de Etiopía que usaban para el primer turno — y no se acercó. Pero levantó la vista. Registró a Ken. Registró la bolsa. Registró que él había vuelto.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sin moverse de su puesto.)</span> No hacía falta que trajeras nada. El café derramado fue un accidente. No una deuda.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Lo sé. <span class="action">(Mirándola directamente por primera vez — ojos oscuros, tranquilos, con una sinceridad que no pedía nada a cambio.)</span> Pero quería hacerlo de todos modos.</p>
+      </div>
+
+      <p class="narration">Takina sostuvo la mirada un segundo. Dos. Después asintió con un gesto mínimo y volvió al molino. Pero el gesto había durado un segundo más de lo que ella habría permitido con cualquier otro cliente.</p>
+
+      <p class="narration">Ken se sentó en la misma mesa junto a la ventana. Chisato ya estaba sirviéndole café antes de que él lo pidiera.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Café de la casa. Dos de azúcar. Taza reforzada con blindaje emocional. <span class="action">(Guiñando un ojo.)</span></p>
+      </div>
+
+      <p class="narration">Ken rio. Esta vez sí fue una risa — pequeña, pero completa. Un sonido que llenó el espacio de la mesa como el vapor que subía de la taza.</p>
+    </section>
+
+    <div class="heart-divider" aria-hidden="true">💓 ✦ 💓</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 2: EL CUADERNO ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">📓</span> Escena II — Lo Que Dibuja un Corazón Roto
+      </div>
+
+      <p class="narration">Ken sacó el cuaderno a los veinte minutos, como el día anterior. Pero hoy, Chisato no esperó otros veinte para acercarse.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Apoyándose en la mesa de al lado con la gracia de alguien que no entiende el concepto de "espacio personal".)</span> Oye, ayer me quedé con la curiosidad. ¿Qué dibujas? ¿Paisajes? ¿Manga? ¿Retratos de clientes guapos? Porque si es lo último, avísame y me peino.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Cerrando el cuaderno por instinto, después abriéndolo de nuevo — como alguien que primero protege y luego decide confiar.)</span> Dibujo... corazones.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Corazones? <span class="action">(Juntando las manos.)</span> ¡Eso es adorable!</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">No ese tipo de corazones. <span class="action">(Girando el cuaderno hacia ella.)</span></p>
+      </div>
+
+      <p class="narration">Chisato miró la página. No había corazones con flechas ni garabatos de San Valentín. Había <em>corazones anatómicos</em>. Ventrículos, aurículas, la aorta ascendente, las válvulas mitral y tricúspide — todo dibujado con una precisión delicada, casi quirúrgica, pero con un trazo que no era frío. Era atento. Cada línea parecía hecha con la paciencia de alguien que entiende la fragilidad de lo que está representando.</p>
+
+      <p class="narration">En la esquina inferior de una de las páginas, un corazón tenía algo extra: un pequeño dispositivo dibujado junto a la aurícula derecha, con cables finos que bajaban hacia el ventrículo. Un <em>marcapasos</em>.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La voz un poco más baja, sin perder la calidez pero ganando algo nuevo — atención real.)</span> Estos son... increíbles. ¿Estudias medicina?</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Ilustración médica. O eso intento. <span class="action">(Pasando una página — otro corazón, este con las arterias coronarias resaltadas en rojo.)</span> Me interesa cómo funciona el cuerpo. Especialmente las partes que... necesitan ayuda para funcionar.</p>
+      </div>
+
+      <p class="narration">Lo dijo con naturalidad. Pero Chisato — que era una experta en detectar las cosas que la gente dice de manera natural <em>precisamente</em> porque no son naturales — escuchó la grieta debajo.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Las partes que necesitan ayuda?</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Una pausa. Una decisión tomada en silencio.)</span> Tengo un marcapasos. Desde los dieciséis años.</p>
+      </div>
+
+      <p class="narration">El ruido del café — el murmullo de la cafetera, el zumbido del molino, la música de fondo que Chisato había puesto hoy (Debussy, <em>Clair de Lune</em>, porque dijo que los martes eran "días de piano") — todo siguió igual. El mundo no se detuvo. Pero algo en la mesa junto a la ventana cambió de densidad, como si el aire entre ellos se hubiera espesado lo suficiente para contener algo importante.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Sin drama. Sin lástima. Con una quietud que era tan rara en ella que pesaba.)</span> Dieciséis. Eso es...</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Joven. Sí. <span class="action">(Tocándose el punto debajo de la clavícula — ese gesto que Takina había catalogado el día anterior.)</span> Arritmia congénita. Mi corazón no sabe mantener el ritmo solo. Así que tiene un... compañero de baile mecánico.</p>
+      </div>
+
+      <p class="narration">Chisato no dijo nada por cuatro segundos enteros. Cuatro. Una eternidad para alguien que normalmente no dejaba pasar medio segundo sin llenar el silencio.</p>
+
+      <p class="narration">Y entonces hizo algo que Ken no esperaba.</p>
+
+      <p class="narration">Se llevó la mano al pecho. No al lado izquierdo, donde la gente se toca cuando habla del corazón simbólico. Al centro. Donde estaba <em>el suyo</em>. El que no era del todo suyo.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Con la voz de la Chisato real. La de debajo. La que no se veía en la superficie.)</span> Sé lo que se siente. Tener un corazón que necesita ayuda.</p>
+      </div>
+
+      <p class="narration">Ken la miró. No con sorpresa — con <em>reconocimiento</em>. La misma mirada que se da alguien cuando encuentra a otro que habla un idioma que creía que era solo suyo.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">¿Tú también...?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Una sonrisa. No la grande. No la de marketing. La pequeña, la frágil, la de verdad.)</span> Algún día te cuento. Hoy solo quiero que sepas que... entiendo. El compañero de baile mecánico. Entiendo eso.</p>
+      </div>
+
+      <p class="narration">Ken asintió. No pidió más. Esa fue, tal vez, la primera señal de que era alguien que sabía cuándo no presionar — una cualidad rara, preciosa, que Chisato necesitaba más de lo que sabía.</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 3: EL SONIDO ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">👂</span> Escena III — El Sonido que No Debería Reconocer
+      </div>
+
+      <p class="narration">Fue a las once y media cuando pasó.</p>
+
+      <p class="narration">Takina estaba recogiendo la taza vacía de un cliente habitual — el señor Ogawa, jubilado, que venía por el americano de las once y se iba antes de las doce — cuando pasó junto a la mesa de Ken. No lo buscó. No se desvió. Solo pasó.</p>
+
+      <p class="narration">Y lo escuchó.</p>
+
+      <p class="heartbeat-sfx" aria-label="Sonido de latido mecánico">tac... tac... tac...</p>
+
+      <p class="narration">Un sonido sutil. Rítmico. Mecánico. No como un reloj — más blando que eso, más orgánico, pero con una cadencia que era <em>demasiado perfecta</em> para ser natural. Los corazones humanos no laten con metrónomo. Aceleran, frenan, tropiezan. Pero este sonido no tropezaba nunca.</p>
+
+      <p class="narration">Takina se detuvo. Un cuarto de segundo. No más. Lo suficiente para que sus oídos — entrenados durante años para identificar el click de un seguro, el desliz de una corredera, el cambio de frecuencia de un transmisor — confirmaran lo que habían captado.</p>
+
+      <p class="thought">Ese sonido.<br>
+      Lo conozco.<br>
+      No debería conocerlo, pero lo conozco.</p>
+
+      <p class="narration">Lo había escuchado antes. No idéntico — similar. Como una variación de una misma melodía. Lo había escuchado en las noches tranquilas del apartamento, cuando Chisato se quedaba dormida en el sofá después de una maratón de películas y Takina la cubría con una manta. En esos momentos de silencio absoluto, si ponía atención — y Takina siempre ponía atención — podía oír el ritmo del corazón artificial de Chisato. Suave. Constante. <em>Demasiado</em> constante.</p>
+
+      <p class="narration">El corazón de Ken sonaba parecido. No igual — más lento, más profundo, con la firma acústica de un marcapasos en lugar de un corazón completo. Pero la esencia era la misma: un ritmo que no era completamente humano. Un latido con ayuda.</p>
+
+      <p class="narration">Takina siguió caminando. Dejó la taza en la barra. Se lavó las manos. Secó un vaso. Hizo todo lo que se supone que debía hacer.</p>
+
+      <p class="narration">Pero por dentro, algo se había movido. Como una ficha de dominó que nadie ha tocado todavía pero que ya está temblando.</p>
+
+      <div class="dialogue kurumi">
+        <span class="speaker speaker-kurumi">Kurumi</span>
+        <p class="line"><span class="action">(Desde su rincón, sin levantar la vista, con la intuición de un radar.)</span> Takina. Estás secando el mismo vaso desde hace dos minutos.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Mirando el vaso. Dejándolo. Tomando otro.)</span> Estaba rayado.</p>
+      </div>
+
+      <div class="dialogue kurumi">
+        <span class="speaker speaker-kurumi">Kurumi</span>
+        <p class="line">No estaba rayado.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Ahora sí está limpio.</p>
+      </div>
+
+      <p class="narration">Kurumi la miró por encima de la pantalla. No dijo más. Pero anotó el dato mentalmente, como hacía con todo — porque Kurumi era una coleccionista de anomalías, y una Takina distraída era una anomalía de primer orden.</p>
+    </section>
+
+    <div class="heart-divider" aria-hidden="true">💓 ✦ 💓</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 4: LA PREGUNTA DE MIZUKI ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">💬</span> Escena IV — La Pregunta que Nadie Pidió
+      </div>
+
+      <p class="narration">Fue Mizuki quien puso la primera mina en el campo.</p>
+
+      <p class="narration">Estaba sentada en el taburete del fondo, pintándose las uñas de un tono que ella llamaba "Rosa Posibilidad" y que era, en realidad, un fucsia agresivo. Desde ahí tenía línea de visión directa a la mesa de Ken, donde Chisato se había sentado — por tercera vez esa mañana — a charlar mientras él dibujaba.</p>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line"><span class="action">(En un susurro teatral hacia Takina, que estaba acomodando los jarabes.)</span> Oye, Takina-chan. ¿Es idea mía o Chisato está... <em>particularmente</em> interesada en el chico nuevo?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Chisato se interesa particularmente en todos los clientes. Es su modo predeterminado.</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Sí, pero no con todos se sienta <em>tres veces</em>. Ni con todos habla en <em>ese</em> tono. <span class="action">(Soplando las uñas.)</span> Conozco ese tono. Es el tono de "me voy a meter en problemas y me va a encantar".</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Acomodando el jarabe de vainilla. Moviéndolo un centímetro a la derecha. Después un centímetro a la izquierda. Dejándolo exactamente donde estaba al principio.)</span> No sé a qué tono te refieres.</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line"><span class="action">(Estudiándola con esos ojos que, detrás de las pestañas postizas y la frivolidad, no se perdían nada.)</span> Hmm. Está bien. Olvídalo. <span class="action">(Pausa.)</span> Solo digo que no es el primer chico que entra al café, pero es el primero en volver al día siguiente con dorayaki.</p>
+      </div>
+
+      <p class="narration">Takina no respondió. No tenía que hacerlo. Las palabras de Mizuki no necesitaban respuesta — necesitaban tiempo. Tiempo para asentarse, para encontrar las grietas y filtrarse.</p>
+
+      <p class="narration">Y Mizuki, que sabía exactamente lo que estaba haciendo, sonrió contra sus uñas y no dijo nada más.</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 5: LA TAZA QUE NO CAYÓ ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">☕🤚</span> Escena V — La Taza que No Cayó
+      </div>
+
+      <p class="narration">Pasó a la una de la tarde. Ken llevaba casi tres horas en la mesa — una hora más que ayer. Había llenado seis páginas de su cuaderno. Chisato le había rellenado la taza dos veces. Takina, una.</p>
+
+      <p class="narration">Fue en ese tercer café cuando ocurrió.</p>
+
+      <p class="narration">Ken estaba dibujando un arco aórtico cuando su mano izquierda buscó la taza sin mirar — un gesto automático, de alguien acostumbrado a trabajar con las manos ocupadas. Sus dedos rozaron el asa pero no la agarraron bien. La taza se inclinó.</p>
+
+      <p class="narration">Esta vez, Takina estaba pasando. Esta vez, Takina estaba ahí.</p>
+
+      <p class="narration">Su mano se movió antes que su pensamiento. Un reflejo. El mismo tipo de reflejo que la había hecho atrapar cargadores en el aire, desviar cuchillos, reaccionar a un milímetro de un disparo. Pero ahora, al servicio de una taza de café con dos de azúcar que se iba a volcar sobre un cuaderno lleno de corazones anatómicos.</p>
+
+      <p class="narration">Los dedos de Takina atraparon la taza. Firmes. Seguros. A medio centímetro de la catástrofe.</p>
+
+      <p class="narration">Un hilo de café se escapó por el borde y cayó sobre la mesa — una gota apenas, una mancha insignificante. Pero la taza no cayó.</p>
+
+      <p class="sfx">— silencio —</p>
+
+      <p class="narration">Ken miró la mano de Takina sobre la taza. Después miró a Takina. Sus ojos estaban abiertos — no de susto, sino de algo parecido al asombro.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Eso fue... increíble. ¿Cómo hiciste eso?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Soltando la taza. Enderezándola. Limpiando la gota con una servilleta que apareció en su otra mano como por arte de magia.)</span> Reflejos.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Reflejos muy buenos para alguien que trabaja en un café.</p>
+      </div>
+
+      <p class="narration">Takina lo miró. Hubo algo en su expresión — un destello, brevísimo, de alguien que ha sido descubierta y que necesita decidir en medio segundo cuánto revelar. Eligió la opción más segura:</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">En este café se caen muchas cosas. Una se acostumbra.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Sonriendo — y esta vez la sonrisa era más ancha, más abierta, como una puerta que se ha empujado un poco más.)</span> Entonces, ayer rescataste el café del suelo. Hoy rescataste el café de mi cuaderno. ¿Mañana qué vas a rescatar?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Ya dándose la vuelta, pero con la voz un grado menos fría de lo habitual.)</span> Depende de qué tan peligroso seas con la vajilla.</p>
+      </div>
+
+      <p class="narration">Ken rio. Bajito. Genuino. Y Takina, caminando de regreso a la barra, sintió en la nuca eso que se siente cuando alguien te mira irse — no con insistencia, sino con gratitud.</p>
+
+      <p class="narration">No se dio la vuelta para comprobarlo.</p>
+
+      <p class="narration">Pero cuando llegó a la barra, Chisato estaba ahí. Recargada en el mostrador. Con los brazos cruzados y una expresión que Takina conocía demasiado bien: la de alguien que ha visto algo y está <em>disfrutando</em> haberlo visto.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(En voz baja, para que solo Takina escuche.)</span> Takina. ¿Acabas de hacer un chiste?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">No.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">"Depende de qué tan peligroso seas con la vajilla." Eso fue un chiste. Hiciste un chiste. A un chico. Mientras le salvabas el café con reflejos de ninja. <span class="action">(Mordiéndose el labio para no gritar.)</span> ¿Quién eres y qué hiciste con mi Takina?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Las orejas ligeramente rosadas, aunque su rostro permanecía inmutable.)</span> No fue un chiste. Fue una observación.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Fue un chiste y te voy a molestar con esto durante <em>mínimo</em> un mes.</p>
+      </div>
+
+      <p class="narration">Takina no respondió. Tomó el trapo. Empezó a limpiar la barra. Pero las orejas siguieron rosadas un rato más.</p>
+    </section>
+
+    <div class="heart-divider" aria-hidden="true">💓 ✦ 💓</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 6: DESPUÉS DEL CIERRE ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🌆</span> Escena VI — Lo que Sabe un Corazón Prestado
+      </div>
+
+      <p class="narration">Ken se fue a las tres, esta vez. Cuatro horas y trece minutos. Se despidió de Chisato con un gesto de la mano y de Takina con una inclinación leve — formal, respetuosa, el tipo de reverencia que hacen los jóvenes que fueron criados por abuelas. No dejó nota esta vez, pero dejó otra propina discreta y la promesa, no dicha, de que volvería.</p>
+
+      <p class="narration">La tarde pasó normal. Clientes, café, el señor Ogawa volvió por un segundo americano ("Es martes, y los martes necesito dos"), Kurumi pidió su tercera Coca-Cola y Mizuki recibió una notificación de una app de citas que la hizo alternar entre ilusión y disgusto en menos de tres segundos.</p>
+
+      <p class="narration">Pero después del cierre — cuando las sillas estaban sobre las mesas y las luces bajas convertían LycoReco en un mundo aparte — Chisato estaba distinta.</p>
+
+      <p class="narration">No hablaba. No tarareaba. Estaba sentada en el taburete detrás de la barra, con las manos alrededor de una taza vacía, mirando un punto medio entre el mostrador y la eternidad.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Acercándose. Dejando la escoba contra la pared. Sentándose en el taburete de al lado — lo más cerca de Chisato que estaba dispuesta a estar, que era más de lo que la mayoría imaginaría.)</span> Estás callada.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Yo? Qué va. Solo estoy... descansando la voz.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Tú no descansas la voz. Nunca. Te he visto hablar con laringitis, con fiebre, y una vez con un trozo de sándwich en la boca que casi te ahoga.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Una risa débil.)</span> Era un buen sándwich. No podía esperar.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Chisato.</p>
+      </div>
+
+      <p class="narration">Solo su nombre. Dicho así — sin adornos, sin preguntas, solo el nombre como una puerta abierta. Takina tenía esa habilidad: convertir una sola palabra en una invitación.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Larga pausa. Los dedos acariciando el borde de la taza vacía.)</span> Tiene dieciséis años cuando se lo pusieron. El marcapasos. Dieciséis. <span class="action">(Bajando la voz.)</span> ¿Sabes qué estaba haciendo yo a los dieciséis?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Suavemente.)</span> Lo sé.</p>
+      </div>
+
+      <p class="narration">Lo sabía. Porque Takina era la única persona en el mundo que sabía todo — <em>todo</em> — lo que había pasado con el corazón de Chisato. El corazón artificial. La bala de Alan Institute. El tiempo prestado. La cuenta regresiva que habían detenido pero que dejaba cicatrices invisibles.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Cuando lo vi tocarse el pecho — ese gesto, ¿sabes? Ese de verificar que sigue ahí, que sigue funcionando — yo... <span class="action">(La voz se le quebró un milímetro. Solo uno.)</span> Yo hago lo mismo, Takina. Cada mañana. Antes de levantarme. Pongo la mano aquí <span class="action">(tocándose el centro del pecho)</span> y escucho. Y cuando lo escucho latir, respiro. Y cuando respiro, puedo empezar el día.</p>
+      </div>
+
+      <p class="narration">Takina no dijo nada. No porque no tuviera palabras — sino porque algunas cosas no se responden con palabras. Se responden con presencia.</p>
+
+      <p class="narration">Así que hizo lo que sabía hacer: se quedó. Quieta. Firme. Como un ancla que no necesita hacer ruido para sostener un barco.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Es raro encontrar a alguien que entiende eso. Lo del corazón prestado. Lo de vivir sabiendo que hay algo dentro de ti que no es tuyo pero que te mantiene viva. <span class="action">(Mirando a Takina.)</span> Aparte de ti, nadie entiende eso. Pero hoy... creo que él lo entiende.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Después de un silencio largo, medido, honesto.)</span> Entonces es bueno que haya venido al café.</p>
+      </div>
+
+      <p class="narration">Chisato la miró. Buscando algo — aprobación, tal vez. O permiso. O simplemente la confirmación de que Takina seguía ahí, que seguía siendo el punto fijo de su universo.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Sonriendo. La sonrisa de verdad.)</span> ¿Takina?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">¿Hmm?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Gracias por quedarte.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Siempre me quedo.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Lo sé. Por eso gracias.</p>
+      </div>
+
+      <p class="narration">Se quedaron en silencio. El café a oscuras. Las sillas patas arriba como centinelas al revés. Y entre ellas, ese espacio — diminuto, enorme, indefinible — que no era amistad ni era otra cosa, sino algo que aún no tenía nombre y que ninguna de las dos estaba lista para nombrar.</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 7: LATIDOS ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">💓</span> Escena VII — Latidos
+      </div>
+
+      <p class="narration">Chisato se fue primero esa noche. Inusual. Normalmente era Takina quien salía antes — Chisato siempre encontraba una excusa para quedarse más ("Necesito reorganizar los sobres de azúcar" / "Creo que la cafetera hizo un ruido raro" / "Estoy esperando una señal del universo"). Pero hoy se puso la chaqueta, se despidió con un gesto suave — no el habitual tornado de energía — y salió por la puerta con la campanilla despidiéndola.</p>
+
+      <p class="sfx">— tin, tin —</p>
+
+      <p class="narration">Takina se quedó sola en el café. Apagó las luces. Cerró la caja. Verificó las cerraduras. Todo en orden, como siempre.</p>
+
+      <p class="narration">Antes de irse, se detuvo junto a la mesa de la ventana. La mesa de Ken. Había una marca apenas visible donde la gota de café de la tarde había dejado un círculo diminuto en la madera. Takina pasó el dedo por ella. No para limpiarla. Solo para confirmar que estaba ahí. Que el día había sido real.</p>
+
+      <p class="stage">· · ·</p>
+
+      <p class="narration">En su departamento, Chisato se preparaba para dormir. Rutina de siempre: dientes, crema, pijama con estampado de gatos. Se metió en la cama. Apagó la luz.</p>
+
+      <p class="narration">Y como cada noche, puso la mano sobre su pecho.</p>
+
+      <p class="heartbeat-sfx" aria-label="Latido de corazón artificial">tum... tum... tum...</p>
+
+      <p class="narration">Ahí estaba. Su compañero de baile mecánico. Fiel. Constante. Suyo y no suyo al mismo tiempo. Chisato cerró los ojos y, por primera vez en mucho tiempo, pensó en que había otra persona en Tokio que estaba haciendo exactamente lo mismo en ese momento. Mano al pecho. Escuchando. Verificando.</p>
+
+      <p class="stage">· · ·</p>
+
+      <p class="narration">En un departamento pequeño al otro lado del río Sumida, Ken Fujimoto se sentó en el borde de la cama. Se quitó la chaqueta. La camiseta. En su pecho, debajo de la clavícula derecha, una cicatriz delgada marcaba el lugar donde la máquina vivía. Puso los dedos sobre ella, como hacía cada noche. Contó tres latidos. Confirmó que seguían ahí.</p>
+
+      <p class="heartbeat-sfx" aria-label="Latido de marcapasos">tac... tac... tac...</p>
+
+      <p class="narration">Abrió su cuaderno en la última página que había dibujado. El corazón con el marcapasos. Pero al lado, sin darse cuenta, había empezado a dibujar algo más: una taza de café. Con un pequeño corazón de espuma en la superficie.</p>
+
+      <p class="narration">No recordaba haberlo dibujado.</p>
+
+      <p class="narration">Cerró el cuaderno.</p>
+
+      <p class="stage">· · ·</p>
+
+      <p class="narration">Y en algún punto intermedio — caminando por la calle, bajo los cerezos que seguían soltando pétalos en la oscuridad — Takina Inoue caminaba a casa con las manos en los bolsillos y un pensamiento que no podía sacudirse:</p>
+
+      <p class="thought">Dos corazones que necesitan ayuda para latir.<br>
+      Dos personas que se tocan el pecho cada mañana para verificar que siguen vivas.<br>
+      Y yo, entre medio, con un corazón que funciona perfectamente<br>
+      pero que acaba de empezar a hacer un ruido<br>
+      que no le conozco.</p>
+
+      <p class="narration">Un pétalo de cerezo le cayó en el hombro. No se lo quitó.</p>
+
+      <p class="narration">Siguió caminando.</p>
+
+      <p class="heartbeat-sfx" aria-label="Tres latidos convergiendo">tum... tac... tum...</p>
+
+      <p class="narration">Tres latidos. Tres ritmos. Dos que necesitaban máquinas para sostenerse y uno que siempre había funcionado solo pero que, por primera vez, se sentía <em>fuera de compás</em>.</p>
+
+      <p class="narration">La noche se cerró sobre Tokio como una página que se pasa. Mañana, la campanilla volvería a sonar. Mañana, Ken volvería a sentarse en la mesa de la ventana. Mañana, Chisato volvería a brillar y Takina volvería a observar.</p>
+
+      <p class="narration">Pero esta noche, bajo las estrellas que no se veían y los cerezos que no dormían, tres corazones latían en la misma ciudad, al mismo tiempo, sin saber todavía que sus ritmos estaban empezando a buscarse.</p>
+
+      <p class="stage"><em>Latidos compartidos.</em></p>
+    </section>
+
+    <!-- ═══════════ END CARD ═══════════ -->
+    <div class="end-card">
+      <p class="end-title">Fin del Episodio 02</p>
+      <div class="heart-divider" aria-hidden="true">💓 ✦ 💓 ✦ 💓</div>
+      <p class="end-preview">
+        <strong>Próximo episodio:</strong><br>
+        <em>"El Tercer Lugar en la Mesa"</em><br><br>
+        Tres tazas. Un festival. Dos manos en el brazo de Chisato.<br>
+        Y una pregunta que Takina no se atreve a hacer.
+      </p>
+    </div>
+
+  </article>
+
+  <!-- ═══════════ NAVIGATION ═══════════ -->
+  <nav class="ep-nav" aria-label="Navegación de episodios">
+    <a href="ep01.html">← Episodio 01</a>
+    <a href="../index.html">Índice</a>
+    <span class="disabled">Episodio 03 →</span>
+  </nav>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="ep-footer">
+    Lycoris Recoil — Corazones Prestados · Temporada 1<br>
+    Lycoris Recoil © Spider Lily / A-1 Pictures · Fan fiction sin fines de lucro
+  </footer>
+
+</body>
+</html>
