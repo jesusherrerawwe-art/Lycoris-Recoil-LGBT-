@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lycoris Recoil — Corazones Prestados | Temporada 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       LYCORIS RECOIL — CORAZONES PRESTADOS
+       Index / Season 1 Landing Page
+       ═══════════════════════════════════════════ */
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: #1a1a25;
+      --text-primary: #f0e6ef;
+      --text-secondary: #b8a9c9;
+      --text-muted: #6e6080;
+      --accent-pink: #e8456b;
+      --accent-cherry: #ff7096;
+      --accent-gold: #d4a855;
+      --accent-violet: #9b6dcc;
+      --accent-blue: #5b8bd4;
+      --border-subtle: rgba(232, 69, 107, 0.15);
+      --glow-pink: rgba(232, 69, 107, 0.3);
+      --glow-violet: rgba(155, 109, 204, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Sakura Petals Animation ── */
+    .sakura-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -20px;
+      width: 12px;
+      height: 12px;
+      background: var(--accent-cherry);
+      border-radius: 50% 0 50% 50%;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+
+    .petal:nth-child(1)  { left: 5%;  animation-duration: 12s; animation-delay: 0s;   opacity: 0.15; }
+    .petal:nth-child(2)  { left: 15%; animation-duration: 15s; animation-delay: 2s;   opacity: 0.1;  }
+    .petal:nth-child(3)  { left: 25%; animation-duration: 11s; animation-delay: 4s;   opacity: 0.2;  }
+    .petal:nth-child(4)  { left: 40%; animation-duration: 14s; animation-delay: 1s;   opacity: 0.12; }
+    .petal:nth-child(5)  { left: 55%; animation-duration: 13s; animation-delay: 3s;   opacity: 0.18; }
+    .petal:nth-child(6)  { left: 65%; animation-duration: 16s; animation-delay: 5s;   opacity: 0.1;  }
+    .petal:nth-child(7)  { left: 75%; animation-duration: 12s; animation-delay: 2.5s; opacity: 0.15; }
+    .petal:nth-child(8)  { left: 85%; animation-duration: 14s; animation-delay: 4.5s; opacity: 0.12; }
+    .petal:nth-child(9)  { left: 35%; animation-duration: 17s; animation-delay: 6s;   opacity: 0.08; }
+    .petal:nth-child(10) { left: 92%; animation-duration: 13s; animation-delay: 1.5s; opacity: 0.14; }
+
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+      10%  { opacity: var(--petal-opacity, 0.15); }
+      90%  { opacity: var(--petal-opacity, 0.15); }
+      100% { transform: translateY(100vh) rotate(360deg) translateX(80px); opacity: 0; }
+    }
+
+    /* ── Hero Section ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(232, 69, 107, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(155, 109, 204, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(91, 139, 212, 0.05) 0%, transparent 40%),
+        var(--bg-primary);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e8456b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .series-badge {
+      display: inline-block;
+      padding: 0.4rem 1.5rem;
+      border: 1px solid var(--accent-pink);
+      border-radius: 50px;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-cherry);
+      margin-bottom: 2rem;
+      background: rgba(232, 69, 107, 0.05);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cherry) 50%, var(--accent-violet) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .hero-season {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: pulse-down 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator span {
+      display: block;
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--accent-pink), transparent);
+    }
+
+    @keyframes pulse-down {
+      0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+      50%      { opacity: 0.8; transform: translateX(-50%) translateY(5px); }
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 100%;
+      max-width: 300px;
+      height: 1px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+      opacity: 0.3;
+    }
+
+    /* ── Episodes Section ── */
+    .episodes-section {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 2rem 6rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header .act-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── Act Groups ── */
+    .act-group {
+      margin-bottom: 5rem;
+    }
+
+    .act-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .act-number {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .act-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .act-description {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Episode Cards Grid ── */
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .episode-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.8rem 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+    }
+
+    .episode-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-accent, var(--accent-pink));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .episode-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--card-accent, var(--accent-pink));
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--glow-pink);
+    }
+
+    .episode-card:hover::before {
+      opacity: 1;
+    }
+
+    .episode-card.locked {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .episode-card.locked:hover {
+      transform: none;
+      border-color: var(--border-subtle);
+      box-shadow: none;
+    }
+
+    .episode-number {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .episode-emoji {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .episode-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .episode-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-style: italic;
+      margin-top: auto;
+    }
+
+    .episode-status {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.8rem;
+      border-radius: 50px;
+      background: rgba(232, 69, 107, 0.1);
+      color: var(--accent-cherry);
+      border: 1px solid rgba(232, 69, 107, 0.2);
+    }
+
+    .episode-status.locked {
+      background: rgba(110, 96, 128, 0.1);
+      color: var(--text-muted);
+      border-color: rgba(110, 96, 128, 0.2);
+    }
+
+    /* ── Card Accent Colors by Act ── */
+    .act-spring .episode-card { --card-accent: #ff7096; }
+    .act-summer .episode-card { --card-accent: #e8456b; }
+    .act-autumn .episode-card { --card-accent: #9b6dcc; }
+    .act-epilogue .episode-card { --card-accent: #5b8bd4; }
+
+    /* ── Epilogue Special ── */
+    .epilogue-section {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .epilogue-card {
+      max-width: 500px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, var(--bg-card), rgba(155, 109, 204, 0.05));
+      border: 1px solid rgba(155, 109, 204, 0.2);
+    }
+
+    .epilogue-card:hover {
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--glow-violet);
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .footer-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .footer-text .heart {
+      color: var(--accent-pink);
+    }
+
+    .footer-disclaimer {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      margin-top: 1rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .episodes-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .episode-card {
+        min-height: auto;
+        padding: 1.5rem 1.2rem;
+      }
+
+      .hero {
+        padding: 2rem 1.5rem;
+        min-height: 90vh;
+      }
+
+      .episodes-section {
+        padding: 3rem 1.2rem 4rem;
+      }
+
+      .act-group {
+        margin-bottom: 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* ── Accessibility ── */
+    @media (prefers-reduced-motion: reduce) {
+      .petal {
+        animation: none;
+        display: none;
+      }
+
+      .scroll-indicator {
+        animation: none;
+      }
+
+      .episode-card {
+        transition: none;
+      }
+    }
+
+    /* Focus styles */
+    .episode-card:focus-visible {
+      outline: 2px solid var(--accent-cherry);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sakura Petals -->
+  <div class="sakura-container" aria-hidden="true">
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+  </div>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero">
+    <div class="hero-content">
+      <span class="series-badge">Fan Fiction — Lycoris Recoil</span>
+      <h1 class="hero-title">Corazones Prestados</h1>
+      <p class="hero-subtitle">コラソネス・プレスタドス</p>
+      <p class="hero-season">Temporada 1 — 12 Episodios + Epílogo</p>
+      <div class="divider"></div>
+      <p class="hero-tagline">
+        Dos corazones que laten con tiempo prestado.<br>
+        Un amor que nadie les enseñó a nombrar.<br>
+        Y un tercero que lo cambia todo.
+      </p>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">
+      episodios
+      <span></span>
+    </div>
+  </header>
+
+  <!-- ═══════════ EPISODES ═══════════ -->
+  <main class="episodes-section" id="episodios">
+
+    <!-- ── ACT I: PRIMAVERA ── -->
+    <div class="act-group act-spring">
+      <div class="act-header">
+        <span class="act-number">Acto I</span>
+        <h2 class="act-title">Primavera</h2>
+        <p class="act-description">Llegada, luz y lazos. Cerezos en flor.</p>
+      </div>
+
+      <div class="episodes-grid">
+
+        <a href="episodios/ep01.html" class="episode-card locked" aria-label="Episodio 1: Un Café con Dos de Azúcar">
+          <span class="episode-number">Episodio 01</span>
+          <div class="episode-emoji" aria-hidden="true">🌸</div>
+          <h3 class="episode-title">Un Café con Dos de Azúcar</h3>
+          <p class="episode-hint">Un día cotidiano en LycoReco. Un cliente nuevo. Una primera punzada.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </a>
+
+        <div class="episode-card locked" aria-label="Episodio 2: Latidos Compartidos">
+          <span class="episode-number">Episodio 02</span>
+          <div class="episode-emoji" aria-hidden="true">💓</div>
+          <h3 class="episode-title">Latidos Compartidos</h3>
+          <p class="episode-hint">Dos corazones rotos que laten al mismo ritmo. Una taza que se cae.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 3: El Tercer Lugar en la Mesa">
+          <span class="episode-number">Episodio 03</span>
+          <div class="episode-emoji" aria-hidden="true">🪑</div>
+          <h3 class="episode-title">El Tercer Lugar en la Mesa</h3>
+          <p class="episode-hint">Tres tazas. Un festival. Dos manos en el brazo de Chisato.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 4: Lo que el Cerezo No Dice">
+          <span class="episode-number">Episodio 04</span>
+          <div class="episode-emoji" aria-hidden="true">🌸🤫</div>
+          <h3 class="episode-title">Lo que el Cerezo No Dice</h3>
+          <p class="episode-hint">Bajo las flores, dos conversaciones. Dos vulnerabilidades. Un fuego que se enciende.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── ACT II: VERANO ── -->
+    <div class="act-group act-summer">
+      <div class="act-header">
+        <span class="act-number">Acto II</span>
+        <h2 class="act-title">Verano</h2>
+        <p class="act-description">Calor, confesiones y quiebres. La tensión sube como la temperatura.</p>
+      </div>
+
+      <div class="episodes-grid">
+
+        <div class="episode-card locked" aria-label="Episodio 5: Fuego Bajo la Piel">
+          <span class="episode-number">Episodio 05</span>
+          <div class="episode-emoji" aria-hidden="true">🔥</div>
+          <h3 class="episode-title">Fuego Bajo la Piel</h3>
+          <p class="episode-hint">El silencio como armadura. Las balas como desahogo.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 6: Palabras que Queman">
+          <span class="episode-number">Episodio 06</span>
+          <div class="episode-emoji" aria-hidden="true">💢</div>
+          <h3 class="episode-title">Palabras que Queman</h3>
+          <p class="episode-hint">La primera confrontación. Una llamada que no se contesta.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 7: Dos Corazones, Tres Latidos">
+          <span class="episode-number">Episodio 07</span>
+          <div class="episode-emoji" aria-hidden="true">💔💔💓</div>
+          <h3 class="episode-title">Dos Corazones, Tres Latidos</h3>
+          <p class="episode-hint">"No quiero perderte." "Nunca me vas a perder." "No puedes prometerme eso."</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 8: La Confesión del Cerezo Marchito">
+          <span class="episode-number">Episodio 08</span>
+          <div class="episode-emoji" aria-hidden="true">🥀</div>
+          <h3 class="episode-title">La Confesión del Cerezo Marchito</h3>
+          <p class="episode-hint">La verdad, dicha bajo ramas desnudas. Tres latidos. Tres destinos.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── ACT III: OTOÑO ── -->
+    <div class="act-group act-autumn">
+      <div class="act-header">
+        <span class="act-number">Acto III</span>
+        <h2 class="act-title">Otoño</h2>
+        <p class="act-description">Caída, sombras y la tormenta. La belleza se marchita.</p>
+      </div>
+
+      <div class="episodes-grid">
+
+        <div class="episode-card locked" aria-label="Episodio 9: Otoño en el Corazón">
+          <span class="episode-number">Episodio 09</span>
+          <div class="episode-emoji" aria-hidden="true">🍂</div>
+          <h3 class="episode-title">Otoño en el Corazón</h3>
+          <p class="episode-hint">Señales que llegan tarde. Consejos que duelen. Una mano que no se cierra.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 10: El Peso de los Silencios">
+          <span class="episode-number">Episodio 10</span>
+          <div class="episode-emoji" aria-hidden="true">🤐</div>
+          <h3 class="episode-title">El Peso de los Silencios</h3>
+          <p class="episode-hint">Un día de lluvia. Dos confesiones cruzadas. Una cuenta regresiva.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 11: Cristal Roto">
+          <span class="episode-number">Episodio 11</span>
+          <div class="episode-emoji" aria-hidden="true">💔🔪</div>
+          <h3 class="episode-title">Cristal Roto</h3>
+          <p class="episode-hint">El episodio más oscuro. El limbo como respuesta. Una grieta en el espejo.</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+        <div class="episode-card locked" aria-label="Episodio 12: Antes de la Tormenta">
+          <span class="episode-number">Episodio 12</span>
+          <div class="episode-emoji" aria-hidden="true">⛈️</div>
+          <h3 class="episode-title">Antes de la Tormenta</h3>
+          <p class="episode-hint">"Elegiste. No me elegiste a mí."</p>
+          <span class="episode-status locked">Próximamente</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── EPÍLOGO ── -->
+    <div class="act-group act-epilogue epilogue-section">
+      <div class="act-header">
+        <span class="act-number">Epílogo</span>
+        <h2 class="act-title">Réquiem para un Corazón Prestado</h2>
+        <p class="act-description">Blanco hospital. Rojo sangre. Silencio.</p>
+      </div>
+
+      <div class="episode-card epilogue-card locked" aria-label="Epílogo: Réquiem para un Corazón Prestado" style="margin: 0 auto;">
+        <span class="episode-number">Epílogo</span>
+        <div class="episode-emoji" aria-hidden="true">🖤</div>
+        <h3 class="episode-title">Réquiem para un Corazón Prestado</h3>
+        <p class="episode-hint">"¿Qué hiciste, Takina?"<br><em>Su historia... no ha terminado.</em></p>
+        <span class="episode-status locked">Próximamente</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="site-footer">
+    <p class="footer-text">
+      Hecho con <span class="heart" aria-label="amor">♥</span> por fans, para fans<br>
+      🌸 Lycoris Recoil — Corazones Prestados 🌸
+    </p>
+    <p class="footer-disclaimer">
+      Este es un trabajo de ficción creado por fans. Lycoris Recoil y sus personajes originales
+      pertenecen a Spider Lily y A-1 Pictures. Este proyecto no tiene fines de lucro.
+    </p>
+  </footer>
+
+</body>
+</html>
