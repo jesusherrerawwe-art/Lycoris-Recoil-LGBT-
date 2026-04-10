@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epílogo — Réquiem para un Corazón Prestado | Corazones Prestados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #070a0e; --bg-page: #0a0d12; --bg-panel: #0e1219;
+      --text-body: #a0a8b8; --text-dialogue: #ccd4e4; --text-narration: #7080a0;
+      --text-muted: #354058; --text-stage: #506080;
+      --accent-gold: #d4a850; --accent-red: #c53040; --accent-sterile: #e0e8f0;
+      --accent-warm: #f5c87a; --accent-blue: #7ba4d4; --accent-leaf: #8bc7a3;
+      --accent-monitor: #40c490;
+      --border-soft: rgba(192, 200, 220, 0.08); --border-chapter: rgba(192, 200, 220, 0.14);
+      --glow-requiem: rgba(197, 48, 64, 0.06);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lora', 'Noto Sans JP', serif; background: var(--bg-primary); color: var(--text-body); min-height: 100vh; overflow-x: hidden; line-height: 1.9; }
+
+    /* ── Hospital Motes (floating sterile particles) ── */
+    .vigil-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+    .vigil-mote { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: radial-gradient(circle, rgba(224,232,240,0.15) 0%, rgba(224,232,240,0) 70%); opacity: 0; animation: mote-rise linear infinite; }
+    .vigil-mote:nth-child(1){left:8%;animation-duration:18s;animation-delay:0s;width:4px;height:4px}
+    .vigil-mote:nth-child(2){left:16%;animation-duration:22s;animation-delay:3s}
+    .vigil-mote:nth-child(3){left:25%;animation-duration:15s;animation-delay:7s;width:5px;height:5px}
+    .vigil-mote:nth-child(4){left:34%;animation-duration:20s;animation-delay:1s}
+    .vigil-mote:nth-child(5){left:45%;animation-duration:17s;animation-delay:5s;width:4px;height:4px}
+    .vigil-mote:nth-child(6){left:55%;animation-duration:24s;animation-delay:9s}
+    .vigil-mote:nth-child(7){left:65%;animation-duration:16s;animation-delay:4s;width:3px;height:3px}
+    .vigil-mote:nth-child(8){left:75%;animation-duration:19s;animation-delay:8s}
+    .vigil-mote:nth-child(9){left:85%;animation-duration:21s;animation-delay:2s;width:4px;height:4px}
+    .vigil-mote:nth-child(10){left:92%;animation-duration:14s;animation-delay:6s}
+    @keyframes mote-rise { 0%{opacity:0;transform:translateY(105vh)} 15%{opacity:.3} 50%{opacity:.15} 85%{opacity:.25} 100%{opacity:0;transform:translateY(-5vh)} }
+
+    /* ── EKG Scroll (heartbeat monitor) ── */
+    .ekg-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 2px; pointer-events: none; z-index: 0; overflow: hidden; }
+    .ekg-line { position: absolute; width: 200%; height: 100%; background: repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(64,196,144,0.12) 40px, transparent 42px, transparent 46px, rgba(64,196,144,0.25) 48px, rgba(64,196,144,0.4) 50px, rgba(64,196,144,0.25) 52px, transparent 54px, transparent 80px); animation: ekg-scroll 4s linear infinite; }
+    @keyframes ekg-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    .requiem-sfx { text-align:center; font-family:'Noto Sans JP',sans-serif; font-size:0.8rem; color:var(--accent-red); letter-spacing:0.5em; margin:2rem 0; opacity:0.12; animation:requiem-pulse 3s ease-in-out infinite; }
+    @keyframes requiem-pulse { 0%,100%{opacity:.06;text-shadow:0 0 0 transparent} 15%{opacity:.35;text-shadow:0 0 15px rgba(197,48,64,.2)} 30%{opacity:.08} 45%{opacity:.3;text-shadow:0 0 12px rgba(197,48,64,.15)} 60%{opacity:.06} }
+
+    .ep-header{text-align:center;padding:4rem 2rem 2.5rem;position:relative;z-index:1}
+    .ep-back-link{display:inline-block;color:var(--text-muted);text-decoration:none;font-size:.8rem;letter-spacing:.1em;margin-bottom:1.5rem;transition:color .3s}
+    .ep-back-link:hover{color:var(--accent-gold)}
+    .ep-number{display:block;font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent-red);margin-bottom:.5rem}
+    .ep-act-badge{display:inline-block;font-family:'Noto Sans JP',sans-serif;font-size:.65rem;letter-spacing:.3em;color:var(--accent-sterile);border:1px solid rgba(224,232,240,.2);padding:.2rem 1rem;border-radius:2px;margin-bottom:1rem}
+    .ep-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:var(--text-dialogue);line-height:1.3;margin-bottom:.3rem}
+    .ep-title-jp{font-family:'Noto Sans JP',sans-serif;font-size:.95rem;font-weight:300;color:var(--text-muted);margin-bottom:1.5rem}
+    .ep-opening-quote{font-family:'Lora',serif;font-style:italic;font-size:.9rem;color:var(--text-narration);max-width:480px;margin:0 auto;padding:1rem 0;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);line-height:1.8}
+    .ep-content{max-width:720px;margin:0 auto;padding:2rem 2rem 4rem;position:relative;z-index:1}
+    .scene{margin-bottom:2.5rem}
+    .scene-heading{font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.2em;color:var(--accent-red);margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border-chapter)}
+    .scene-icon{margin-right:.5rem}
+    .narration{font-size:.95rem;color:var(--text-narration);text-indent:1.5rem;margin-bottom:1rem;text-align:justify;hyphens:auto}
+    .narration:first-of-type{text-indent:0}
+    .drop-cap::first-letter{font-family:'Playfair Display',serif;font-size:3.2rem;float:left;line-height:.8;padding-right:.1em;color:var(--accent-red)}
+    .dialogue{margin:1.2rem 0;padding-left:1rem;border-left:2px solid var(--text-muted)}
+    .dialogue.chisato{border-left-color:var(--accent-warm)}
+    .dialogue.takina{border-left-color:var(--accent-blue)}
+    .dialogue.ken{border-left-color:var(--accent-leaf)}
+    .dialogue.mizuki{border-left-color:#f7768e}
+    .dialogue.mika{border-left-color:#a9b1d6}
+    .dialogue.kurumi{border-left-color:#c792ea}
+    .dialogue.doctor{border-left-color:var(--accent-sterile)}
+    .speaker{display:block;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.3rem}
+    .speaker-chisato{color:var(--accent-warm)} .speaker-takina{color:var(--accent-blue)} .speaker-ken{color:var(--accent-leaf)}
+    .speaker-mizuki{color:#f7768e} .speaker-mika{color:#a9b1d6} .speaker-kurumi{color:#c792ea}
+    .speaker-doctor{color:var(--accent-sterile)}
+    .line{font-size:.93rem;color:var(--text-dialogue);line-height:1.8}
+    .action{font-style:italic;color:var(--text-muted);font-size:.85rem}
+    .thought{font-style:italic;color:var(--text-narration);text-align:center;margin:1.5rem auto;max-width:500px;line-height:1.9;opacity:.85}
+    .stage{text-align:center;font-style:italic;color:var(--text-stage);margin:1rem 0;font-size:.9rem}
+    .petal-divider{text-align:center;font-size:.8rem;color:var(--accent-red);letter-spacing:.5em;margin:2.5rem 0;opacity:.35}
+    .scene-break{text-align:center;color:var(--text-muted);letter-spacing:1em;margin:2rem 0;opacity:.3}
+    .end-card{text-align:center;padding:3rem 2rem;margin-top:2rem;border-top:1px solid var(--border-chapter)}
+    .end-title{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.3em;color:var(--accent-gold);margin-bottom:1rem}
+    .end-subtitle{font-family:'Lora',serif;font-style:italic;color:var(--accent-red);font-size:.85rem;margin-bottom:1.5rem}
+    .end-preview{font-family:'Lora',serif;font-style:italic;color:var(--text-narration);font-size:.85rem;max-width:400px;margin:1rem auto;line-height:1.8}
+    .ep-nav{display:flex;justify-content:center;gap:2rem;padding:2rem;font-family:'Noto Sans JP',sans-serif;font-size:.8rem}
+    .ep-nav a{color:var(--text-muted);text-decoration:none;letter-spacing:.1em;transition:color .3s;padding:.3rem 0}
+    .ep-nav a:hover{color:var(--accent-gold)}
+    .ep-nav .disabled{color:var(--text-muted);opacity:.3;cursor:default}
+    .ep-footer{text-align:center;padding:2rem;font-family:'Noto Sans JP',sans-serif;font-size:.65rem;color:var(--text-muted);opacity:.5;border-top:1px solid var(--border-soft)}
+    @media(max-width:768px){.ep-header{padding:3rem 1.5rem 2rem}.ep-content{padding:2rem 1.2rem 3rem}.narration{text-indent:1rem}.dialogue{padding-left:.8rem}.drop-cap::first-letter{font-size:2.5rem}}
+    @media(prefers-reduced-motion:reduce){.vigil-mote{animation:none;display:none}.ekg-line{animation:none;display:none}.requiem-sfx{animation:none;opacity:.15}}
+    a:focus-visible{outline:2px solid var(--accent-gold);outline-offset:2px}
+  </style>
+</head>
+<body>
+  <div class="vigil-field" aria-hidden="true">
+    <div class="vigil-mote"></div><div class="vigil-mote"></div><div class="vigil-mote"></div><div class="vigil-mote"></div><div class="vigil-mote"></div>
+    <div class="vigil-mote"></div><div class="vigil-mote"></div><div class="vigil-mote"></div><div class="vigil-mote"></div><div class="vigil-mote"></div>
+  </div>
+  <div class="ekg-bar" aria-hidden="true"><div class="ekg-line"></div></div>
+  <header class="ep-header">
+    <a href="../index.html" class="ep-back-link">← Índice de Episodios</a>
+    <span class="ep-number">Epílogo</span>
+    <div class="ep-act-badge">Corazones Prestados — Final</div>
+    <h1 class="ep-title">Réquiem para un Corazón Prestado</h1>
+    <p class="ep-title-jp">貸し出された心への鎮魂歌</p>
+    <blockquote class="ep-opening-quote">
+      "Un corazón prestado<br>
+      no se devuelve.<br>
+      Se cuida hasta que deja de latir.<br>
+      O se repara<br>
+      para que no deje."
+    </blockquote>
+  </header>
+  <article class="ep-content">
+
+    <!-- ═══════════ BLANCO ═══════════ -->
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">☕</span> Escena I — El Día Cien</div>
+
+      <p class="narration drop-cap">Cien.</p>
+
+      <p class="narration">Cien días desde que Takina Inoue preparó la primera taza de café con las manos que sabían disparar pero que estaban aprendiendo a cuidar. Cien amaneceres de las cinco y cuarenta y dos. Cien veces el agua a noventa y dos grados. Cien veces Colombia. Cien veces la canela en la verde. Cien mañanas de poner tres tazas en la mesa de la ventana de LycoReco como quien pone flores en un altar — no por obligación sino por fe, no por rutina sino por fidelidad, no porque alguien lo pidiera sino porque las tazas llenas eran la oración de Takina y la oración no necesitaba respuesta para tener sentido.</p>
+
+      <p class="narration">Veinticinco de noviembre. Sábado. El cerezo de la esquina no tenía hojas ni flores — solo las ramas desnudas que dibujaban fracturas contra el cielo de otoño como un kintsugi invertido: las líneas negras sobre el fondo blanco del cielo en lugar del oro sobre la cerámica oscura. Pero las ramas no estaban muertas. Dentro, invisible, la savia dormía. La savia que en primavera iba a subir y que iba a abrir los pétalos de nuevo y que iba a recordarle a cualquiera que mirara que las cosas que parecen terminadas a veces solo están esperando la estación correcta.</p>
+
+      <p class="narration">Ken llegó a las nueve y cuarenta y siete. Diecinueve días desde su regreso. El cuaderno bajo el brazo. Los zapatos limpios. La campanilla sonó y el sonido cruzó la cafetería y llegó hasta la cocina donde Takina estaba vertiendo el agua en la tercera taza y el sonido le dijo lo que los sonidos le decían ahora: que la silla no estaba vacía, que la taza verde iba a ser bebida, que los tres iban a estar en la misma mesa. El sonido de la normalidad nueva — no la normalidad de antes del cristal roto sino la normalidad de después, la normalidad que tiene grietas doradas y que las grietas no la hacen menos normal sino más honesta.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Sentándose en la silla de siempre. La silla junto a la ventana. La silla que durante veintiún días había estado vacía y que durante diecinueve días había vuelto a estar ocupada. Abriendo el cuaderno. Los trazos del día — no un dibujo terminado sino el comienzo de uno, las líneas guía de algo que estaba tomando forma.)</span> Día cien.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Entrando con la bandeja. Las tres tazas y el cuenco de kintsugi en el centro. El cuenco que Mika había puesto la mañana después de la tormenta y que nadie había movido desde entonces porque el cuenco era el centro y los centros no se mueven.)</span> Cien. <span class="action">(La sonrisa. La sonrisa completa de tres fuentes.)</span> ¿Sabes qué se regala en los cien días?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sentándose. La taza azul. El primer sorbo del día — el sorbo que era su forma de decir "buenos días" sin decirlo.)</span> En Japón, el okuizome. La primera comida de un bebé. A los cien días.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Riendo. La risa de Chisato, que llenaba la habitación como el sol llena una ventana.)</span> Entonces esto es nuestra primera comida. Nuestro primer café real. Los cien días anteriores fueron ensayos.</p>
+      </div>
+
+      <p class="narration">Ken no levantó la vista del cuaderno. Pero sonrió. La sonrisa que era diferente de la de julio — aquella sonrisa que intentaba ser suficiente, que intentaba llenar un espacio que no le correspondía. Esta sonrisa era más pequeña. Más real. La sonrisa de alguien que ha aceptado que su lugar en la mesa no es el centro sino un vértice, y que los vértices son tan necesarios como el centro porque sin vértices no hay forma, y la forma — el triángulo, las tres tazas, las tres sillas — necesitaba las tres presencias para existir.</p>
+
+      <p class="narration">El marcapasos de Chisato: setenta y dos latidos por minuto. El ritmo del equilibrio. El ritmo de las mañanas buenas.</p>
+
+      <p class="narration">Setenta y dos. Setenta y tres. Setenta y — </p>
+
+      <p class="narration">Sesenta y uno.</p>
+
+      <p class="narration">Un salto. Una caída de doce latidos en un segundo. Como un escalón que no estaba ahí. Como una nota que se pierde en medio de una melodía que llevaba cien días siendo constante. Sesenta y uno. Y después sesenta y tres. Y después setenta. Y después setenta y dos otra vez. Como si nada. Como si el escalón no hubiera existido. Como si el tic-tum no hubiera tartamudeado.</p>
+
+      <p class="narration">Chisato no se movió. La taza amarilla a medio camino entre la mesa y los labios. Los ojos fijos en el cerezo de afuera. La única señal: los nudillos — los nudillos que se apretaron alrededor de la taza un milímetro más de lo normal, un milímetro que nadie vería, un milímetro que la cerámica absorvió sin quebrarse.</p>
+
+      <p class="narration">Nadie lo notó. Ken estaba dibujando. Takina estaba leyendo la etiqueta del café con la concentración de alguien que busca un dato que ya conoce pero que necesita verificar. Nadie lo notó porque el tic-tum se recuperó y porque los tic-tums que se recuperan no dejan evidencia.</p>
+
+      <p class="narration">Pero Chisato lo notó. Lo sintió. En el pecho. En el lugar donde la máquina vivía. En el lugar donde el corazón prestado hacía el trabajo que el corazón propio no podía hacer. Lo sintió como se siente un temblor previo — no el terremoto sino el aviso, no la crisis sino la promesa de la crisis.</p>
+
+      <p class="narration">Bebió el café. Sonrió. Dijo algo sobre el clima. El día continuó.</p>
+
+      <p class="narration">Pero dentro, el reloj había tropezado. Y los relojes que tropiezan no siempre se recuperan.</p>
+
+      <p class="requiem-sfx" aria-label="Latido irregular">—·— —·— —·—</p>
+    </section>
+
+    <div class="petal-divider" aria-hidden="true">🖤 ✦ 🖤</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">🏥</span> Escena II — El Diagnóstico</div>
+
+      <p class="narration">El doctor habló a las catorce y veinte del martes veintiocho de noviembre.</p>
+
+      <p class="narration">La consulta de cardiología en el ala este del Hospital Central de Sumida. La habitación blanca. La luz blanca. Las paredes blancas. Todo blanco — el blanco que no es color sino ausencia de color, el blanco que es el lienzo donde la medicina pinta sus verdades con la frialdad de los datos y la precisión de los números porque la medicina no miente, la medicina no suaviza, la medicina mide y reporta y deja que los pacientes hagan con la información lo que la información les pida hacer.</p>
+
+      <p class="narration">Chisato fue sola. No le dijo a Takina. No le dijo a Ken. No le dijo a Mika. Fue sola como había ido sola a la primera revisión del marcapasos cuando tenía trece años y como había ido sola a cada revisión desde entonces — no porque no quisiera compañía sino porque las verdades del cuerpo se escuchan mejor en soledad, porque cuando alguien te acompaña una parte de tu atención se desvía hacia la reacción del acompañante y Chisato necesitaba toda su atención para lo que el doctor iba a decir.</p>
+
+      <div class="dialogue doctor">
+        <span class="speaker speaker-doctor">Doctor Hayashi</span>
+        <p class="line"><span class="action">(Las manos sobre la carpeta. La carpeta que contenía los resultados del electrocardiograma de veinticuatro horas que Chisato había llevado bajo la ropa durante un día entero sin que nadie lo supiera — un día de sonrisas, de café, de conversación, de normalidad actuada sobre un cuerpo monitorizado.)</span> Nishikigi-san. El dispositivo está mostrando señales de degradación en los circuitos de estimulación primaria. Los episodios de bradicardia transitoria que reportó — la caída súbita a sesenta y uno, los saltos — son consistentes con fallos intermitentes en el electrodo ventricular derecho.</p>
+      </div>
+
+      <p class="narration">Silencio. El silencio blanco del hospital que no era como el silencio de LycoReco — el silencio de LycoReco era cálido, era el silencio entre tazas de café y páginas de cuaderno. Este silencio era clínico. Estéril. El silencio de un lugar donde las palabras que se dicen tienen el peso de los diagnósticos.</p>
+
+      <div class="dialogue doctor">
+        <span class="speaker speaker-doctor">Doctor Hayashi</span>
+        <p class="line">El corazón artificial tiene una vida útil estimada. Usted lo sabe. El dispositivo que lleva es extraordinario — una pieza de ingeniería que ha funcionado más allá de las proyecciones iniciales. Pero los materiales tienen límites. La batería interna muestra un descenso del catorce por ciento en los últimos seis meses. Los electrodos están mostrando impedancia elevada. <span class="action">(Pausa. La pausa del médico que elige las palabras como un cirujano elige los instrumentos.)</span> Necesitamos programar una intervención para reemplazar los componentes degradados. Si no intervenimos, los fallos van a ser más frecuentes. Y más prolongados.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La voz. No la voz alta. No la voz de la cafetería. La voz de las preguntas que importan.)</span> ¿Cuánto tiempo tengo sin la intervención?</p>
+      </div>
+
+      <div class="dialogue doctor">
+        <span class="speaker speaker-doctor">Doctor Hayashi</span>
+        <p class="line">No es una cuestión de tiempo definido. Es una cuestión de probabilidad. Cada fallo que no se corrige aumenta la probabilidad del siguiente. Y cada fallo es más largo que el anterior. <span class="action">(Mirándola. Los ojos del médico que habían visto cientos de pacientes y que sabían que esta paciente era diferente porque esta paciente tenía dentro un dispositivo que no existía en ningún catálogo médico estándar.)</span> El reemplazo de componentes no es una cirugía menor. El dispositivo está integrado. El riesgo quirúrgico es significativo. Pero el riesgo de no intervenir es mayor.</p>
+      </div>
+
+      <p class="narration">Chisato miró la ventana del consultorio. Una ventana que daba a un patio interior del hospital donde no había cerezos ni cafeterías ni mesas con tres tazas — solo un rectángulo de cielo gris enmarcado por paredes blancas. Una ventana que no era metáfora. Una ventana que era solo vidrio.</p>
+
+      <p class="narration">Pensó en las tres tazas. En la verde con canela. En el cuenco de kintsugi. En los cien días. En la mano de Takina. En el cuaderno de Ken. En la sonrisa de Mika. Pensó en todo eso y pensó en el número catorce — catorce por ciento de batería perdida en seis meses. Catorce. El mismo número que el catorce de octubre, el día en que Ken no vino por primera vez. Los números que se repiten. Los patrones que la matemática dibuja cuando la vida imita al álgebra.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Girando hacia el doctor. La mandíbula firme.)</span> Programa la intervención. <span class="action">(Pausa.)</span> Pero necesito tiempo. Para decirles.</p>
+      </div>
+
+      <p class="narration">Salió del hospital a las quince y diez. El cielo de noviembre. El frío de noviembre. Las calles de Sumida que conocía de memoria y que ahora parecían diferentes — no porque hubieran cambiado sino porque ella las miraba con los ojos de alguien que ha recibido un número y que sabe que los números no mienten.</p>
+
+      <p class="narration">El marcapasos: setenta latidos por minuto. Constante. Sin saltos. Como si la máquina supiera que estaba siendo observada y se comportara. Como si la máquina supiera que el juego había empezado.</p>
+
+      <p class="requiem-sfx" aria-label="Monitor constante">—·— —·— —·—</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ═══════════ ROJO ═══════════ -->
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">🔍</span> Escena III — Lo Que Takina Encontró</div>
+
+      <p class="narration">Takina lo supo el jueves.</p>
+
+      <p class="narration">No porque Chisato le dijera. Chisato no le dijo. Chisato llegó del hospital el martes con la sonrisa de siempre y con la voz de siempre y con la energía de siempre — con la actuación perfecta que Chisato Nishikigi podía sostener indefinidamente porque actuar era su segunda naturaleza y porque la primera naturaleza de Chisato era proteger a los demás del dolor y proteger significaba, a veces, mentir.</p>
+
+      <p class="narration">Pero Takina no era "los demás." Takina era la persona que había pasado cien días aprendiendo a leer a Chisato con la resolución de un sensor de alta precisión. Y el sensor detectó las anomalías. Tres anomalías en cuarenta y ocho horas:</p>
+
+      <p class="narration">Primera: Chisato puso la mano sobre el pecho dos veces en la mañana del miércoles. Dos veces. No una — que podría haber sido un gesto casual, un ajuste de la camiseta, un escalofrío. Dos. La mano abierta sobre el esternón. Sobre el marcapasos. El gesto que Takina había catalogado como "verificación" — el gesto que significaba que Chisato estaba comprobando que el tic-tum seguía ahí.</p>
+
+      <p class="narration">Segunda: Chisato durmió de espaldas la noche del miércoles. Chisato nunca dormía de espaldas. Chisato dormía de lado, hacia Takina, con la mano extendida en los setenta centímetros. Dormir de espaldas significaba que el pecho necesitaba espacio. Que la posición lateral presionaba algo que no debía presionarse. Que el cuerpo había cambiado una costumbre para proteger un órgano.</p>
+
+      <p class="narration">Tercera: Chisato miró su teléfono a las seis y catorce de la mañana del jueves — antes del café, antes de Takina, antes de todo — y lo guardó rápido cuando escuchó los pasos de Takina en el pasillo. Lo guardó con la velocidad de alguien que esconde algo. La velocidad del secreto.</p>
+
+      <p class="narration">Tres anomalías. Tres datos. Suficientes.</p>
+
+      <p class="narration">Takina esperó a que Chisato bajara a la cafetería. Esperó a que la campanilla sonara. Esperó a que las voces de Chisato y Ken se mezclaran abajo con el sonido de las tazas y del café y de la normalidad que Chisato estaba actuando con la perfección de una profesional. Y entonces Takina hizo lo que Takina hacía cuando la información no le llegaba por los canales normales: la buscó.</p>
+
+      <p class="narration">El teléfono de Chisato estaba en la mesita de noche. Desbloqueado. Chisato nunca lo bloqueaba en casa — un vestigio de la confianza que existía entre ellas, de la transparencia que habían construido en cien días de manos buscándose en la oscuridad. Takina no había tocado el teléfono de Chisato antes. Nunca. Porque la confianza era sagrada y porque invadir la privacidad era romper algo que no se reparaba con oro.</p>
+
+      <p class="narration">Pero Takina también sabía — con la certeza militar de alguien que ha aprendido que las reglas tienen excepciones y que las excepciones existen para los momentos en que seguir la regla causa más daño que romperla — que había algo en ese teléfono que Chisato le estaba ocultando. Y que lo oculto, cuando se trata del corazón de la persona que amas, no es privacidad. Es peligro.</p>
+
+      <p class="narration">Abrió los mensajes. El último. Del Hospital Central de Sumida. Confirmación de cita quirúrgica. Fecha: cuatro de diciembre. Procedimiento: reemplazo de componentes del dispositivo de asistencia cardíaca. Riesgo: moderado-alto. Tiempo estimado: seis horas. Firma: Dr. Hayashi, cardiología intervencionista.</p>
+
+      <p class="narration">Takina leyó el mensaje tres veces. La primera para entender las palabras. La segunda para entender los números. La tercera para entender lo que significaba: que el corazón prestado de Chisato estaba fallando y que Chisato lo sabía y que Chisato no se lo había dicho.</p>
+
+      <p class="narration">Puso el teléfono donde estaba. Se sentó en la cama. Miró la ventana. El cielo de noviembre. Y durante treinta y siete segundos — los contó, porque contar era su forma de no romperse — no se movió. No respiró. No pensó. Solo existió en el espacio entre la información y la reacción, en el limbo entre saber y hacer, en los treinta y siete segundos que necesitó para construir el plan.</p>
+
+      <p class="narration">Porque Takina Inoue no lloraba. Takina Inoue planificaba.</p>
+
+      <p class="requiem-sfx" aria-label="Silencio tenso">—·— —·— —·—</p>
+    </section>
+
+    <div class="petal-divider" aria-hidden="true">🖤 ✦ 🖤</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">📞</span> Escena IV — La Llamada de Takina</div>
+
+      <p class="narration">Takina hizo tres llamadas esa noche.</p>
+
+      <p class="narration">Las tres desde la azotea de LycoReco, a las veintitrés y quince, cuando Chisato dormía y Ken estaba en Koto y Mika estaba en su habitación y la noche era lo suficientemente fría y lo suficientemente oscura como para que nadie subiera y nadie escuchara.</p>
+
+      <p class="narration">Primera llamada: Kurumi. Cuatro minutos. La voz de Takina plana, operativa, sin emoción — la voz de las misiones. Le pidió acceso al historial médico completo del dispositivo de Chisato. Las especificaciones originales. El fabricante. Los datos técnicos que la DA tenía archivados desde la instalación original. Kurumi no preguntó por qué. Kurumi entendió. Kurumi siempre entendía porque Kurumi vivía en la red y en la red los datos cuentan la historia antes que las personas.</p>
+
+      <p class="narration">Segunda llamada: Mizuki. Siete minutos. La voz de Takina menos plana — un grado más cálida, un grado más vulnerable. Le contó lo del diagnóstico. Le contó lo de la cirugía. Le contó el riesgo. Mizuki escuchó. Mizuki no interrumpió. Mizuki esperó a que Takina terminara y después dijo una sola frase: "¿Qué necesitas de mí?" Y Takina le dijo lo que necesitaba: un contacto. Alguien en la cadena médica que tuviera acceso a los recursos que un hospital normal no tenía. Alguien que conociera el dispositivo. Alguien del Instituto Alan.</p>
+
+      <p class="narration">Tercera llamada: el número que Mizuki le dio. Un número sin nombre. Una voz sin rostro. Una conversación de nueve minutos que Takina grabó en su memoria con la precisión de un archivo militar — cada palabra, cada pausa, cada inflexión. La voz al otro lado del teléfono conocía el dispositivo. La voz conocía las especificaciones. La voz dijo algo que el doctor Hayashi no había dicho: que existía una actualización. Que los componentes de reemplazo estándar tenían una vida útil limitada pero que había una versión nueva — experimental, no aprobada para uso general, disponible solo a través de canales no oficiales. Una versión que duplicaba la durabilidad. Una versión que reducía el riesgo quirúrgico a la mitad.</p>
+
+      <p class="narration">La voz dijo el precio. No en dinero.</p>
+
+      <p class="narration">La voz dijo: una misión. Una misión para la DA. Categoría especial. Sin registro. Sin cobertura oficial. El tipo de misión que la DA no asignaba porque la DA no podía asignar lo que no podía reconocer. El tipo de misión que existía en los espacios grises entre lo legal y lo necesario.</p>
+
+      <p class="narration">Takina no dudó. La pausa entre la propuesta y la respuesta fue de un segundo y cuatro décimas — el tiempo exacto que Takina necesitaba para procesar una decisión táctica. Un segundo y cuatro décimas. El tiempo de un parpadeo largo. El tiempo de un latido y medio del corazón prestado de Chisato.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La voz en la azotea. El cielo de noviembre sobre ella. Las estrellas que no se veían por la contaminación lumínica de Tokio pero que estaban ahí — como el amor, como la decisión, como las cosas que existen sin necesidad de ser vistas.)</span> Acepto.</p>
+      </div>
+
+      <p class="narration">Colgó. Guardó el teléfono. Bajó de la azotea. Entró en la habitación. Se acostó en su cama a setenta centímetros de Chisato. La mano de Chisato estaba extendida en la oscuridad — buscándola, como cada noche, como las cien noches. Takina tomó esa mano. La sostuvo. Sintió el pulso de Chisato en la muñeca — setenta y dos, setenta y dos, setenta y dos, constante, firme, el ritmo del corazón que funcionaba pero que estaba empezando a fallar.</p>
+
+      <p class="narration">Takina cerró los ojos. No durmió. Contó los latidos de Chisato hasta que amaneció. Tres mil ochocientos ochenta y ocho latidos entre la medianoche y las cinco y cuarenta y dos. Cada uno contado. Cada uno guardado. Cada uno la prueba de que el corazón prestado todavía latía y de que Takina iba a hacer lo que fuera necesario para que siguiera latiendo.</p>
+
+      <p class="requiem-sfx" aria-label="Latidos contados">—·— —·— —·—</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">💉</span> Escena V — Blanco Hospital</div>
+
+      <p class="narration">Cuatro de diciembre. Lunes. Las seis de la mañana.</p>
+
+      <p class="narration">El pasillo del Hospital Central de Sumida olía a desinfectante y a silencio. El silencio específico de los hospitales a las seis de la mañana — no el silencio de la noche, que es espeso y que contiene los sonidos de los monitores y de las respiraciones y de los pasos de las enfermeras en las suelas blandas; sino el silencio del antes, el silencio que precede a la actividad, el silencio de las salas de operaciones que todavía están vacías y que van a llenarse.</p>
+
+      <p class="narration">Chisato estaba en la camilla. La bata blanca. El brazo izquierdo con la vía intravenosa. La piel más pálida de lo habitual bajo la luz fluorescente — la piel que en LycoReco parecía dorada y que aquí parecía papel, frágil, temporal, la piel de alguien que estaba a punto de ser abierta para que alguien más pudiera arreglar lo que estaba adentro.</p>
+
+      <p class="narration">Takina estaba sentada en la silla junto a la camilla. La misma posición que en octubre, cuando los siete puntos en el brazo. Pero octubre era un corte superficial y diciembre era el corazón. Octubre era hilo y aguja y diciembre era bisturí y circuitos y la diferencia entre lo que está en la piel y lo que está en el pecho.</p>
+
+      <p class="narration">Ken estaba de pie junto a la ventana. La ventana del hospital que daba al estacionamiento y al cielo gris de diciembre y que no se parecía a ninguna de las ventanas que habían importado — ni a la de LycoReco ni a la metáfora ni al cristal roto. Esta ventana era solo una ventana. Y Ken estaba de pie junto a ella con el cuaderno cerrado contra el pecho porque las manos que dibujaban no podían dibujar ahora — no porque no quisieran sino porque lo que sentían era más grande que lo que el grafito podía contener.</p>
+
+      <p class="narration">Mika estaba en el pasillo. Sentado en una de las sillas de plástico azul que los hospitales ponen para las personas que esperan. Esperando. Con un termo de hojicha que había preparado a las cuatro de la mañana y que nadie le había pedido pero que todos iban a necesitar.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Mirando a Takina. Mirando a Ken. Mirando la habitación blanca. La voz que intentaba ser la voz de siempre y que casi lo lograba.)</span> Oigan. Esto es una revisión técnica. Me van a cambiar unas piezas. Es como llevar el coche al taller. <span class="action">(La sonrisa. La sonrisa que costaba más de lo habitual.)</span> Cuando salga, el tic-tum va a sonar nuevo. Como un reloj recién arreglado.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Desde la ventana. Sin girarse. La voz que intentaba ser firme y que lo era — más firme de lo que nadie esperaba, más firme que la voz del cristal roto, como si los veintiún días de ausencia y los diecinueve de regreso le hubieran enseñado que la firmeza no es la ausencia del miedo sino la decisión de hablar a pesar de él.)</span> Los coches no tienen personas adentro.</p>
+      </div>
+
+      <p class="narration">Silencio. El silencio blanco del hospital.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La sonrisa cayendo un grado. Medio grado. La caída que solo Takina detectó.)</span> Ken...</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Girándose. Los ojos de Ken — no los ojos del artista ni los ojos del hombre que dejó la mano abierta. Los ojos de alguien que está mirando a una persona y que tiene miedo de que esa persona sea diferente cuando salga del quirófano porque las personas que entran en quirófanos a veces salen diferentes y a veces no salen.)</span> Los coches no toman café. No se sientan en mesas de ventana. No hacen que las mañanas valgan la pena. <span class="action">(Pausa. La pausa del dibujo — la pausa antes del trazo final.)</span> No eres un coche, Chisato. Eres la cafetería entera.</p>
+      </div>
+
+      <p class="narration">Chisato abrió la boca. La cerró. Abrió los ojos más de lo habitual — el gesto que Takina había catalogado como "emoción que excede la capacidad de expresión verbal." La emoción que era demasiado grande para las palabras y que necesitaba otro canal — las lágrimas, las manos, el silencio.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La mano. La mano izquierda tomando la derecha de Chisato. La mano que no necesitaba explicación.)</span> Vamos a estar aquí cuando salgas. Las tres tazas en la mesa. El cuenco en el centro. Todo igual. <span class="action">(Apretando.)</span> Todo.</p>
+      </div>
+
+      <p class="narration">La enfermera entró. Las seis y treinta. La hora. La camilla empezó a moverse. El pasillo blanco. Las luces blancas del techo pasando sobre los ojos de Chisato como estrellas en un cielo artificial. La mano de Takina que soltó la de Chisato — el último punto de contacto, los dedos que se separaron milímetro a milímetro como se separan las orillas de un río que se ensancha, como se separa el agua del hielo cuando la temperatura sube.</p>
+
+      <p class="narration">Las puertas del quirófano se cerraron. Blancas. Selladas. Silenciosas.</p>
+
+      <p class="narration">Y Takina se quedó de pie en el pasillo con la mano todavía extendida hacia el espacio donde Chisato había estado.</p>
+
+      <p class="requiem-sfx" aria-label="Puertas cerrándose">—·— —·— —·—</p>
+    </section>
+
+    <div class="petal-divider" aria-hidden="true">🖤 ✦ 🖤</div>
+
+    <!-- ═══════════ SILENCIO ═══════════ -->
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">⏳</span> Escena VI — La Vigilia</div>
+
+      <p class="narration">Seis horas.</p>
+
+      <p class="narration">Seis horas es el tiempo que tarda un vuelo de Tokio a Bangkok. Es el tiempo de dos películas largas. Es el tiempo de trescientos sesenta minutos. Es el tiempo de veintiún mil seiscientos segundos. Cada uno contado. Cada uno vivido. Cada uno con el peso específico de la espera — que es el material más pesado del universo, más pesado que el plomo y que el mercurio y que las estrellas de neutrones, porque la espera pesa lo que pesa lo que se espera y lo que se esperaba era la vida de Chisato Nishikigi.</p>
+
+      <p class="narration">Takina no se sentó. En seis horas, Takina no se sentó. Se quedó de pie en el pasillo, frente a las puertas blancas del quirófano, con la espalda recta y los pies firmes y la mirada fija en las puertas como un centinela que vigila una frontera. La frontera entre el antes y el después. La frontera que las puertas representaban — detrás de ellas un equipo de cirujanos estaba abriendo el pecho de Chisato y accediendo al dispositivo y reemplazando los componentes que Takina había conseguido, los componentes que no eran estándar, los componentes que habían llegado en una caja sin etiqueta a través de un canal que no existía oficialmente y que Takina había pagado con una promesa que todavía no había cumplido.</p>
+
+      <p class="narration">Ken se sentó en el suelo. Al lado de Mika. Con la espalda contra la pared. El cuaderno abierto en el regazo. La primera hora dibujó. Dibujó la mano de Chisato — la mano que había sostenido la taza amarilla esa mañana, la última mañana antes de la cirugía. Pero el dibujo no salió. Las líneas temblaban. Los dedos que en ciento ochenta y cuatro días de trazos no habían temblado ni una vez ahora temblaban porque las manos que dibujan son las mismas manos que sienten y lo que sentían era miedo y el miedo tiembla.</p>
+
+      <p class="narration">La segunda hora, Ken cerró el cuaderno. Miró el techo. El techo blanco. Los fluorescentes. Y por primera vez desde que había empezado a dibujar a los seis años, Ken Fujimoto no pudo dibujar. La sequía de septiembre había sido falta de inspiración. Esto era diferente. Esto era exceso de emoción. La línea que no sale no porque no haya nada que dibujar sino porque hay demasiado que dibujar y el exceso paraliza y la parálisis es la hermana del miedo.</p>
+
+      <p class="narration">Mika sirvió hojicha. Tres vasos del termo. Uno para Takina — que lo rechazó sin girarse. Uno para Ken — que lo tomó con las dos manos y que lo sostuvo sin beber durante cuarenta minutos hasta que se enfrió. Uno para él mismo — que bebió despacio, sorbo a sorbo, con la paciencia de alguien que sabe que la espera no se acorta con la impaciencia sino que se sobrevive con los gestos pequeños.</p>
+
+      <div class="dialogue mika">
+        <span class="speaker speaker-mika">Mika</span>
+        <p class="line"><span class="action">(La hora cuatro. La voz suave en el pasillo. No dirigida a nadie en particular. Dirigida a todos.)</span> Chisato tiene algo que los dispositivos no tienen. Tiene motivos. Los dispositivos se degradan porque no tienen razón para no degradarse. Las personas se reparan porque tienen razones para repararse. Y ella tiene tres.</p>
+      </div>
+
+      <p class="narration">Nadie respondió. Pero Takina giró la cabeza un centímetro hacia Mika. Un centímetro. El reconocimiento mínimo. La forma que tenía Takina de decir "te escuché" sin dejar de vigilar las puertas.</p>
+
+      <p class="narration">La hora cinco. La hora más larga. La hora en que la esperanza y el miedo dejan de ser emociones separadas y se fusionan en una sustancia nueva que no tiene nombre y que ocupa todo el espacio disponible dentro del cuerpo — el espacio de los pulmones y el espacio del estómago y el espacio del pecho donde Takina sentía algo que no era su propio corazón sino la ausencia del latido de Chisato, la ausencia del tic-tum que había escuchado cada noche durante cien noches con la mano de Chisato en la suya y que ahora no podía escuchar porque las puertas blancas y los muros blancos y las seis horas estaban entre su oído y ese sonido.</p>
+
+      <p class="narration">Ken abrió el cuaderno en la hora seis. No para dibujar. Para escribir. Tres líneas. Las mismas tres líneas que había escrito la noche del cristal roto — pero diferentes. Iguales en estructura. Diferentes en contenido. La versión nueva:</p>
+
+      <p class="thought">"Elegiste.<br>No me elegiste a mí.<br>Pero me diste un lugar en la mesa.<br>Y el lugar es suficiente."</p>
+
+      <p class="narration">Cerró el cuaderno. Miró a Takina. Takina miraba las puertas. Ken miró las puertas también. Y los dos esperaron juntos — no como rivales, no como vértices opuestos de un triángulo en tensión, sino como dos personas que amaban a la misma persona de maneras diferentes y que las maneras diferentes no competían sino que se sumaban, como se suman las notas de un acorde, como se suman los colores de una paleta, como se suman las grietas de un cuenco de kintsugi hasta formar un patrón que es más hermoso que la cerámica intacta.</p>
+
+      <p class="requiem-sfx" aria-label="Espera">—·— —·— —·—</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">❤️</span> Escena VII — Rojo Sangre</div>
+
+      <p class="narration">Las puertas se abrieron a las doce y cuarenta y dos.</p>
+
+      <p class="narration">El doctor Hayashi salió. La bata verde. La mascarilla bajada. Las manos que acababan de estar dentro del pecho de Chisato Nishikigi y que ahora estaban en el aire del pasillo — las manos que habían tocado el corazón prestado, que habían desconectado los componentes viejos, que habían instalado los nuevos, que habían cerrado lo que habían abierto.</p>
+
+      <p class="narration">Takina giró. Completa. Los ciento ochenta grados que no había girado en seis horas. El cuerpo entero orientado hacia el doctor como una brújula que encuentra el norte.</p>
+
+      <p class="narration">Ken se puso de pie. El cuaderno cayó al suelo. No lo recogió.</p>
+
+      <p class="narration">Mika se quedó sentado. Las manos sobre las rodillas. Los ojos en el doctor. Los ojos de alguien que ha esperado noticias sobre Chisato Nishikigi más veces de las que quiere recordar y que cada vez es la primera vez porque el miedo no se gasta con el uso.</p>
+
+      <div class="dialogue doctor">
+        <span class="speaker speaker-doctor">Doctor Hayashi</span>
+        <p class="line"><span class="action">(Los ojos cansados de seis horas de cirugía. Pero la voz — la voz firme. La voz que no temblaba.)</span> El procedimiento fue exitoso. Los componentes fueron reemplazados. El dispositivo está respondiendo dentro de los parámetros esperados. <span class="action">(Pausa. La pausa médica que no es dramática sino informativa.)</span> Hubo un momento de complicación en la hora tres — una respuesta arrítmica durante la transición entre los componentes viejos y los nuevos. Treinta y siete segundos de fibrilación que requirieron intervención. Pero se resolvió. El ritmo se estabilizó.</p>
+      </div>
+
+      <p class="narration">Treinta y siete segundos. El mismo número. Los mismos treinta y siete segundos que Takina había contado en la cama de Chisato cuando encontró el diagnóstico en el teléfono. Treinta y siete. El número que se repitió como se repiten los números en esta historia — como los tres, como los catorce, como los setenta y dos. Los patrones. Las coincidencias que no son coincidencias sino la aritmética del destino.</p>
+
+      <div class="dialogue doctor">
+        <span class="speaker speaker-doctor">Doctor Hayashi</span>
+        <p class="line">Debo decir algo sobre los componentes. <span class="action">(Mirando a Takina. Directamente. Con la mirada de quien sabe.)</span> Los componentes que se utilizaron no son los estándar que habíamos programado. Son una versión diferente. Superior. Una versión que no está en nuestro inventario habitual y que llegó a través de un canal que... no es el protocolo usual. <span class="action">(Pausa.)</span> No voy a preguntar cómo llegaron. Pero necesito que sepan que estos componentes le dan al dispositivo una proyección de funcionamiento significativamente mayor que los estándar. Significativamente.</p>
+      </div>
+
+      <p class="narration">El pasillo blanco. La luz blanca. Y en el centro del pasillo, el silencio que no era vacío sino lleno — lleno de la información que el doctor acababa de dar, lleno de la mirada que el doctor le había dirigido a Takina, lleno de la pregunta que nadie hacía y que todos entendían.</p>
+
+      <p class="narration">Ken miró a Takina. Mika miró a Takina. Takina miró las puertas del quirófano — las puertas que todavía estaban abiertas y que dejaban ver el pasillo interior que llevaba a la sala de recuperación donde Chisato Nishikigi estaba empezando a despertar con un corazón que tenía piezas nuevas que no deberían haber existido en ese hospital pero que existían porque alguien las había puesto ahí.</p>
+
+      <p class="narration">Alguien. Takina.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Recogiendo el cuaderno del suelo. La voz baja. No acusatoria. No inquisitiva. La voz de alguien que entiende porque ha hecho cosas similares — ha arrancado páginas de cuadernos, ha dejado dibujos en mesas, ha caminado bajo tormentas a las cuatro de la mañana. La voz de alguien que reconoce el amor en sus formas más drásticas.)</span> Takina. ¿Qué hiciste?</p>
+      </div>
+
+      <p class="narration">Takina no respondió. No inmediatamente. Los ojos fijos en las puertas abiertas. En el pasillo que llevaba a Chisato. En la dirección donde el tic-tum estaba latiendo con piezas nuevas, con oro nuevo en las grietas, con tiempo nuevo en el reloj.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sin girarse. La voz plana. La voz de las misiones. La voz que no temblaba porque lo que había hecho no admitía temblor — lo que había hecho era una decisión y las decisiones de Takina no temblaban.)</span> Lo que había que hacer.</p>
+      </div>
+
+      <p class="narration">Y en la sala de recuperación, detrás de las puertas, un monitor empezó a sonar. Bip. Bip. Bip. El sonido más simple y más importante del mundo. El sonido de un corazón que late. El sonido del tic-tum — renovado, reparado, con piezas que Takina había conseguido al precio que Takina había aceptado pagar y que todavía no había pagado y que iba a pagar y que no importaba cuánto costara porque el sonido — bip, bip, bip — era el sonido de Chisato viva. Y Chisato viva era el único resultado aceptable.</p>
+
+      <p class="requiem-sfx" aria-label="Monitor cardíaco">—·— —·— —·—</p>
+    </section>
+
+    <div class="petal-divider" aria-hidden="true">🖤 ✦ 🖤</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">🤫</span> Escena VIII — Silencio</div>
+
+      <p class="narration">Chisato abrió los ojos a las dieciséis y cuatro.</p>
+
+      <p class="narration">Lo primero que vio fue el techo. Blanco. Diferente del techo de LycoReco. Diferente del cielo. El techo de una sala de recuperación que no intenta ser bello sino funcional — el techo que dice: estás en un hospital, has sido operada, estás viva.</p>
+
+      <p class="narration">Lo segundo que vio fue a Takina. Sentada en la silla. La misma posición. La misma distancia. Las manos sobre las rodillas. Los ojos abiertos. Los ojos que no se habían cerrado en — ¿cuántas horas? ¿Diez? ¿Doce? Los ojos de alguien que no había dormido y que no iba a dormir hasta que los ojos de Chisato se abrieran.</p>
+
+      <p class="narration">Lo tercero que vio fue a Ken. Sentado en el suelo junto a la ventana. El cuaderno abierto. Un dibujo en progreso — no terminado, solo las líneas guía, la estructura de algo que todavía no tenía forma pero que tenía intención. Ken dibujando de nuevo. Ken con las manos que ya no temblaban.</p>
+
+      <p class="narration">Lo cuarto que sintió — antes de ver nada más — fue el latido. El tic-tum. Pero diferente. No el tic-tum de los últimos meses que era irregular y que a veces tropezaba y que a veces la despertaba a las tres de la mañana con un salto de doce latidos. Este tic-tum era limpio. Firme. Constante. Como un reloj nuevo. No — como un reloj reparado. Un reloj que había tenido piezas viejas y que ahora tenía piezas nuevas y que las piezas nuevas hacían el mismo trabajo pero mejor, más fuerte, con la energía de lo renovado.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La voz. Rasposa. La voz de alguien que ha tenido un tubo en la garganta durante seis horas.)</span> ¿...Takina?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(De pie. Inmediatamente. La silla moviéndose hacia atrás. Las manos buscando la mano de Chisato — encontrándola, sujetándola, cerrándose sobre ella con la fuerza exacta.)</span> Estoy aquí.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Los ojos enfocándose. La habitación tomando forma. La luz blanca. El monitor que hacía bip-bip-bip con un ritmo que sonaba diferente. Que sonaba nuevo.)</span> Suena... diferente. El tic-tum. Suena...</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Más fuerte.</p>
+      </div>
+
+      <p class="narration">Silencio. El silencio de la sala de recuperación que no era el silencio del hospital — era más íntimo, más pequeño, el silencio de dos personas que se miran después de que una de ellas ha estado en un lugar donde la otra no podía seguirla y que ahora ha vuelto.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Los ojos más abiertos. La lucidez volviendo como el agua vuelve al cauce después de la tormenta.)</span> El doctor... dijo algo. Antes de que me durmieran. Dijo que los componentes eran diferentes. Que eran mejores de lo que él esperaba. Que alguien... <span class="action">(Mirando a Takina. La mirada que leía personas como otros leían balas.)</span> Takina. ¿Qué hiciste?</p>
+      </div>
+
+      <p class="narration">La pregunta. La misma pregunta que Ken había hecho en el pasillo. La misma pregunta que estaba en la tarjeta del índice de esta historia. La pregunta que contenía todo: el miedo, el amor, la sospecha, la gratitud, la preocupación, la certeza de que Takina había hecho algo que excedía los protocolos y que excedía las reglas y que excedía todo excepto una cosa — el amor que Takina sentía por Chisato, que era un amor que no respetaba límites porque los límites son para las cosas que se pueden contener y el amor de Takina no se podía contener.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La mano en la de Chisato. Los ojos en los ojos de Chisato. Sin desviar. Sin esquivar. Sin la evasión que otros usarían — Takina no evadía, Takina miraba de frente porque mirar de frente era la única dirección que conocía.)</span> Encontré los componentes que necesitabas. Los mejores que existen. Los que van a hacer que tu tic-tum funcione durante más tiempo del que cualquier doctor ha prometido.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿A qué precio?</p>
+      </div>
+
+      <p class="narration">El silencio. El silencio verdadero. El silencio que pesaba más que las seis horas de cirugía y más que los treinta y siete segundos de fibrilación y más que los cien días de café y más que todo lo que había sucedido entre el primer episodio y este — el último, el epílogo, el silencio que cierra una temporada y que abre una pregunta.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La pausa. La pausa de Takina. La pausa que no era un cálculo sino una decisión: cuánto decir y cuándo.)</span> A un precio que puedo pagar.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Las lágrimas. No de dolor. No de alegría. Las lágrimas del reconocimiento — las lágrimas de alguien que entiende que la persona que tiene al lado acaba de cruzar una línea por ella y que la línea cruzada no se puede des-cruzar.)</span> Takina...</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Después. Te cuento después. Ahora solo... <span class="action">(Apretando la mano. La mano que no soltó. La mano que no iba a soltar.)</span> Ahora solo escucha el tic-tum. Y quédate.</p>
+      </div>
+
+      <p class="narration">Bip. Bip. Bip. El monitor. Constante. Firme. Setenta y dos latidos por minuto. El ritmo del equilibrio. El ritmo que las piezas nuevas producían con la limpieza de lo que funciona bien, con la solidez de lo que va a durar, con la promesa mecánica de que el corazón prestado de Chisato Nishikigi iba a seguir latiendo.</p>
+
+      <p class="narration">Y en la ventana, Ken terminó el dibujo. No la mano — no la mano abierta ni los cinco dedos ni el gesto del umbral. Otra cosa. Tres tazas vistas desde arriba. La amarilla, la azul, la verde. Y en el centro, un cuenco. Y en el cuenco, las grietas. Y en las grietas, el oro. Y alrededor de todo, un círculo que no era un círculo sino una línea continua que empezaba en una taza y pasaba por otra y pasaba por otra y volvía a la primera sin levantar el lápiz del papel — una línea que conectaba las tres sin fin, sin principio, sin la necesidad de decidir cuál era primera y cuál era última porque la línea era continua y las líneas continuas no tienen jerarquía.</p>
+
+      <p class="narration">Ken arrancó la página del cuaderno. Con cuidado. No con la violencia del cristal roto — con la delicadeza de quien sabe que lo que arranca va a ir a un lugar mejor. Dejó la página en la mesita de Chisato. Junto a la mano de Takina. Junto al monitor que hacía bip-bip-bip.</p>
+
+      <p class="narration">No dijo nada. Salió de la habitación. Las manos en los bolsillos. El cuaderno bajo el brazo. Los pasos suaves en el pasillo blanco del hospital.</p>
+
+      <p class="narration">En el pasillo, Mika le ofreció hojicha del termo. Ken lo aceptó. Bebió. El hojicha estaba tibio — no caliente, no frío. Tibio. La temperatura de las cosas que llevan horas esperando y que siguen ahí.</p>
+
+      <p class="requiem-sfx" aria-label="Monitor estable">—·— —·— —·—</p>
+    </section>
+
+    <div class="petal-divider" aria-hidden="true">🖤 ✦ 🖤</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">🌸</span> Escena IX — Su Historia No Ha Terminado</div>
+
+      <p class="narration">Catorce de diciembre. Diez días después de la cirugía. Día ciento diez del café de Takina.</p>
+
+      <p class="narration">LycoReco. Las siete y treinta de la mañana. La luz de diciembre entrando por la ventana — la luz de invierno que es más fría que la de otoño pero que es más clara, como si el frío limpiara el aire y el aire limpio dejara pasar más luz y la luz más limpia iluminara las cosas con una precisión que las otras estaciones no tienen.</p>
+
+      <p class="narration">Tres tazas en la mesa. Amarilla. Azul. Verde. Noventa y dos grados. Colombia. Canela en la verde. El cuenco de kintsugi en el centro con el hojicha de la mañana que Mika había servido a las seis, antes que nadie bajara, con la paciencia de los jardineros que riegan antes del amanecer.</p>
+
+      <p class="narration">Chisato tenía el brazo izquierdo vendado todavía — la incisión del pecho, no la del brazo de noviembre. Esta venda era más grande. Más seria. La venda que cubría la cicatriz de la cirugía que le había dado más tiempo. La cicatriz que iba a quedarse. La cicatriz que — como el kintsugi, como el cuenco, como las grietas doradas — no era una marca de lo que se había roto sino de lo que se había reparado.</p>
+
+      <p class="narration">Ken llegó a las nueve y cuarenta y siete. El cuaderno. Los zapatos limpios. La campanilla. Takina miró hacia la puerta — el gesto de los cien días, el gesto de verificación, el gesto de cuidado. Ken se sentó. Abrió el cuaderno. Empezó a dibujar.</p>
+
+      <p class="narration">La normalidad. La normalidad nueva. La normalidad que tenía grietas doradas.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Mirando la taza amarilla. Mirando el cuenco. Mirando la ventana.)</span> ¿Saben qué es lo raro?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">¿Qué?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Que suena diferente. El tic-tum. Suena... no sé. Suena como si tuviera más espacio. Como si los latidos fueran más anchos. <span class="action">(La mano sobre el pecho. Pero no el gesto de verificación — el gesto de reconocimiento. La mano que toca algo que funciona y que lo toca no por miedo sino por gratitud.)</span> Suena a más tiempo.</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Sin levantar la vista del cuaderno. Dibujando.)</span> Suena a más café.</p>
+      </div>
+
+      <p class="narration">La risa. La risa de Chisato que llenó LycoReco como el sol llena la ventana. La risa que era la primera risa completa desde la cirugía — no la risa ensayada, no la risa de la valentía, sino la risa que nace del centro del pecho, del lugar donde el corazón nuevo latía con las piezas que Takina había conseguido.</p>
+
+      <p class="narration">Takina no rió. Takina sonrió. La sonrisa de Takina que era como una línea de código: precisa, funcional, y suficiente. La sonrisa que decía: sí, suena a más café. Suena a más mañanas. Suena a más tiempo del que teníamos ayer.</p>
+
+      <p class="narration">Pero debajo de la sonrisa — debajo de la superficie donde la normalidad nueva existía con sus grietas doradas — Takina tenía algo que los otros no tenían. Un peso. Un costo. La promesa que había hecho en la azotea a las veintitrés y quince de una noche de noviembre. La misión sin registro. La misión que todavía no tenía fecha pero que iba a tener fecha. La misión que era el precio de las piezas nuevas del corazón de Chisato.</p>
+
+      <p class="narration">Chisato no sabía. Todavía no. El "después" que Takina había prometido no había llegado. El "te cuento después" estaba pendiente como una deuda, como una página en blanco en un cuaderno, como una taza llena que nadie ha bebido.</p>
+
+      <p class="narration">Ken no sabía. Pero Ken sospechaba — porque Ken era el artista que veía lo que otros no veían, el artista que dibujaba las líneas invisibles, el artista que había aprendido a leer la tensión en los hombros de Takina como leía la composición de un paisaje. Y la tensión estaba ahí. Sutil. Casi invisible. Pero ahí.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Terminando el dibujo. Girando el cuaderno hacia Takina. Mostrándole lo que había dibujado: tres tazas. Un cuenco. Una línea continua. Y debajo, una pregunta escrita en letra pequeña.)</span> Cuando estés lista.</p>
+      </div>
+
+      <p class="narration">Takina miró el dibujo. Leyó la pregunta. La pregunta que Ken había escrito debajo de las tres tazas: "¿Qué hiciste?" La misma pregunta. La tercera vez. La primera la hizo Ken en el pasillo del hospital. La segunda la hizo Chisato en la cama de recuperación. La tercera estaba aquí, en tinta, en papel, en el cuaderno de un artista que entendía que las preguntas escritas son más pacientes que las preguntas habladas porque las preguntas escritas esperan.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Mirando a Ken. Mirando a Chisato. Mirando las tres tazas. El cuenco. El oro en las grietas. Asintiendo. El asentimiento de Takina, que era una promesa.)</span> Les voy a contar. A los dos. Pronto. <span class="action">(La taza azul. El último sorbo.)</span> Pero no hoy. Hoy es día de café.</p>
+      </div>
+
+      <p class="narration">Chisato miró a Takina. Ken miró a Takina. Mika, desde la barra, miró a los tres. Y nadie dijo nada más. Porque las mesas donde se sientan tres personas que se quieren de tres maneras diferentes tienen un lenguaje propio — un lenguaje que no necesita palabras para comunicar lo esencial: que estamos aquí, que estamos juntos, que las grietas tienen oro, y que el café está caliente.</p>
+
+      <p class="stage">· · ·</p>
+
+      <p class="narration">Afuera, el cerezo de la esquina seguía desnudo. Las ramas negras contra el cielo de diciembre. Sin hojas. Sin flores. Sin nada visible que indicara que debajo de la corteza, en los canales microscópicos del xilema, la savia estaba empezando a moverse. Imperceptiblemente. Milímetro a milímetro. La savia que en marzo iba a subir y que iba a abrir los primeros brotes y que iba a cubrir las ramas de pétalos rosados que iban a caer sobre la acera de Sumida como lluvia gentil, como confeti de primavera, como la promesa cumplida de los árboles que no mueren en invierno sino que esperan.</p>
+
+      <p class="narration">Y dentro de LycoReco, tres tazas y un cuenco de kintsugi en una mesa junto a una ventana que dejaba entrar la luz de diciembre.</p>
+
+      <p class="narration">Y dentro de Chisato, un corazón prestado que latía con piezas nuevas.</p>
+
+      <p class="narration">Y dentro de Takina, una promesa que todavía no había sido dicha.</p>
+
+      <p class="narration">Y dentro de Ken, un dibujo que era un mapa de vuelta a la mesa.</p>
+
+      <p class="narration">Y en la barra, Mika recogió las tazas. Lavó las tres. Lavó el cuenco. Las secó. Las devolvió a la repisa. Preparó hojicha para la noche. Y sonrió — la sonrisa de Mika, que era la sonrisa de los jardineros que saben que la primavera siempre vuelve.</p>
+
+      <p class="stage"><em>Su historia no ha terminado.</em></p>
+    </section>
+
+    <div class="end-card">
+      <p class="end-title">Fin del Epílogo</p>
+      <p class="end-subtitle">Réquiem para un Corazón Prestado</p>
+      <div class="petal-divider" aria-hidden="true">🖤 ✦ 🌸 ✦ 🖤</div>
+      <p class="end-preview">
+        <em>Corazones Prestados — Temporada 1</em><br><br>
+        Tres tazas. Un cuenco. Doce episodios y un epílogo.<br>
+        Las grietas son el lugar por donde entra el oro.<br><br>
+        <strong>Gracias por leer.</strong><br>
+        <em>Su historia no ha terminado.</em>
+      </p>
+    </div>
+
+  </article>
+
+  <nav class="ep-nav" aria-label="Navegación de episodios">
+    <a href="ep12.html">← Episodio 12</a>
+    <a href="../index.html">Índice</a>
+    <span class="disabled">Fin de Temporada</span>
+  </nav>
+
+  <footer class="ep-footer">
+    Lycoris Recoil — Corazones Prestados · Temporada 1<br>
+    Lycoris Recoil © Spider Lily / A-1 Pictures · Fan fiction sin fines de lucro
+  </footer>
+
+</body>
+</html>
