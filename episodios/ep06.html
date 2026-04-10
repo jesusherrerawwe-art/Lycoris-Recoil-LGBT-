@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Episodio 06 — Palabras que Queman | Corazones Prestados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       EPISODIO 06 — PALABRAS QUE QUEMAN
+       Theme: Cracking Glass / Static Spark / Storm Pressure
+       ═══════════════════════════════════════════ */
+
+    :root {
+      --bg-primary: #060810;
+      --bg-page: #0a0d16;
+      --bg-panel: #10141e;
+      --text-body: #d8dce8;
+      --text-dialogue: #edf0f8;
+      --text-narration: #b0b8cc;
+      --text-muted: #5c6680;
+      --text-stage: #7080a0;
+      --accent-crack: #c0d0ff;
+      --accent-spark: #88a0e0;
+      --accent-storm: #6070b0;
+      --accent-warm: #f5c87a;
+      --accent-gold: #d4a855;
+      --accent-leaf: #8bc7a3;
+      --accent-blue: #7ba4d4;
+      --border-soft: rgba(136, 160, 224, 0.10);
+      --border-chapter: rgba(136, 160, 224, 0.22);
+      --glow-static: rgba(192, 208, 255, 0.06);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Lora', 'Noto Sans JP', serif;
+      background: var(--bg-primary);
+      color: var(--text-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.9;
+    }
+
+    /* ── Cracking Glass / Static Lines ── */
+    .static-field {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .crack-line {
+      position: absolute;
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(192, 208, 255, 0.06) 20%,
+        rgba(136, 160, 224, 0.12) 50%,
+        rgba(192, 208, 255, 0.06) 80%,
+        transparent
+      );
+      opacity: 0;
+      animation: crack-flash ease-in-out infinite;
+    }
+
+    .crack-line:nth-child(1)  { left: 8%;   height: 40vh; top: 10%; animation-duration: 12s; animation-delay: 0s; }
+    .crack-line:nth-child(2)  { left: 22%;  height: 55vh; top: 5%;  animation-duration: 18s; animation-delay: 4s; }
+    .crack-line:nth-child(3)  { left: 37%;  height: 35vh; top: 20%; animation-duration: 14s; animation-delay: 7s; }
+    .crack-line:nth-child(4)  { left: 53%;  height: 60vh; top: 0%;  animation-duration: 20s; animation-delay: 2s; }
+    .crack-line:nth-child(5)  { left: 68%;  height: 45vh; top: 15%; animation-duration: 16s; animation-delay: 9s; }
+    .crack-line:nth-child(6)  { left: 82%;  height: 50vh; top: 8%;  animation-duration: 22s; animation-delay: 5s; }
+    .crack-line:nth-child(7)  { left: 45%;  height: 30vh; top: 35%; animation-duration: 15s; animation-delay: 11s; }
+    .crack-line:nth-child(8)  { left: 92%;  height: 40vh; top: 12%; animation-duration: 19s; animation-delay: 3s; }
+
+    @keyframes crack-flash {
+      0%, 85%, 100% { opacity: 0; }
+      88%  { opacity: 0.5; }
+      90%  { opacity: 0; }
+      92%  { opacity: 0.7; }
+      94%  { opacity: 0; }
+    }
+
+    /* ── Static Pulse SFX Text ── */
+    .static-sfx {
+      text-align: center;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: var(--accent-crack);
+      letter-spacing: 0.5em;
+      margin: 2rem 0;
+      opacity: 0.25;
+      animation: static-buzz 2s ease-in-out infinite;
+    }
+
+    @keyframes static-buzz {
+      0%, 100% { opacity: 0.15; transform: translateX(0); }
+      25%      { opacity: 0.35; transform: translateX(1px); }
+      50%      { opacity: 0.20; transform: translateX(-1px); }
+      75%      { opacity: 0.40; transform: translateX(0.5px); }
+    }
+
+    /* ── Episode Header ── */
+    .ep-header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      background:
+        radial-gradient(ellipse at 30% 80%, rgba(96, 112, 176, 0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 20%, rgba(136, 160, 224, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(192, 208, 255, 0.03) 0%, transparent 40%),
+        var(--bg-primary);
+    }
+
+    .ep-back-link {
+      display: inline-block;
+      margin-bottom: 2.5rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border-soft);
+      padding: 0.35rem 1.2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .ep-back-link:hover {
+      color: var(--accent-crack);
+      border-color: var(--accent-spark);
+      background: rgba(136, 160, 224, 0.05);
+    }
+
+    .ep-number {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .ep-act-badge {
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--accent-spark);
+      color: var(--accent-spark);
+      border-radius: 50px;
+      background: rgba(136, 160, 224, 0.05);
+      margin-bottom: 1.5rem;
+    }
+
+    .ep-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--text-dialogue) 0%, var(--accent-crack) 50%, var(--accent-spark) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ep-title-jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .ep-opening-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.8;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    /* ── Main Content / Reading Area ── */
+    .ep-content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* ── Scene Blocks ── */
+    .scene {
+      margin-bottom: 3.5rem;
+    }
+
+    .scene-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent-spark);
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .scene-heading .scene-icon {
+      margin-right: 0.5rem;
+    }
+
+    /* ── Narrative Paragraphs ── */
+    .narration {
+      font-size: 1rem;
+      color: var(--text-narration);
+      margin-bottom: 1.4rem;
+      text-indent: 1.5rem;
+      line-height: 2;
+    }
+
+    .narration:first-of-type {
+      text-indent: 0;
+    }
+
+    .narration em {
+      color: var(--accent-crack);
+      font-style: italic;
+    }
+
+    .narration strong {
+      color: var(--text-dialogue);
+      font-weight: 600;
+    }
+
+    /* ── First Letter Drop Cap ── */
+    .drop-cap::first-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 3.2rem;
+      float: left;
+      line-height: 0.8;
+      margin-right: 0.12em;
+      margin-top: 0.1em;
+      color: var(--accent-spark);
+      font-weight: 700;
+    }
+
+    /* ── Dialogue ── */
+    .dialogue {
+      margin: 1.5rem 0;
+      padding: 0 0 0 1.2rem;
+      border-left: 2px solid var(--border-chapter);
+    }
+
+    .dialogue .speaker {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+
+    .dialogue .line {
+      font-size: 1rem;
+      color: var(--text-dialogue);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .dialogue .line .action {
+      font-style: normal;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Speaker Colors */
+    .speaker-chisato  { color: var(--accent-warm); }
+    .speaker-takina   { color: var(--accent-blue); }
+    .speaker-ken      { color: var(--accent-leaf); }
+    .speaker-kurumi   { color: #c792ea; }
+    .speaker-mizuki   { color: #f7768e; }
+    .speaker-mika     { color: #a9b1d6; }
+
+    .dialogue.chisato { border-left-color: var(--accent-warm); }
+    .dialogue.takina  { border-left-color: var(--accent-blue); }
+    .dialogue.ken     { border-left-color: var(--accent-leaf); }
+    .dialogue.kurumi  { border-left-color: #c792ea; }
+    .dialogue.mizuki  { border-left-color: #f7768e; }
+    .dialogue.mika    { border-left-color: #a9b1d6; }
+
+    /* ── Internal Thought ── */
+    .thought {
+      font-style: italic;
+      color: var(--text-muted);
+      text-align: center;
+      margin: 2rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .thought::before,
+    .thought::after {
+      content: '⚡';
+      display: block;
+      color: var(--accent-crack);
+      opacity: 0.2;
+      font-size: 0.7rem;
+      margin: 0.8rem 0;
+    }
+
+    /* ── Stage Directions ── */
+    .stage {
+      font-size: 0.82rem;
+      color: var(--text-stage);
+      font-style: italic;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* ── Scene Dividers ── */
+    .scene-break {
+      text-align: center;
+      margin: 3rem 0;
+      color: var(--accent-spark);
+      font-size: 1.2rem;
+      opacity: 0.4;
+      letter-spacing: 0.5em;
+    }
+
+    .crack-divider {
+      text-align: center;
+      margin: 2.5rem 0;
+      font-size: 0.9rem;
+      opacity: 0.5;
+    }
+
+    /* ── Sound Effects / Onomatopoeia ── */
+    .sfx {
+      text-align: center;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.3em;
+      margin: 1.5rem 0;
+      opacity: 0.7;
+    }
+
+    /* ── End Card ── */
+    .end-card {
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-chapter);
+    }
+
+    .end-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .end-preview {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+
+    .end-preview em {
+      color: var(--accent-crack);
+    }
+
+    /* ── Navigation ── */
+    .ep-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .ep-nav a {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .ep-nav a:hover {
+      color: var(--accent-crack);
+      border-color: var(--accent-spark);
+      background: rgba(136, 160, 224, 0.05);
+    }
+
+    .ep-nav .disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* ── Footer ── */
+    .ep-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .ep-header {
+        padding: 3rem 1.5rem 2rem;
+      }
+
+      .ep-content {
+        padding: 2rem 1.2rem 3rem;
+      }
+
+      .narration {
+        text-indent: 1rem;
+      }
+
+      .dialogue {
+        padding-left: 0.8rem;
+      }
+
+      .drop-cap::first-letter {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* ── Accessibility ── */
+    @media (prefers-reduced-motion: reduce) {
+      .crack-line {
+        animation: none;
+        display: none;
+      }
+
+      .static-sfx {
+        animation: none;
+        opacity: 0.25;
+      }
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--accent-spark);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cracking Glass / Static Lines (ambient) -->
+  <div class="static-field" aria-hidden="true">
+    <div class="crack-line"></div>
+    <div class="crack-line"></div>
+    <div class="crack-line"></div>
+    <div class="crack-line"></div>
+    <div class="crack-line"></div>
+    <div class="crack-line"></div>
+    <div class="crack-line"></div>
+    <div class="crack-line"></div>
+  </div>
+
+  <!-- ═══════════ EPISODE HEADER ═══════════ -->
+  <header class="ep-header">
+    <a href="../index.html" class="ep-back-link">← Índice de Episodios</a>
+    <span class="ep-number">Episodio 06</span>
+    <div class="ep-act-badge">Acto II — Verano</div>
+    <h1 class="ep-title">Palabras que Queman</h1>
+    <p class="ep-title-jp">焼けつく言葉</p>
+    <blockquote class="ep-opening-quote">
+      "No son las balas las que rompen a la gente.<br>
+      Son las palabras que se dicen demasiado tarde,<br>
+      las que se dicen demasiado fuerte,<br>
+      y las que nunca se dicen."
+    </blockquote>
+  </header>
+
+  <!-- ═══════════ CHAPTER CONTENT ═══════════ -->
+  <article class="ep-content">
+
+    <!-- ╌╌╌╌╌ ESCENA 1: EL CAFÉ QUE TAKINA PREPARÓ ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">☕</span> Escena I — El Café que Prometió
+      </div>
+
+      <p class="narration drop-cap">Takina llegó a las siete y cuarto de la mañana.</p>
+
+      <p class="narration">Una hora y media antes de abrir. Antes que Mika. Antes que las palomas del alféizar que siempre eran las primeras en reclamar la mañana como suya. Antes que cualquier sonido que no fuera el zumbido eléctrico de un refrigerador industrial y el eco de sus propios pasos contra el suelo de madera de LycoReco, que crujía de una manera diferente cuando no había nadie más — como si la cafetería misma murmurara en la oscuridad, diciendo cosas que solo se dicen cuando estás solo con un edificio que ha visto demasiado.</p>
+
+      <p class="narration">Había dormido tres horas y veintidós minutos. No las contó — las calculó, como se calcula la trayectoria de un disparo o el ángulo de entrada de una operación de infiltración: datos que informan la siguiente decisión. Tres horas y veintidós minutos era suficiente. Takina había operado en misiones de la DA con menos sueño y más presión. Lo que no era suficiente era el coraje, que es más difícil de medir que el descanso y más necesario que cualquiera de los dos.</p>
+
+      <p class="narration">Pero había hecho una promesa. Tres oraciones, dieciséis palabras, un mensaje enviado a las nueve y cuarenta y siete de la noche anterior: <em>"Mañana te preparo yo el café."</em> Y Takina Inoue no rompía promesas. No porque fuera noble — porque era obstinada, que a veces produce los mismos resultados.</p>
+
+      <p class="narration">Encendió las luces de la barra. Abrió la alacena de los granos. Colombia. Chisato lo había dicho en su último mensaje: <em>el café de mañana es Colombia</em>. Takina no sabía distinguir un grano colombiano de un grano etíope mirándolo — para ella, todos los granos de café eran variaciones de marrón con promesas de cafeína. Pero sabía los nombres porque Chisato los repetía como letanías sagradas: Colombia para los días nuevos. Etiopía para los días difíciles. Guatemala cuando llovía. Kenia cuando necesitaba recordar que el mundo era grande y que ella todavía tenía cosas por probar en él.</p>
+
+      <p class="narration">Midió los granos. Treinta y dos gramos para dos tazas, molienda media, agua a noventa y dos grados. Chisato usaba noventa y tres, pero Takina había leído en un manual de baristas de la DA — sí, la DA tenía un manual de baristas; la agencia secreta más sobredocumentada de Japón tenía protocolo para hacer café — que noventa y dos producía menos amargor en los tuestes medios, y Colombia era un tueste medio, así que noventa y dos.</p>
+
+      <p class="narration">Calentó el agua. Preparó el filtro. Vertió en círculos concéntricos, despacio, con la paciencia de alguien que normalmente no tiene paciencia para nada que no involucre un gatillo pero que hoy, por razones que todavía estaba procesando, trataba cada gota de agua como si fuera munición de precisión.</p>
+
+      <p class="narration">El aroma llenó la cafetería. Chocolate. Nuez. Un toque de caramelo. El olor del café bien hecho por alguien que no sabe hacerlo bien pero que se esfuerza tanto que la diferencia es casi imperceptible.</p>
+
+      <p class="narration">Sirvió dos tazas. La amarilla para Chisato. La azul para ella.</p>
+
+      <p class="narration">No la verde. Hoy no había tercera taza.</p>
+
+      <p class="narration">Se sentó en la barra. Esperó. Y mientras esperaba, ensayó mentalmente lo que iba a decir cuando Chisato bajara — las palabras que había estado construyendo durante tres horas y veintidós minutos de insomnio, apilándolas como se apilan las balas en un cargador: con cuidado, en orden, sabiendo que el orden importa porque una bala en la recámara equivocada puede hacer que todo el mecanismo se trabe.</p>
+
+      <p class="narration">Pero las palabras que ensayó y las palabras que terminó diciendo serían — como casi siempre — dos idiomas completamente diferentes.</p>
+    </section>
+
+    <div class="crack-divider" aria-hidden="true">⚡ ✦ ⚡</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 2: LA MAÑANA ELÉCTRICA ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">⚡</span> Escena II — El Silencio Antes del Trueno
+      </div>
+
+      <p class="narration">Chisato bajó a las ocho y cuarto.</p>
+
+      <p class="narration">No con el estruendo habitual — no con la puerta abriéndose de golpe, no con el "¡BUENOS DÍAAAS!" que funcionaba como alarma sísmica y despertador y declaración de principios simultáneamente. Hoy Chisato Nishikigi bajó las escaleras despacio, con los pies descalzos, el pelo suelto todavía húmedo de la ducha, y una camiseta de dormir que decía "I ♥ COFFEE" con un corazón que se estaba despegando en las esquinas porque Chisato lavaba su ropa con la misma intensidad con la que hacía todo lo demás: demasiada.</p>
+
+      <p class="narration">Se detuvo en el último escalón.</p>
+
+      <p class="narration">Olía a café. Café bueno. Café preparado por alguien que había estado ahí antes que ella, que había medido y calentado y vertido y esperado, y cuyo perfume de precisión competía con el aroma del grano como dos corrientes de aire que se encuentran en el mismo pasillo.</p>
+
+      <p class="narration">Takina estaba sentada en la barra. Dos tazas. Amarilla y azul. Sin verde.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Desde el escalón. La voz suave. La voz de abajo, la que usaba cuando la superficie estaba en reparación.)</span> Viniste temprano.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sin girar. Mirando las dos tazas como un general mira un mapa antes de una batalla.)</span> Dije que te haría el café.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Bajando el último escalón. Acercándose. Sentándose en el taburete de al lado — no enfrente, al lado, a esa distancia que es demasiado cerca para ser profesional y demasiado lejos para ser lo que realmente quiere ser.)</span> Colombia.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Dijiste que era Colombia.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Tomando la taza amarilla. Oliendo. Cerrando los ojos medio segundo — ese gesto que hacía con cada primer sorbo, ese pequeño ritual que era mitad evaluación y mitad gratitud.)</span> Huele perfecto.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Usé noventa y dos grados. No noventa y tres.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Abriendo los ojos. Mirándola.)</span> ¿Cómo sabes que yo uso noventa y tres?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Porque te observo. <span class="action">(Pausa. Un medio segundo donde la frase cuelga en el aire como una bala a mitad de camino.)</span> Cuando preparas café. Observo los parámetros. Es... eficiencia operativa.</p>
+      </div>
+
+      <p class="narration">Eficiencia operativa. La excusa favorita de Takina para todo lo que sentía y no sabía nombrar. <em>La observo porque es mi compañera de operaciones. Memorizo sus parámetros porque podría necesitarlos en una misión. Le noto la temperatura del café porque la atención al detalle es una habilidad de combate.</em> Todo era táctico. Todo era justificable. Todo era una mentira delgada como papel de arroz que cualquiera podía ver a través de ella si la miraba con suficiente atención.</p>
+
+      <p class="narration">Chisato la miró con suficiente atención.</p>
+
+      <p class="narration">Y no dijo nada. Bebió el café. Y sonrió — pero no la sonrisa estándar, no la de alta potencia, no la que usaba como escudo. Una sonrisa más pequeña. Más lenta. La sonrisa de alguien que acaba de recibir algo que no esperaba y que necesita un momento para decidir dónde guardarlo porque es demasiado valioso para dejarlo en cualquier sitio.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Está mejor que el mío.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Eso no es posible.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Takina. Está mejor. Un grado menos. Menos amargor. <span class="action">(Riendo suavemente.)</span> Me acabas de mejorar mi propia receta.</p>
+      </div>
+
+      <p class="narration">Y por un instante — un instante breve y perfecto y frágil como el cristal más fino — todo estuvo bien. Las dos sentadas en la barra. Las dos tazas. El café colombiano. El silencio cómodo de dos personas que se conocen lo suficiente para no necesitar palabras y que, sin embargo, tienen demasiadas que decirse.</p>
+
+      <p class="narration">El instante duró cuatro minutos.</p>
+
+      <p class="narration">Porque a las ocho y diecinueve, el teléfono de Chisato vibró.</p>
+
+      <p class="stage"><em>Ken: "Buenos días, Nishikigi-san. ¿Está bien si llego más temprano hoy también? Quiero terminar un dibujo. No quiero molestar."</em></p>
+
+      <p class="narration">Chisato leyó el mensaje. La sonrisa no desapareció — se transformó. Pasó de la sonrisa-para-Takina a la sonrisa-para-Ken, y la diferencia entre las dos era tan sutil que la mayoría de las personas no la habrían notado. Pero Takina no era la mayoría de las personas. Takina era alguien que distinguía calibres de bala por el sonido y que podía leer una habitación en tres segundos, y la diferencia entre esas dos sonrisas — la calidez exacta, la apertura exacta, la dirección exacta en la que se curvaban los labios — era para ella tan evidente como la diferencia entre un nueve milímetros y un cuarenta y cinco.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Escribiendo la respuesta con la velocidad de alguien cuyo pulgar ha completado un doctorado en comunicación digital.)</span> Ken dice que si puede venir más temprano. <span class="action">(Mirando a Takina. Y en esa mirada había algo nuevo: cautela. Chisato Nishikigi, que nunca era cautelosa, que cruzaba calles sin mirar y entraba a edificios hostiles silbando, estaba siendo cautelosa con Takina Inoue.)</span> ¿Está... bien?</p>
+      </div>
+
+      <p class="narration">La pregunta no era "¿está bien si Ken viene temprano?" La pregunta era: <em>¿estás bien tú? ¿Estás bien con esto? ¿Puedes decirme lo que sientes sin que tenga que adivinarlo? ¿Puedes darme un mapa de lo que está pasando dentro de ti para que yo pueda navegar sin rompernos?</em></p>
+
+      <p class="narration">Takina tomó un sorbo de café. Colombia. Noventa y dos grados. Sin amargor.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Es un café. Puede venir quien quiera.</p>
+      </div>
+
+      <p class="narration">Seis palabras. Cada una un ladrillo. Un muro construido en tiempo real con los materiales más fríos que Takina tenía a disposición.</p>
+
+      <p class="narration">Chisato las recibió como se recibe un golpe suave que duele más que uno fuerte — sin la marca visible, sin el dramatismo, pero con la reverberación profunda de algo que va a doler durante días. Bajó la vista a su teléfono. Escribió: <em>"¡Claro! Ven cuando quieras 🌞"</em> y envió.</p>
+
+      <p class="narration">Y la grieta entre la mañana perfecta y lo que vino después fue exactamente del tamaño de un emoji de sol que se envía mientras algo se está apagando.</p>
+
+      <p class="static-sfx" aria-label="Estática contenida">— — — — —</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 3: LA MESA DE TRES ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🪑</span> Escena III — La Geometría que Nadie Pidió
+      </div>
+
+      <p class="narration">Ken llegó a las nueve y cuarto con el cuaderno nuevo — no el de siempre, sino uno más grande, A4, con tapa dura negra que había comprado el día anterior en la papelería de Nihonbashi con el dinero que normalmente reservaba para los dorayaki de la semana, porque había decidido que lo que necesitaba dibujar requería más espacio que el que sus cuadernos pequeños permitían.</p>
+
+      <p class="sfx">— tin, tin —</p>
+
+      <p class="narration">Lo que necesitaba dibujar era un retrato. No lo había decidido conscientemente — Ken rara vez decidía sus dibujos conscientemente; aparecían como aparecen las canciones que tarareas sin darte cuenta, como brotando de una parte del cerebro que no pide permiso. Pero sabía, con la certeza silenciosa de alguien que lleva años conversando con su propia mano a través de un lápiz, que el retrato iba a ser de Chisato. Porque todos los caminos de su cuaderno, desde hacía semanas, terminaban ahí. En ella. En la curva de su sonrisa. En la inclinación de su cabeza cuando escuchaba. En la forma en que la luz atravesaba los mechones de su cabello rubio y creaba sombras doradas que no tenían equivalente en ninguna paleta de colores que Ken hubiera estudiado.</p>
+
+      <p class="narration">Se sentó en la tercera silla. La suya. Puso la mochila en el suelo. Abrió el cuaderno nuevo. Y levantó la vista.</p>
+
+      <p class="narration">Takina estaba detrás de la barra, limpiando la máquina de espresso con la concentración de un cirujano en medio de una operación. No lo miró. No dijo buenos días. El aire entre la barra y la mesa de la ventana tenía la densidad de algo que no es silencio exactamente — es más bien la versión acústica de una pared de cristal: transparente, invisible, y completamente impenetrable.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Suave, como quien prueba la temperatura del agua antes de entrar.)</span> Buenos días, Takina-san.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sin levantar la vista de la máquina.)</span> Buenos días.</p>
+      </div>
+
+      <p class="narration">El mismo "buenos días" de ayer. Sin nombre. Sin mirada. Un saludo que cumplía la función mínima de la cortesía sin añadir un solo gramo de calidez humana. Y Ken — que era sensible a las temperaturas emocionales como un termómetro es sensible al mercurio — registró el frío y no supo qué hacer con él excepto guardarlo en la misma carpeta mental donde guardaba todas las cosas que dolían: lejos de la superficie, cerca del corazón.</p>
+
+      <p class="narration">Chisato apareció con la taza verde. La puso frente a Ken con el cuidado y la ceremonia de siempre, pero hoy había algo más en el gesto — una compensación, un intento de llenar con calidez extra el vacío que Takina dejaba con cada sílaba cortada.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Hoy es Colombia. Pero le puse un toque de canela porque — <span class="action">(señalando hacia la barra con un gesto que intentaba ser casual y que no lo era en absoluto)</span> — Takina hizo el café base y está increíble, así que le sumé canela para que fuera algo nuevo. Colaboración. <span class="action">(Sonrisa.)</span> Equipo.</p>
+      </div>
+
+      <p class="narration">La palabra "equipo" flotó en el aire como una bandera de tregua que nadie había pedido. Chisato estaba haciendo lo que mejor sabía hacer: conectar. Unir. Tejer hilos entre personas que se estaban separando. Era su superpoder y su maldición — la capacidad de ver el tejido social y no poder dejar de repararlo, incluso cuando la reparación la lastimaba, incluso cuando algunos hilos necesitaban romperse para que los nuevos pudieran formarse.</p>
+
+      <p class="narration">Ken tomó el café. Lo probó. Cerró los ojos.</p>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line">Está... <span class="action">(buscando la palabra, porque Ken siempre buscaba la palabra exacta, porque para él las palabras eran tan importantes como las líneas de un dibujo: una línea equivocada cambia la cara entera)</span> ...gentil. Sabe gentil.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La cara iluminándose.)</span> ¡Gentil! ¡Nadie ha descrito un café como "gentil"! ¡Es perfecto! <span class="action">(Girando hacia la barra.)</span> ¡Takina! ¡Ken dice que el café sabe gentil! ¿No es la mejor descripción que has escuchado?</p>
+      </div>
+
+      <p class="narration">Takina dejó de limpiar la máquina. Levantó la vista. Miró a Chisato, que estaba de pie entre la mesa y la barra, girada hacia ella con esa expresión de puente humano que construía entre dos orillas que no le habían pedido ser conectadas. Después miró a Ken, sentado con su cuaderno nuevo y su taza verde y su sonrisa gentil — siempre gentil, siempre suave, siempre como si estuviera pidiendo disculpas por existir en un espacio que no era originalmente suyo.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Es un café. No es gentil ni cruel. Es una bebida caliente.</p>
+      </div>
+
+      <p class="narration">Las palabras cayeron como piedras en un estanque quieto. No eran crueles. No eran agresivas. Eran peores: eran duras con la frialdad específica de alguien que sabe exactamente dónde pegar para que el golpe no deje marca visible pero sí un moretón profundo que va a tardar semanas en sanar.</p>
+
+      <p class="narration">Chisato perdió la sonrisa. No se la quitaron — se le cayó, como se caen las cosas de las manos cuando algo inesperado te golpea el codo. Un segundo estaba ahí; al siguiente, no.</p>
+
+      <p class="narration">Ken bajó la vista al cuaderno. Abrió la primera página. Empezó a dibujar algo — lo que fuera, cualquier cosa, una línea, un círculo, un refugio de grafito donde esconderse del silencio que acababa de caer sobre la mesa de la ventana como una sábana sobre un mueble que ya nadie usa.</p>
+
+      <p class="narration">Nadie habló durante once minutos.</p>
+
+      <p class="narration">Once minutos en LycoReco sin que nadie hablara era el equivalente a once años en cualquier otro lugar.</p>
+    </section>
+
+    <div class="crack-divider" aria-hidden="true">⚡ ✦ ⚡</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 4: MIZUKI VE TODO ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">👁️</span> Escena IV — El Diagnóstico
+      </div>
+
+      <p class="narration">Mizuki llegó a las diez con su café de la competencia — un latte de avena de la cadena que Chisato consideraba un insulto a la profesión — y un radar emocional que, como de costumbre, detectó el problema antes de quitarse los zapatos.</p>
+
+      <p class="narration">Evaluó la escena en tres segundos: Takina detrás de la barra, funcionando en modo automático, sirviendo café a clientes con la eficiencia de una máquina expendedora que tiene mejor puntería. Chisato en la mesa de la ventana con Ken, hablando con la energía de siempre pero con los ojos haciendo viajes periódicos a la barra — como un faro que gira y gira y siempre vuelve al mismo punto. Ken dibujando con la concentración de alguien que está usando el cuaderno como trinchera.</p>
+
+      <p class="narration">Diagnóstico: tormenta en progreso. Categoría cuatro. Landfall inminente.</p>
+
+      <p class="narration">Mizuki se sentó en la barra. Al lado de Takina. Con la deliberación de un cirujano que elige el punto exacto donde hacer la incisión.</p>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line"><span class="action">(Bebiendo su latte sin culpa alguna.)</span> Oye. Pregunta casual. ¿Cuántas horas dormiste?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Suficientes.</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Eso significa menos de cuatro. <span class="action">(Mirando hacia la mesa de la ventana donde Chisato le estaba explicando algo a Ken con las manos, porque Chisato explicaba todo con las manos, como si las palabras necesitaran coreografía para ser completas.)</span> Y la otra pregunta casual: ¿cuántas veces has mirado esa mesa en los últimos cinco minutos?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">No cuento las veces que miro las mesas. Eso sería patológico.</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Siete. Fueron siete. <span class="action">(Sorbiendo el latte con la calma de alguien que sabe exactamente lo que está haciendo.)</span> Mira, Takina. Puedes seguir puliendo esa máquina de espresso como si le debieras dinero, o puedes hablar conmigo. Y antes de que digas "estoy bien" — tú y yo sabemos que "estoy bien" es la frase menos honesta del idioma japonés, y eso dice mucho considerando que tenemos tres niveles de cortesía para decir "no".</p>
+      </div>
+
+      <p class="narration">Takina dejó de limpiar la máquina. La miró. Mizuki Nakahara tenía esa capacidad irritante de ser absolutamente correcta en los peores momentos — de decir en voz alta las cosas que Takina necesitaba escuchar exactamente cuando Takina menos quería escucharlas. Era como un detector de minas emocionales que no solo las encontraba sino que las detonaba a propósito para que dejaran de ser peligrosas.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Bajando la voz. No porque hubiera alguien cerca — el café estaba vacío excepto por la mesa de la ventana — sino porque algunas cosas se dicen en voz baja como si el volumen pudiera reducir su importancia.)</span> ¿Cómo... <span class="action">(pausa)</span> ...cómo se supone que funciona esto?</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">¿"Esto"?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">La mesa. Las tres sillas. Las tres tazas. Él viene todos los días. Ella le sonríe. Yo preparo café. Todo el mundo actúa como si esto fuera normal. Como si una mesa pudiera tener tres lados iguales sin que nadie se caiga por uno.</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line"><span class="action">(Dejando el latte. Mirándola con la seriedad que solo usaba cuando algo realmente importaba.)</span> Takina. ¿Estás celosa?</p>
+      </div>
+
+      <p class="narration">La palabra "celosa" detonó en el espacio entre ellas como una granada de fragmentación emocional. Takina la recibió con el cuerpo entero — un estremecimiento casi invisible que empezó en los hombros y terminó en los nudillos, que se cerraron alrededor del trapo de la barra con la fuerza de alguien que agarra una cuerda sobre un precipicio.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La voz plana. Controlada. La máscara puesta con tornillos.)</span> No tengo derecho a estar celosa. No soy nada de ella. No somos... no hay nada que... <span class="action">(Se detuvo. Porque la frase que iba a decir — "no hay nada que proteger" — era tan mentira que las palabras se le atascaron en la garganta como balas en un cargador defectuoso.)</span></p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Oye. Que no tengas un título no significa que no tengas un sentimiento. Los sentimientos no necesitan permiso. Existen. Como la gravedad. Como el café malo de cadena. <span class="action">(Pausa.)</span> El problema no es lo que sientes. El problema es que no se lo estás diciendo a la persona que necesita oírlo.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Mirando hacia la mesa de la ventana. Ken estaba mostrándole algo del cuaderno a Chisato. Chisato se inclinaba para ver. Sus cabezas estaban cerca. Treinta centímetros. Veintiocho. La distancia que Takina medía con la precisión de un telémetro láser y que cada vez le quemaba más.)</span> Si se lo digo... todo se rompe.</p>
+      </div>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Takina. Ya se está rompiendo. <span class="action">(Tocándole la muñeca. Una vez. Breve.)</span> Solo que tú estás eligiendo romperlo sola. Y ella no sabe por qué. Y eso es peor.</p>
+      </div>
+
+      <p class="narration">Takina no respondió. Pero Mizuki vio algo que no había visto antes en los ojos de Takina Inoue — algo que no era rabia ni confusión ni frialdad. Era miedo. Miedo puro, del tipo que no se combate con balas ni con entrenamiento ni con ninguna de las herramientas que la DA le había dado durante años.</p>
+
+      <p class="narration">Miedo de decir lo que sientes y descubrir que no es correspondido.</p>
+
+      <p class="narration">Miedo de decir lo que sientes y descubrir que sí lo es, y no saber qué hacer con eso.</p>
+
+      <p class="narration">Mizuki terminó su latte. Se levantó. Le puso la mano en el hombro a Takina durante exactamente tres segundos — el tiempo justo para que el gesto dijera todo lo que necesitaba decir sin cruzar ninguna de las líneas invisibles que Takina mantenía alrededor de sí misma como un perímetro de seguridad.</p>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line">Cuando estés lista. Habla. Pero hazlo antes de que sea demasiado tarde para que las palabras sirvan de algo.</p>
+      </div>
+
+      <p class="narration">Se fue. La campanilla sonó. <em>Tin, tin.</em> Y Takina se quedó sola en la barra con un trapo que ya no necesitaba limpiar nada y una máquina de espresso que brillaba como un espejo donde no quería ver su propio reflejo.</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 5: EL RETRATO INTERRUMPIDO ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">✏️</span> Escena V — Lo que el Lápiz Dijo sin Permiso
+      </div>
+
+      <p class="narration">A la una de la tarde, Ken terminó el retrato.</p>
+
+      <p class="narration">No el retrato que había planeado hacer — no el estudio cuidadoso y técnicamente impecable que había imaginado durante la noche, con proporciones áureas y sombras calculadas y esa distancia profesional que le permitía dibujar personas sin que el dibujo revelara lo que sentía por ellas. Ese retrato habría sido seguro. Ese retrato habría sido un dibujo y nada más.</p>
+
+      <p class="narration">Lo que salió fue otra cosa.</p>
+
+      <p class="narration">Salió Chisato de perfil, mirando hacia la ventana, con la taza amarilla entre las manos y una sonrisa que no era ninguna de sus sonrisas habituales — no la de alta potencia ni la de debajo ni la que usaba como escudo. Era una sonrisa que Ken nunca le había visto en persona pero que, de alguna manera, su mano había encontrado en algún lugar entre la memoria y la imaginación: una sonrisa tranquila. En paz. La sonrisa de alguien que no necesita salvar el mundo durante cinco minutos y que se permite, en esos cinco minutos, simplemente existir.</p>
+
+      <p class="narration">Y había algo más en el dibujo — algo que Ken no había puesto intencionalmente pero que estaba ahí como un subtexto visual, como un mensaje escondido en el trazo: la luz. La luz del dibujo venía de la ventana, pero la forma en que iluminaba a Chisato — la suavidad, la calidez, el cuidado de cada sombra — no era la luz de una ventana. Era la luz de alguien que mira a otra persona con una atención que va más allá de la observación.</p>
+
+      <p class="narration">Era la luz del amor. Y estaba dibujada con grafito sobre papel cuadriculado por un chico de dieciocho años que todavía no sabía que el lápiz había confesado lo que los labios no se atrevían.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Mirando el retrato. Y esta vez el silencio duró más que cuatro segundos. Duró nueve. Nueve segundos donde Chisato Nishikigi no respiró ni habló ni se movió, solo miró el dibujo con los ojos abiertos y los labios entreabiertos y una expresión que no tenía nombre en ningún idioma.)</span></p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La voz rota en los bordes. Un susurro.)</span> Ken. ¿Así me ves?</p>
+      </div>
+
+      <div class="dialogue ken">
+        <span class="speaker speaker-ken">Ken</span>
+        <p class="line"><span class="action">(Mirándola. Y la distancia entre sus caras era de veinticinco centímetros y estaba cerrándose como una herida que sana al revés.)</span> Sí.</p>
+      </div>
+
+      <p class="narration">Una sola sílaba. Una sola palabra. Un solo sonido que contenía años de soledad y semanas de coraje y un marcapasos que, en ese momento exacto, hizo un tic que no estaba en el programa porque incluso las máquinas se desajustan cuando el cuerpo que las aloja siente algo que no estaba en el manual del fabricante.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Tocando el borde del papel. Sin tocar el dibujo. Como si pudiera romperlo.)</span> Nadie... nadie me ha dibujado así. Tranquila. Como si no tuviera que... <span class="action">(se detuvo)</span> ...como si no tuviera que ser nada para nadie. Solo estar.</p>
+      </div>
+
+      <p class="narration">Y en ese momento — ese momento que Ken guardaría en el mismo cuaderno que los dibujos, entre las páginas, como un pétalo prensado que no es de cerezo sino de tiempo — Chisato hizo algo que no hizo con el piano-corazón.</p>
+
+      <p class="narration">Le tocó la mano.</p>
+
+      <p class="narration">No un golpe amistoso. No un empujón juguetón. Un toque. Los dedos de Chisato sobre los nudillos de Ken, ligero como la sombra de una mariposa, breve como un suspiro, pero suficiente para que los dos lo sintieran como un relámpago que entra por la piel y se ramifica hacia adentro buscando tierra.</p>
+
+      <p class="narration">Duró dos segundos.</p>
+
+      <p class="narration">Después Chisato retiró la mano. Se puso de pie. Dijo algo sobre preparar más café con la voz de alguien que acaba de cruzar una puerta que no sabía que existía y que necesita un momento para orientarse del otro lado.</p>
+
+      <p class="narration">Ken se quedó mirando sus propios nudillos. El lugar donde los dedos de Chisato habían estado. Y la sensación — esa sensación eléctrica, cálida, imposible de dibujar — tardó mucho más que dos segundos en desaparecer.</p>
+
+      <p class="narration">Desde la barra, Takina lo vio todo.</p>
+
+      <p class="narration">Todo.</p>
+
+      <p class="narration">El retrato. La mirada. El toque de manos. Los dos segundos. Y los veinticinco centímetros que se convirtieron en cero cuando los dedos se encontraron.</p>
+
+      <p class="narration">Takina no dejó caer nada. No hizo ruido. No cambió de expresión. El entrenamiento de la DA era brutal en su efectividad: podías estar derrumbándote por dentro y el exterior permanecía intacto, como un edificio cuya fachada sigue de pie después de que el terremoto ha destruido todo lo que hay adentro.</p>
+
+      <p class="narration">Pero sus manos — las manos que acertaban a cuarenta metros con una Glock — temblaron. Un temblor de medio milímetro. Invisible para cualquiera.</p>
+
+      <p class="narration">Excepto para Mika, que estaba secando vasos en la cocina y que vio el temblor reflejado en el cristal del vaso que estaba sosteniendo, amplificado por las curvas de la superficie, y que supo en ese instante que la tormenta que había estado rastreando durante semanas acababa de tocar tierra.</p>
+    </section>
+
+    <div class="crack-divider" aria-hidden="true">⚡ ✦ ⚡</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 6: LA CONFRONTACIÓN ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">💢</span> Escena VI — Las Palabras que No Debían Salir
+      </div>
+
+      <p class="narration">Ken se fue a las cuatro.</p>
+
+      <p class="narration">Salió con el cuaderno bajo el brazo y la mochila en el hombro y una sonrisa que era, por primera vez desde que lo conocían, una sonrisa completa — sin reservas, sin disculpas, sin esa calidad de visitante temporal que siempre tenía cuando estaba en LycoReco, como si en cualquier momento alguien pudiera decirle que su tiempo se había acabado y que la tercera silla era prestada. Hoy, por primera vez, salió como alguien que sabe que va a volver mañana. Y pasado mañana. Y el día después.</p>
+
+      <p class="narration">Salió sin el retrato. Se lo había dejado a Chisato.</p>
+
+      <p class="sfx">— tin, tin —</p>
+
+      <p class="narration">La campanilla se apagó. El café quedó en silencio. Mika se fue a las cuatro y media con un "hasta mañana" dirigido al aire entre las dos, como si dejara una ofrenda de normalidad en un altar que ya no la sostenía. Quedaron ellas dos. Chisato detrás de la barra, lavando tazas. Takina organizando las sillas.</p>
+
+      <p class="narration">El retrato de Ken estaba en el mostrador, al lado de la caja registradora, apoyado contra un frasco de azúcar como si fuera una obra en una galería que no cobra entrada.</p>
+
+      <p class="narration">Takina lo miró. Lo miró durante seis segundos — suficiente para ver cada línea, cada sombra, cada centímetro de la atención que Ken había vertido en el dibujo. Suficiente para ver la verdad que el grafito decía sin pudor: <em>estoy enamorado de ti y este dibujo es la prueba.</em></p>
+
+      <p class="narration">Y entonces dijo algo que no había ensayado. Algo que no estaba en el cargador de frases preparadas. Algo que salió del mismo lugar de donde salen los disparos cuando ya no piensas — puro instinto, pura reacción, pura necesidad de que el dolor se vaya a algún lado que no sea adentro.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Mirando el retrato. La voz neutra. Demasiado neutra. La neutralidad que precede al impacto.)</span> Es un buen dibujo.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Girando. Sonriendo. Esa sonrisa todavía afectada por la tarde, por el toque, por los dos segundos.)</span> ¿Verdad? Ken es... es increíble cómo puede ver a las personas. Como si las viera de verdad, ¿sabes? No como la superficie. Lo de adentro.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Sí. Parece que te ve muy bien.</p>
+      </div>
+
+      <p class="narration">La frase tenía filo. No era un cuchillo — era una aguja. Fina, precisa, insertada en el punto exacto donde la observación se convierte en acusación sin dejar de ser, técnicamente, un cumplido.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La sonrisa adelgazándose. Detectando algo. Chisato era muchas cosas, pero tonta no era una de ellas.)</span> Takina... ¿qué quieres decir?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Nada. Es un buen dibujo. Te dibujó tranquila. Eso es difícil porque nunca estás tranquila. Pero él lo logró. Tiene talento. <span class="action">(Volviendo a las sillas. Moviéndolas con más fuerza de la necesaria.)</span></p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Dejando el vaso que estaba lavando. Secándose las manos. Caminando hacia ella. La voz ya no suave. La voz recta, firme, la voz que usaba cuando el juego se acababa y la conversación real empezaba.)</span> Takina. Mírame.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sin girar.)</span> Estoy ordenando.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Takina. Mírame. <span class="action">(Más firme.)</span></p>
+      </div>
+
+      <p class="narration">Takina giró. Y cuando sus ojos se encontraron con los de Chisato, la distancia entre ellas era de un metro con treinta centímetros — la distancia exacta de un brazo extendido, de un paso largo, de la distancia que queda cuando alguien quiere acercarse y alguien quiere huir y las dos están paradas en el mismo punto intermedio.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Qué está pasando? Y no me digas "nada." No me digas "estoy bien." No me digas "es un café y puede venir quien quiera." Dime la verdad. Porque llevo dos días sintiendo que te estás alejando de mí y no sé por qué y me está matando no saberlo.</p>
+      </div>
+
+      <p class="narration">La palabra "matando" colgó en el aire como una nota discordante en un piano que ya estaba desafinado. Chisato la había dicho sin pensarla — "me está matando" era una expresión común, una hipérbole, una frase que cualquiera usaría sin darle importancia. Pero Chisato Nishikigi no era cualquiera. Chisato Nishikigi tenía un corazón artificial que literalmente estaba matándola, despacio, un latido a la vez, y cuando ella decía "me está matando" la frase pesaba diecisiete gramos más que cuando la decía cualquier otra persona.</p>
+
+      <p class="narration">Takina lo sintió. El peso extra. La gravedad de esas dos palabras dichas por esa boca específica. Y algo se rompió.</p>
+
+      <p class="narration">No se rompió con ruido. No hubo un crack dramático ni un estallido. Se rompió como se rompe el cristal cuando lo calientas demasiado y después lo enfrías de golpe — un silencio, una pausa, y después una red de grietas que se expande desde un punto central hasta cubrirlo todo.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La máscara cayéndose. No arrancada — cayéndose, como cae una hoja de un árbol cuando la rama ya no puede sostenerla.)</span> ¿Quieres saber qué está pasando?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">Sí.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Está pasando que llegas tarde y yo me preocupo. Está pasando que alguien más llega temprano y tú no te preocupas. Está pasando que hay una tercera silla y una taza verde y un cuaderno y un chico que te dibuja como si fueras lo más importante que ha visto en su vida y tú — <span class="action">(la voz subiendo, la voz quebrándose en las costuras, la voz de alguien que ha contenido una inundación durante semanas y que acaba de encontrar una fisura por donde toda el agua quiere salir)</span> — tú le tocas la mano. Frente a mí. Como si yo no estuviera ahí. Como si yo fuera... una mesa. Un mueble. Parte del decorado.</p>
+      </div>
+
+      <p class="narration">Silencio.</p>
+
+      <p class="narration">Un silencio tan completo que se podía oír el zumbido del refrigerador y el tic del reloj de pared y el sonido del corazón de Chisato — el <em>tum-tum-tum</em> mecánico que hoy, por primera vez desde que Takina lo escuchó, sonaba como algo que podía detenerse.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Los ojos brillantes. No de alegría. De algo que está entre el shock y la comprensión y que todavía no tiene nombre.)</span> Takina... yo no... le toqué la mano porque... fue un segundo. No fue... no pensé que...</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La voz bajando. No calmándose — hundiéndose. Yéndose al fondo donde las cosas duelen más porque hay más presión.)</span> No. Claro que no pensaste. Porque para ti todo es así — natural, fácil, cálido. Tocas a alguien y no piensas en lo que significa porque para ti tocar a la gente es como respirar. Pero yo no soy así. Yo no toco a nadie. Yo no... <span class="action">(la voz rompiéndose en un punto, una sola grieta, una sola nota que se desafina)</span> ...yo no sé cómo hacer esto. Y cuando te veo hacerlo con él como si fuera lo más fácil del mundo, yo... yo no puedo. No puedo estar ahí parada fingiendo que no me quema.</p>
+      </div>
+
+      <p class="narration">La palabra "quema" salió de la boca de Takina como una brasa que llevaba semanas guardando debajo de la lengua. Y cuando la dijo — cuando finalmente la dijo — el alivio fue momentáneo y el terror fue infinito, porque las palabras que queman hacen exactamente eso: queman. A quien las dice. A quien las escucha. Y al aire entre ambas personas, que deja de ser oxígeno y se convierte en humo.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Un paso adelante. Solo uno. Reduciendo la distancia de un metro treinta a un metro. La mano extendida hacia Takina — no para tocarla, sino ofrecida, abierta, como se ofrece una mano a alguien que está al borde de algo.)</span> Takina. Escúchame. Tú no eres un mueble. Tú no eres decorado. Tú eres... <span class="action">(y aquí Chisato se detuvo, porque lo que iba a decir era demasiado grande para la frase que había empezado y necesitaba construir una nueva)</span> ...tú eres la razón por la que abro este café cada mañana.</p>
+      </div>
+
+      <p class="narration">Takina miró la mano extendida. La mano que había tocado los nudillos de Ken dos horas antes. La mano que ahora se ofrecía a ella con la misma gentileza — esa palabra que Ken había usado para describir el café y que ahora Takina odiaba porque era perfecta y no era suya.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(No tomando la mano. Retrocediendo medio paso. El medio paso más doloroso de la historia de LycoReco.)</span> ¿Y él? ¿Ken también es una razón?</p>
+      </div>
+
+      <p class="narration">La pregunta cayó como un disparo en un cuarto cerrado — el eco rebotando en las paredes, multiplicándose, negándose a morir.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La mano bajando. Lentamente. Como una bandera blanca que nadie aceptó.)</span> Ken es... Ken es importante para mí. Sí. No voy a mentirte. Es importante. Pero no es lo mismo. No es...</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">¿No es lo mismo cómo? <span class="action">(Y la pregunta salió no como demanda sino como súplica — la primera súplica que Takina Inoue hacía en voz alta desde que tenía uso de memoria, disfrazada de pregunta como se disfrazan las heridas de marcas de nacimiento para no tener que explicarlas.)</span></p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Los ojos llenos. La sonrisa — todas las sonrisas — desaparecida. Solo Chisato. Sin escudo. Sin casco. Sin alta potencia.)</span> No lo sé. Takina, no lo sé. Y sé que eso no es suficiente. Sé que necesitas una respuesta y que mereces una respuesta y que te estoy fallando al no tenerla. Pero no la tengo. Porque lo que siento es... es demasiado grande para las palabras que conozco. Y tengo miedo de usar las equivocadas y romperte. Rompernos.</p>
+      </div>
+
+      <p class="narration">Silencio. De nuevo. Pero este silencio era diferente al anterior. El anterior era un muro. Este era un puente — frágil, inestable, peligroso de cruzar, pero puente al fin.</p>
+
+      <p class="narration">Takina tragó. Miró a Chisato. La vio — realmente la vio, sin el filtro de los celos ni la distorsión de la rabia — y lo que vio fue a una chica de dieciocho años con un corazón prestado y los ojos mojados y las manos vacías de respuestas y la honestidad más brutal que Takina había escuchado en su vida: <em>no lo sé.</em></p>
+
+      <p class="narration"><em>No lo sé</em> era, en la gramática de Chisato Nishikigi, un acto de coraje. Porque Chisato siempre sabía. Siempre tenía una respuesta, un plan, un chiste, una salida. Decir "no lo sé" era quitarse la armadura en mitad de un campo de batalla y quedarse ahí, expuesta, confiando en que la persona frente a ella no dispararía.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(La voz quebrada. Pero no rota. Quebrada como el cristal que se agrieta pero no se cae — que sigue en su marco, sostenido por las mismas grietas que lo dañaron.)</span> Yo tampoco lo sé. <span class="action">(Pausa.)</span> Pero sé que me duele. Y sé que no puedo seguir fingiendo que no.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Un paso. Otro paso. La distancia ahora era de medio metro. El espacio donde caben los abrazos y las confesiones y las cosas que cambian el rumbo de dos vidas para siempre.)</span> Entonces no finjas. Nunca más. No conmigo. ¿Prometido?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Mirándola. Los ojos secos — porque Takina todavía no había aprendido a llorar, pero estaba más cerca que nunca.)</span> Prometido.</p>
+      </div>
+
+      <p class="narration">No se abrazaron. No se tocaron. No se dijeron las palabras que todavía no estaban listas para salir — porque hay palabras que necesitan más tiempo, más coraje, más noches de insomnio y más tazas de café y más silencios compartidos antes de poder existir fuera de la boca de alguien.</p>
+
+      <p class="narration">Pero algo cambió. El aire entre ellas — ese aire que durante dos días había sido cristal y hielo y estática — se suavizó. No del todo. No como antes. Pero lo suficiente para respirar. Lo suficiente para que Chisato dijera:</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line">¿Cenamos? Puedo hacer onigiri de nuevo. O podemos pedir ramen. O puedo intentar hacer pasta, pero la última vez terminé con fideos en el techo y Mika todavía no me perdona.</p>
+      </div>
+
+      <p class="narration">Y lo suficiente para que Takina respondiera:</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Onigiri está bien.</p>
+      </div>
+
+      <p class="narration">Dos palabras. Pero estas dos palabras — a diferencia de los "buenos días" sin nombre del día anterior — tenían una temperatura. Eran tibias. No calientes. No frías. Tibias, como el café que alguien te hace a las siete de la mañana porque le prometió que lo haría.</p>
+
+      <p class="static-sfx" aria-label="Descarga pasada">— — — — —</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 7: KEN AL OTRO LADO DEL RÍO ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🌉</span> Escena VII — Lo que Ken Dibujó Después
+      </div>
+
+      <p class="narration">En su departamento de Koto, Ken Fujimoto miraba su mano.</p>
+
+      <p class="narration">La mano que Chisato había tocado. Los nudillos. Dos segundos. La sensación todavía ahí, como el calor residual de un vaso que alguien sostuvo demasiado tiempo — el objeto ya no está pero la temperatura sigue, registrada en la piel como un mensaje escrito con dedos invisibles.</p>
+
+      <p class="narration">Abrió el cuaderno nuevo. La primera página era la del retrato que había dejado en el café — pero había una segunda página, y en la segunda página, como había pasado con el piano-corazón, la presión del lápiz había dejado una impresión fantasma: el contorno de Chisato, su perfil, su sonrisa tranquila, todo ahí y no ahí al mismo tiempo, como un eco, como un recuerdo que se está borrando pero que todavía duele.</p>
+
+      <p class="narration">Ken no dibujó sobre la impresión fantasma. La dejó. Pasó a la página tres.</p>
+
+      <p class="narration">Y dibujó algo nuevo.</p>
+
+      <p class="narration">Dibujó a Takina.</p>
+
+      <p class="narration">No como la había visto hoy — no con la máscara, no con el hielo, no con el "buenos días" sin nombre que dolía como una puerta cerrada. La dibujó como la había visto una vez, una sola vez, en un momento que ella no sabía que él estaba mirando: la tarde del festival, de pie bajo los faroles de papel, con la yukata azul y los ojos reflejando las luces y una expresión que era, por un instante fugaz, completamente abierta. Vulnerable. Hermosa de una manera que no tenía nada que ver con la simetría facial ni con la proporción áurea sino con algo más profundo — la belleza de alguien que baja la guardia durante tres segundos y muestra lo que hay detrás de todo el blindaje.</p>
+
+      <p class="narration">Dibujó esos tres segundos. Y cuando terminó — cuando la línea final del cabello de Takina se completó sobre el papel y el dibujo quedó ahí, mirándolo con esos ojos que no lo miraban en la vida real — Ken sintió algo que complicaba todo.</p>
+
+      <p class="narration">Porque no era solo Chisato.</p>
+
+      <p class="narration">Porque nunca había sido solo Chisato.</p>
+
+      <p class="thought">Las dibujo a las dos.<br>
+      Las miro a las dos.<br>
+      Y no sé si lo que siento<br>
+      tiene una dirección<br>
+      o si se expande en todas direcciones<br>
+      como la onda de una piedra<br>
+      en un agua que no tiene orillas.</p>
+
+      <p class="narration">Cerró el cuaderno. No lo puso debajo de la almohada esta vez. Lo dejó en el escritorio, abierto en la página de Takina, mirando hacia la ventana que daba al canal, como si quisiera que la noche viera lo que él no podía decir.</p>
+
+      <p class="narration">Se tocó el pecho. <em>Tic-tic-tic.</em> Constante. Mecánico. El marcapasos no sabía nada de triángulos ni de festivales ni de dibujos de personas que son más fáciles de retratar en papel que de entender en persona.</p>
+
+      <p class="narration">Pero debajo del <em>tic</em> — cada vez más abajo, cada vez más lejos de la mecánica y más cerca de algo que no tenía manual — había una certeza nueva. Una certeza que hacía que el marcapasos tuviera que trabajar un poco más de lo normal, como un reloj que intenta mantener el tiempo mientras el tiempo mismo se pliega.</p>
+
+      <p class="narration">Ken Fujimoto, a los dieciocho años, con un pacemaker y un cuaderno y un departamento que olía a lápiz y a canal y a verano, supo que lo que sentía no cabía en las categorías que el mundo le ofrecía. No era "por Chisato" o "por Takina". Era por ambas. Era por la mesa de la ventana y las tres sillas y la taza verde y el café que sabía gentil y el silencio de Takina que dolía tanto como la risa de Chisato sanaba.</p>
+
+      <p class="narration">Era por todo. Y eso era un problema que no tenía solución en ningún cuaderno.</p>
+    </section>
+
+    <div class="crack-divider" aria-hidden="true">⚡ ✦ ⚡</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 8: MIKA ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🍵</span> Escena VIII — Hojicha a Medianoche
+      </div>
+
+      <p class="narration">Mika subió al apartamento a las once de la noche.</p>
+
+      <p class="narration">No era habitual — Mika tenía su propio departamento, su propia rutina nocturna, su propio ritmo de hombre mayor que valora el silencio y la soledad como lujos que se ganan con décadas de ruido. Pero hoy había visto algo en el café que le decía que subir era necesario. No urgente. Necesario. Que es una categoría diferente y, en la experiencia de Mika, más importante.</p>
+
+      <p class="narration">Encontró a las dos en la sala — no juntas, no separadas, sino en esa distancia intermedia que las personas ocupan cuando se han peleado y se han reconciliado pero todavía no saben exactamente dónde pararse la una respecto a la otra. Chisato en el sofá, con las piernas cruzadas y el teléfono en las manos, scrolleando sin leer. Takina en el sillón, con el libro de Sun Tzu abierto en el regazo, pasando páginas sin que los ojos se movieran.</p>
+
+      <p class="narration">Mika no dijo nada. Fue a la cocina. Puso agua a hervir. Sacó el hojicha — el que reservaba para los momentos que importaban, el de las hojas tostadas del campo de Uji que compraba una vez al año y que racionaba como un general raciona municiones. Preparó tres tazas. Las llevó a la sala.</p>
+
+      <p class="narration">Puso una frente a Chisato. Otra frente a Takina. La tercera la sostuvo.</p>
+
+      <p class="narration">Se sentó en la silla del comedor — no en el sofá, no en el sillón, sino en la silla de madera que crujía, porque Mika siempre elegía la silla más incómoda de la habitación, como si la incomodidad fuera una forma de solidaridad con las personas que están sufriendo sobre cojines más blandos.</p>
+
+      <div class="dialogue mika">
+        <span class="speaker speaker-mika">Mika</span>
+        <p class="line"><span class="action">(Soplando el hojicha. Sin mirar a ninguna de las dos. Mirando la taza.)</span> Cuando yo era joven — y sí, fui joven, aunque cueste creerlo — hubo alguien que me importaba. Mucho. Y había otra persona que también le importaba. Y yo hice lo que hacen los jóvenes: me enojé. Me cerré. Dejé de hablar. Y cuando por fin hablé, dije las palabras equivocadas. Las palabras que queman. Las que no puedes retirar una vez que salen.</p>
+      </div>
+
+      <p class="narration">Chisato bajó el teléfono. Takina cerró el libro.</p>
+
+      <div class="dialogue mika">
+        <span class="speaker speaker-mika">Mika</span>
+        <p class="line">Y ¿saben qué aprendí? <span class="action">(Bebiendo un sorbo.)</span> Que las palabras que queman solo queman si se dicen con la intención de quemar. Si se dicen con la intención de decir la verdad... entonces son otra cosa. Son difíciles. Duelen. Pero no destruyen. Construyen. Lento, feo, con cicatrices. Pero construyen.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Suave.)</span> Mika... ¿qué pasó con esa persona?</p>
+      </div>
+
+      <div class="dialogue mika">
+        <span class="speaker speaker-mika">Mika</span>
+        <p class="line"><span class="action">(La sonrisa más triste y más sabia del mundo.)</span> No le dije a tiempo lo que sentía. Y cuando quise hacerlo, ya no estaba.</p>
+      </div>
+
+      <p class="narration">El silencio que siguió no era el silencio incómodo de las últimas horas. Era un silencio respetuoso. El silencio que se guarda cuando alguien abre una herida vieja para que las heridas nuevas de otros puedan aprender de ella.</p>
+
+      <div class="dialogue mika">
+        <span class="speaker speaker-mika">Mika</span>
+        <p class="line"><span class="action">(Poniéndose de pie. Dejando la taza vacía en la mesa.)</span> Lo que quiero decir es: no esperen. No esperen a que sea el momento perfecto porque el momento perfecto no existe. Solo existen los momentos reales. Y en los momentos reales, las personas dicen cosas imperfectas y se equivocan y lloran y se enojan y después se perdonan. <span class="action">(Mirando a Chisato. Después a Takina. Después a las dos juntas, como si pudiera ver el hilo invisible que las conectaba y que, hoy, se había estirado hasta casi romperse.)</span> Y después toman hojicha.</p>
+      </div>
+
+      <p class="narration">Se fue. La puerta se cerró con suavidad. Y quedaron las dos — Chisato y Takina — en la sala silenciosa, con dos tazas de hojicha y una herida que ya no sangraba pero que todavía estaba abierta.</p>
+
+      <p class="narration">Takina levantó la taza. Bebió. El hojicha estaba caliente y terroso y sabía a otoño aunque era verano, sabía a saberes antiguos y a manos arrugadas que preparaban té a las once de la noche para dos chicas que todavía no sabían cómo decirse lo que ya sabían.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sin mirar a Chisato. Mirando el hojicha.)</span> Mañana... ¿te hago el café otra vez?</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(La sonrisa. Pequeña. Real. La que no era un escudo.)</span> Sí. Mañana tú.</p>
+      </div>
+
+      <p class="narration">No era una declaración. No era una resolución. No era el final de nada ni el principio de nada que tuviera nombre todavía.</p>
+
+      <p class="narration">Era un café. Una promesa. Una repetición.</p>
+
+      <p class="narration">Y a veces, las cosas más importantes del mundo no son las grandes confesiones ni las palabras perfectas ni los gestos épicos. Son las repeticiones. Las cosas que elegimos hacer otra vez. Las tazas que elegimos llenar de nuevo. Las mañanas que elegimos compartir con alguien a pesar de todo.</p>
+
+      <p class="narration">Mañana tú. Otra vez. Como hoy. Como siempre.</p>
+    </section>
+
+    <div class="crack-divider" aria-hidden="true">⚡ ✦ ⚡</div>
+
+    <!-- ╌╌╌╌╌ ESCENA 9: CIERRE ╌╌╌╌╌ -->
+    <section class="scene">
+      <div class="scene-heading">
+        <span class="scene-icon" aria-hidden="true">🪟</span> Escena IX — Grietas que Dejan Pasar la Luz
+      </div>
+
+      <p class="narration">Esa noche, nadie durmió bien.</p>
+
+      <p class="narration">Chisato estuvo despierta hasta las dos, mirando el retrato que Ken le había hecho, pasando los dedos por las líneas de su propia cara dibujada en grafito, preguntándose cómo era posible que un chico que la conocía desde hacía semanas pudiera verla con más claridad que ella misma. Preguntándose si la Chisato del dibujo — tranquila, en paz, sin tener que ser nada para nadie — existía de verdad o si era solo un deseo de alguien que la miraba con ojos nuevos. Preguntándose si era posible querer a dos personas al mismo tiempo sin destruir a ninguna de las tres.</p>
+
+      <p class="narration">No encontró la respuesta. Pero cuando por fin cerró los ojos, el retrato estaba en la mesita de noche junto al piano-corazón, y los dos dibujos hechos por la misma mano decían cosas diferentes sobre la misma persona, y Chisato pensó — justo antes de dormirse, en ese espacio entre la vigilia y el sueño donde la verdad se cuela sin pedir permiso — que tal vez la respuesta no era una sola. Tal vez la respuesta era un mapa que todavía no existía. Tal vez había que dibujarlo.</p>
+
+      <p class="stage">· · ·</p>
+
+      <p class="narration">Takina estuvo despierta hasta las tres. Sentada en la cama. El libro de Sun Tzu abierto en el capítulo seis — <em>"El vacío y la forma"</em> — con el pétalo de cerezo entre las páginas y, ahora, un Post-it amarillo doblado en cuatro al lado del pétalo. Los dos marcapáginas juntos. La primavera y el verano. El silencio y las palabras.</p>
+
+      <p class="narration">Había dicho lo que sentía. No todo. No con las palabras correctas. Pero algo había salido — algo que quemaba y dolía y aliviaba al mismo tiempo, como sacar una astilla que lleva semanas clavada: el dolor del momento es agudo pero el alivio después es enorme y lento y profundo.</p>
+
+      <p class="narration">Miró a Ogawa. El pez dormía — si es que los peces duermen — flotando inmóvil en el vaso, con las branquias moviéndose apenas. Vivo. Constante. Simple.</p>
+
+      <p class="narration">Takina envidiaba la simplicidad del pez. Vivir en un vaso. Nadar en círculos. No tener que decidir qué sentir. No tener que elegir entre el silencio y las palabras que queman.</p>
+
+      <p class="narration">Pero no era un pez. Era una persona. Y las personas no nadan en círculos — avanzan, retroceden, chocan, se pierden, se encuentran, se rompen, se reparan. Y el avance de hoy — ese "me duele" dicho en voz alta, ese "prometido" que era una grieta y un parche al mismo tiempo — era el primer paso de un camino que no tenía mapa.</p>
+
+      <p class="stage">· · ·</p>
+
+      <p class="narration">Y al otro lado del río, Ken Fujimoto dormía con el cuaderno abierto en el escritorio, la página de Takina mirando hacia la ventana, y las luces del canal proyectando sombras de agua sobre el dibujo, haciendo que los ojos de Takina brillaran y parpadearan como si estuvieran vivos, como si pudieran ver a través del papel y la noche y el río y las paredes hasta la habitación donde la Takina real estaba despierta con un pez dorado y un pétalo y un Post-it y una grieta nueva en el pecho que todavía no sabía si era destrucción o ventana.</p>
+
+      <p class="narration">Tres personas. Tres noches. Tres formas de no dormir.</p>
+
+      <p class="narration">Chisato no durmió porque estaba buscando una respuesta que no existía todavía.</p>
+
+      <p class="narration">Takina no durmió porque había dicho una verdad que no sabía que iba a decir.</p>
+
+      <p class="narration">Ken no durmió — o sí durmió, pero soñó — con dos retratos hechos por la misma mano que no podían colgar en la misma pared porque cada uno reclamaba toda la atención, todo el espacio, toda la luz.</p>
+
+      <p class="narration">Y Tokio seguía ahí afuera — caliente, eléctrica, brillante, viva — como una ciudad que ha visto millones de noches como esta y que sabe, con la paciencia antigua de lo que no se mueve, que las palabras que queman no destruyen a las personas fuertes.</p>
+
+      <p class="narration">Las templan.</p>
+
+      <p class="narration">Como el acero. Como el cristal que se agrieta pero sigue en el marco. Como los corazones — prestados o propios, mecánicos o de carne — que siguen latiendo después de cada golpe porque eso es lo que hacen los corazones: latir. Incluso cuando duele. Incluso cuando no saben para qué. Incluso cuando la única certeza que tienen es que mañana habrá café, y que alguien lo preparará, y que ese alguien prometió hacerlo, y que las promesas — las promesas hechas en cocinas a las nueve de la noche con dieciséis palabras y un emoji de taza — son la forma más silenciosa y más poderosa de decir lo que las palabras que queman no pueden.</p>
+
+      <p class="stage"><em>Palabras que queman.</em></p>
+    </section>
+
+    <!-- ═══════════ END CARD ═══════════ -->
+    <div class="end-card">
+      <p class="end-title">Fin del Episodio 06</p>
+      <div class="crack-divider" aria-hidden="true">⚡ ✦ ⚡ ✦ ⚡</div>
+      <p class="end-preview">
+        <strong>Próximo episodio:</strong><br>
+        <em>"Dos Corazones, Tres Latidos"</em><br><br>
+        Algo cambia en la mesa de la ventana.<br>
+        Lo que antes eran tres se convierte en algo<br>
+        que no tiene nombre pero que ya no puede ignorarse.
+      </p>
+    </div>
+
+  </article>
+
+  <!-- ═══════════ NAVIGATION ═══════════ -->
+  <nav class="ep-nav" aria-label="Navegación de episodios">
+    <a href="ep05.html">← Episodio 05</a>
+    <a href="../index.html">Índice</a>
+    <span class="disabled">Episodio 07 →</span>
+  </nav>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="ep-footer">
+    Lycoris Recoil — Corazones Prestados · Temporada 1<br>
+    Lycoris Recoil © Spider Lily / A-1 Pictures · Fan fiction sin fines de lucro
+  </footer>
+
+</body>
+</html>
