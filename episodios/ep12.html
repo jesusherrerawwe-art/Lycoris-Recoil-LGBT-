@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Episodio 12 — Antes de la Tormenta | Corazones Prestados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #080a07; --bg-page: #0b0d0a; --bg-panel: #11140f;
+      --text-body: #b4b8a8; --text-dialogue: #dce0d0; --text-narration: #8a9080;
+      --text-muted: #485040; --text-stage: #607050;
+      --accent-gold: #d4a850; --accent-storm: #7888b0; --accent-lightning: #f0e0a0;
+      --accent-warm: #f5c87a; --accent-blue: #7ba4d4; --accent-leaf: #8bc7a3;
+      --accent-shard: #a89060;
+      --border-soft: rgba(212, 168, 80, 0.10); --border-chapter: rgba(212, 168, 80, 0.18);
+      --glow-kintsugi: rgba(212, 168, 80, 0.06);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lora', 'Noto Sans JP', serif; background: var(--bg-primary); color: var(--text-body); min-height: 100vh; overflow-x: hidden; line-height: 1.9; }
+    .storm-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+    .lightning-vein { position: absolute; width: 2px; height: 80px; background: linear-gradient(180deg, rgba(240,224,160,0) 0%, rgba(212,168,80,0.12) 40%, rgba(240,224,160,0.08) 70%, rgba(212,168,80,0) 100%); opacity: 0; animation: storm-flash linear infinite; }
+    .lightning-vein:nth-child(1){left:10%;animation-duration:14s;animation-delay:0s;height:60px}
+    .lightning-vein:nth-child(2){left:22%;animation-duration:18s;animation-delay:4s;height:90px}
+    .lightning-vein:nth-child(3){left:35%;animation-duration:12s;animation-delay:7s;height:70px}
+    .lightning-vein:nth-child(4){left:48%;animation-duration:20s;animation-delay:2s;height:55px}
+    .lightning-vein:nth-child(5){left:60%;animation-duration:16s;animation-delay:9s;height:85px}
+    .lightning-vein:nth-child(6){left:72%;animation-duration:22s;animation-delay:5s;height:65px}
+    .lightning-vein:nth-child(7){left:85%;animation-duration:15s;animation-delay:11s;height:75px}
+    .lightning-vein:nth-child(8){left:50%;animation-duration:19s;animation-delay:8s;height:50px}
+    @keyframes storm-flash { 0%{opacity:0;transform:translateY(-5vh) scaleY(.8)} 5%{opacity:0} 6%{opacity:.4} 8%{opacity:0} 9%{opacity:.25} 11%{opacity:0} 50%{opacity:0;transform:translateY(50vh) scaleY(1.2)} 100%{opacity:0;transform:translateY(110vh) scaleY(.6)} }
+    .kintsugi-sfx { text-align:center; font-family:'Noto Sans JP',sans-serif; font-size:0.8rem; color:var(--accent-gold); letter-spacing:0.5em; margin:2rem 0; opacity:0.12; animation:kintsugi-pulse 6s ease-in-out infinite; }
+    @keyframes kintsugi-pulse { 0%,100%{opacity:.08;text-shadow:0 0 0 transparent} 50%{opacity:.3;text-shadow:0 0 20px rgba(212,168,80,.15)} }
+    .ep-header{text-align:center;padding:4rem 2rem 2.5rem;position:relative;z-index:1}
+    .ep-back-link{display:inline-block;color:var(--text-muted);text-decoration:none;font-size:.8rem;letter-spacing:.1em;margin-bottom:1.5rem;transition:color .3s}
+    .ep-back-link:hover{color:var(--accent-gold)}
+    .ep-number{display:block;font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent-gold);margin-bottom:.5rem}
+    .ep-act-badge{display:inline-block;font-family:'Noto Sans JP',sans-serif;font-size:.65rem;letter-spacing:.3em;color:var(--accent-shard);border:1px solid rgba(168,144,96,.25);padding:.2rem 1rem;border-radius:2px;margin-bottom:1rem}
+    .ep-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:var(--text-dialogue);line-height:1.3;margin-bottom:.3rem}
+    .ep-title-jp{font-family:'Noto Sans JP',sans-serif;font-size:.95rem;font-weight:300;color:var(--text-muted);margin-bottom:1.5rem}
+    .ep-opening-quote{font-family:'Lora',serif;font-style:italic;font-size:.9rem;color:var(--text-narration);max-width:480px;margin:0 auto;padding:1rem 0;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);line-height:1.8}
+    .ep-content{max-width:720px;margin:0 auto;padding:2rem 2rem 4rem;position:relative;z-index:1}
+    .scene{margin-bottom:2.5rem}
+    .scene-heading{font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.2em;color:var(--accent-gold);margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border-chapter)}
+    .scene-icon{margin-right:.5rem}
+    .narration{font-size:.95rem;color:var(--text-narration);text-indent:1.5rem;margin-bottom:1rem;text-align:justify;hyphens:auto}
+    .narration:first-of-type{text-indent:0}
+    .drop-cap::first-letter{font-family:'Playfair Display',serif;font-size:3.2rem;float:left;line-height:.8;padding-right:.1em;color:var(--accent-gold)}
+    .dialogue{margin:1.2rem 0;padding-left:1rem;border-left:2px solid var(--text-muted)}
+    .dialogue.chisato{border-left-color:var(--accent-warm)}
+    .dialogue.takina{border-left-color:var(--accent-blue)}
+    .dialogue.ken{border-left-color:var(--accent-leaf)}
+    .dialogue.mizuki{border-left-color:#f7768e}
+    .dialogue.mika{border-left-color:#a9b1d6}
+    .dialogue.kurumi{border-left-color:#c792ea}
+    .speaker{display:block;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.3rem}
+    .speaker-chisato{color:var(--accent-warm)} .speaker-takina{color:var(--accent-blue)} .speaker-ken{color:var(--accent-leaf)}
+    .speaker-mizuki{color:#f7768e} .speaker-mika{color:#a9b1d6} .speaker-kurumi{color:#c792ea}
+    .line{font-size:.93rem;color:var(--text-dialogue);line-height:1.8}
+    .action{font-style:italic;color:var(--text-muted);font-size:.85rem}
+    .thought{font-style:italic;color:var(--text-narration);text-align:center;margin:1.5rem auto;max-width:500px;line-height:1.9;opacity:.85}
+    .stage{text-align:center;font-style:italic;color:var(--text-stage);margin:1rem 0;font-size:.9rem}
+    .petal-divider{text-align:center;font-size:.8rem;color:var(--accent-gold);letter-spacing:.5em;margin:2.5rem 0;opacity:.35}
+    .scene-break{text-align:center;color:var(--text-muted);letter-spacing:1em;margin:2rem 0;opacity:.3}
+    .end-card{text-align:center;padding:3rem 2rem;margin-top:2rem;border-top:1px solid var(--border-chapter)}
+    .end-title{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.3em;color:var(--accent-gold);margin-bottom:1rem}
+    .end-preview{font-family:'Lora',serif;font-style:italic;color:var(--text-narration);font-size:.85rem;max-width:400px;margin:1rem auto;line-height:1.8}
+    .ep-nav{display:flex;justify-content:center;gap:2rem;padding:2rem;font-family:'Noto Sans JP',sans-serif;font-size:.8rem}
+    .ep-nav a{color:var(--text-muted);text-decoration:none;letter-spacing:.1em;transition:color .3s;padding:.3rem 0}
+    .ep-nav a:hover{color:var(--accent-gold)}
+    .ep-nav .disabled{color:var(--text-muted);opacity:.3;cursor:default}
+    .ep-footer{text-align:center;padding:2rem;font-family:'Noto Sans JP',sans-serif;font-size:.65rem;color:var(--text-muted);opacity:.5;border-top:1px solid var(--border-soft)}
+    @media(max-width:768px){.ep-header{padding:3rem 1.5rem 2rem}.ep-content{padding:2rem 1.2rem 3rem}.narration{text-indent:1rem}.dialogue{padding-left:.8rem}.drop-cap::first-letter{font-size:2.5rem}}
+    @media(prefers-reduced-motion:reduce){.lightning-vein{animation:none;display:none}.kintsugi-sfx{animation:none;opacity:.15}}
+    a:focus-visible{outline:2px solid var(--accent-gold);outline-offset:2px}
+  </style>
+</head>
+<body>
+  <div class="storm-field" aria-hidden="true">
+    <div class="lightning-vein"></div><div class="lightning-vein"></div><div class="lightning-vein"></div><div class="lightning-vein"></div>
+    <div class="lightning-vein"></div><div class="lightning-vein"></div><div class="lightning-vein"></div><div class="lightning-vein"></div>
+  </div>
+  <header class="ep-header">
+    <a href="../index.html" class="ep-back-link">← Índice de Episodios</a>
+    <span class="ep-number">Episodio 12</span>
+    <div class="ep-act-badge">Acto III — Otoño</div>
+    <h1 class="ep-title">Antes de la Tormenta</h1>
+    <p class="ep-title-jp">嵐の前に</p>
+    <blockquote class="ep-opening-quote">
+      “El kintsugi no empieza<br>
+      cuando juntas los fragmentos.<br>
+      Empieza cuando decides<br>
+      que los fragmentos merecen<br>
+      ser juntados.”
+    </blockquote>
+  </header>
+  <article class="ep-content">
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">📅</span> Escena I — Veintiún Días</div>
+
+      <p class="narration drop-cap">Tres semanas.</p>
+
+      <p class="narration">Veintiún días exactos desde que la campanilla de LycoReco sonó por última vez con el peso de Ken Fujimoto del otro lado de la puerta. Veintiún amaneceres en los que Takina Inoue se levantó a las cinco y cuarenta y dos — el mismo minuto, el mismo segundo del primer gesto consciente del día, los ojos abiertos antes que la alarma con la precisión de un reloj biológico que no necesitaba mecanismo externo porque el mecanismo era la disciplina y la disciplina era la forma que tenía Takina de controlar lo que podía controlar cuando lo que no podía controlar ocupaba demasiado espacio en el pecho. Veintiún cafés preparados en tres tazas. Amarilla. Azul. Verde. Noventa y dos grados. Colombia. Canela en la verde. Día setenta y nueve del ritual que había empezado como un gesto de esperanza y que ahora era algo diferente — no rutina, no inercia, no la repetición vacía de un movimiento que ha perdido su significado. Era fidelidad. La fidelidad de alguien que pone una taza para una persona que no viene porque la taza no es para la persona que viene sino para la persona que existe, y la persona existía aunque no estuviera en la silla, y la taza llena era la prueba material de esa existencia, el documento de que alguien en algún lugar tenía un lugar en esta mesa aunque no lo ocupara.</p>
+
+      <p class="narration">La taza verde no se había enfriado nunca. Cada mañana, Takina la llenaba. Cada mediodía, Takina la vaciaba en el fregadero. Cada noche, la lavaba, la secaba, la devolvía a la repisa, la dejaba lista para el día siguiente. El gesto se repetía con la exactitud de un ciclo natural — como la luna que no deja de salir porque nadie la mira, como la marea que sube y baja sin importar si la playa está vacía. Nadie bebía ese café. El café existía igual. La taza se llenaba y se vaciaba y se llenaba de nuevo como un corazón que late para nadie y que late igual, como un marcapasos que no necesita una razón emocional para mantener el ritmo porque el ritmo es la razón, porque seguir latiendo es en sí mismo el acto de fe más básico y más profundo que existe.</p>
+
+      <p class="narration">Chisato miraba la taza verde cada mañana. Desde la cama. Desde la puerta de la cocina. Desde la mesa de la ventana donde se sentaba con la amarilla entre las manos y la silla de Ken vacía a su derecha. No decía nada. No pedía que Takina dejara de hacerlo. No sugería que tal vez era hora de guardar la taza verde en el armario y aceptar que la silla iba a estar vacía hasta que dejara de estarlo — si dejaba de estarlo. No decía nada porque la taza verde, para Chisato, era lo mismo que para Takina: no una espera sino una promesa. Una promesa que no era de Ken — Ken no había prometido volver. Ken había dicho “si vuelvo.” Ken había dejado la puerta abierta con la mano abierta y la mano abierta no es una promesa sino una posibilidad, y las posibilidades no se guardan en armarios sino que se mantienen en las mesas, visibles, presentes, calientes.</p>
+
+      <p class="narration">Pero Chisato había cambiado en veintiún días. El cambio no era visible para Mizuki ni para Kurumi ni para los clientes de LycoReco que entraban y salían y que veían a la misma Chisato de siempre — la sonrisa rápida, la voz alta, la energía que llenaba la habitación como el sol llena una ventana. Pero Takina lo veía. Takina veía lo que nadie más veía porque Takina miraba con la resolución de un sensor militar y la atención de alguien que ha dedicado setenta y nueve días consecutivos a aprender el lenguaje del cuerpo de una persona: los cuatro segundos extra que Chisato tardaba en responder cuando alguien entraba por la puerta y no era Ken. El gesto involuntario de girar la cabeza hacia la silla vacía cada vez que la campanilla sonaba. La forma en que su mano derecha tocaba su propio pecho — sobre el marcapasos, sobre el tic-tum, sobre la máquina que le prestaba tiempo — cuando creía que nadie la veía, como si estuviera contando latidos, como si estuviera calculando cuántos le quedaban y cuántos había gastado en la culpa de haber llamado “ventana” a un hombre que merecía ser llamado “mundo.”</p>
+
+      <p class="narration">Y Mika. Mika seguía sirviendo tres tazas de hojicha. Cada noche. A las nueve. Sin que nadie se lo pidiera. La tercera taza — la de Ken, la que humeaba sola en el extremo de la barra como un faro diminuto en un muelle donde no atracaba ningún barco — se enfriaba cada noche y cada noche Mika la recogía y la vaciaba y la lavaba con la misma paciencia con que se cuida un jardín que todavía no ha florecido. Sin prisa. Sin desánimo. Sin la necesidad de que el gesto tenga resultado inmediato para que el gesto tenga sentido.</p>
+
+      <div class="dialogue mika">
+        <span class="speaker speaker-mika">Mika</span>
+        <p class="line"><span class="action">(La noche del vigésimo día. Recogiendo la taza de hojicha no bebida. La voz de alguien que ha vivido lo suficiente para saber que el tiempo no es el enemigo sino el medio — el medio de transporte de las cosas que van a llegar, el río que lleva las cosas rotas a la orilla donde alguien las recoge.)</span> Las grietas necesitan tiempo para que el oro se asiente.</p>
+      </div>
+
+      <p class="narration">Nadie respondió. Chisato estaba en la cama. Takina estaba leyendo Sun Tzu — capítulo seis, el capítulo que ahora contenía una sola página arrancada donde antes contenía tres marcapáginas muertos. La página de Ken. Las tres tazas cenitales. La mano compuesta. El único marcapáginas que le quedaba. El único que todavía tenía líneas visibles, trazos reconocibles, la evidencia tangible de una mano que había existido sobre el papel.</p>
+
+      <p class="narration">Takina pasaba el dedo por el borde irregular de la página cada noche. El borde donde el papel se había separado de la espiral del cuaderno. Las fibras sueltas. La cicatriz del arranque. Y pensaba — no con la esperanza que había sentido los primeros días después del cristal roto, no con la desolación que había sentido los días del medio, sino con algo nuevo: con certeza. La certeza de que las cosas arrancadas no desaparecen. Se transforman. Cambian de cuaderno. Encuentran otro libro. Y la página de Ken estaba aquí, en su libro, entre sus páginas, sosteniendo su lugar, y eso significaba algo que todavía no tenía nombre pero que existía con la solidez de las cosas que no necesitan nombre para ser reales.</p>
+    </section>
+
+    <div class="petal-divider" aria-hidden="true">⛈️ ✦ ⛈️</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">☕</span> Escena II — El Día Ochenta</div>
+
+      <p class="narration">Cinco de noviembre. Domingo. Día ochenta del café de Takina.</p>
+
+      <p class="narration">El cielo estaba gris. No el gris del episodio siete — aquel gris de julio que era húmedo y denso y que olía a tierra mojada antes de que la tierra se mojara. Este gris era diferente. Este gris era el gris de noviembre en Tokio: un gris metálico, un gris que no prometía lluvia sino tormenta. Un gris que pesaba. Un gris que presionaba el horizonte hacia abajo como una mano sobre una tapa que se resiste a cerrarse y que va a cerrarse igual porque la presión no perdona, porque la atmósfera no negocia, porque cuando las condiciones están dadas la tormenta no pregunta si es buen momento — simplemente llega.</p>
+
+      <p class="narration">Takina preparó las tres tazas. Noventa y dos grados. Colombia. Canela. Los movimientos idénticos a los de los setenta y nueve días anteriores pero con una variación que no era física sino temporal: hoy marcaba una cifra redonda. Ochenta. Ocho-cero. Ochenta mañanas de abrir los ojos antes que la alarma, de ir a la cocina, de poner agua a calentar, de sacar tres tazas de la repisa, de medir el café con la misma cuchara, de verter el agua en círculos concéntricos de fuera hacia dentro, de poner la canela en la verde. Ochenta mañanas. Un número que, para una persona normal, sería simplemente una cantidad. Pero para Takina Inoue — para alguien que convertía los números en anclas, que transformaba las cifras en estructura, que usaba la matemática como andamio cuando el mundo era demasiado blando para sostenerse solo — ochenta era un hito. Ochenta era la prueba de que la constancia no es una virtud abstracta sino un acto físico que se repite hasta que la repetición se convierte en identidad.</p>
+
+      <p class="narration">La campanilla no sonó. No había sonado en veintiún días. Pero Takina miró hacia la puerta igual. No porque esperara — porque verificar era su forma de cuidar. Como un soldado que mira los flancos aunque sepa que no hay enemigos. Como un francotirador que revisa la línea de tiro aunque no vaya a disparar. El cuidado como hábito. La atención como forma de respeto hacia lo que podría suceder aunque no sucediera.</p>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Entrando en la cocina. Descalza. El pelo suelto. Las ojeras más suaves que hace una semana — el sueño estaba volviendo, de a poco, como vuelven las cosas que se van: primero una hora, después dos, después la noche entera.)</span> Ochenta.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Sin girarse. Las manos en la tercera taza. La canela cayendo en espiral.)</span> Ochenta.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Acercándose. Poniéndose al lado de Takina frente a la barra. Hombro con hombro. La distancia de cero centímetros — la distancia que habían conquistado en veintiún noches de manos buscándose en la oscuridad, no con la urgencia de octubre sino con la calma de noviembre, la calma de dos personas que habían dicho “te elijo” y que estaban aprendiendo que elegir no es un acto de un día sino un verbo que se conjuga cada mañana.)</span> ¿Crees que lleva la cuenta?</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line">Ken no lleva cuentas. Ken dibuja. <span class="action">(Pausa. La pausa de Takina, que era diferente de la pausa de Chisato — no un recurso dramático sino un cálculo, un procesamiento, la pausa que necesita el cerebro para encontrar la palabra exacta entre las mil palabras posibles.)</span> Si está dibujando, la cuenta no importa. Si no está dibujando, ninguna cuenta lo trae de vuelta.</p>
+      </div>
+
+      <p class="narration">Chisato asintió. No con la cabeza — con todo el cuerpo. Un asentimiento que empezó en los hombros y que bajó hasta los pies como una ola que recorre la costa, como un estremecimiento que no era de frío sino de comprensión, la comprensión de que Takina tenía razón y que tener razón era doloroso y que el dolor era necesario porque las verdades dolorosas son las únicas que curan.</p>
+
+      <p class="narration">Afuera, el cielo se oscureció un grado más. La presión atmosférica bajó. Los pájaros dejaron de cantar — no todos a la vez sino en secuencia, como músicos que dejan de tocar uno a uno al final de un ensayo, como si cada pájaro estuviera leyendo el barómetro del aire con los sentidos que los humanos habían perdido y que los animales conservaban y que les decían lo que el cielo les estaba diciendo a todos los que supieran escuchar: que la tormenta no era una posibilidad sino una certeza, que la pregunta no era si iba a llegar sino cuándo.</p>
+
+      <p class="kintsugi-sfx" aria-label="Trueno distante">— — — — —</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">🔫</span> Escena III — La Misión</div>
+
+      <p class="narration">La alerta llegó a las trece y quince.</p>
+
+      <p class="narration">Categoría A. La primera Categoría A desde junio. Desde antes del triángulo. Desde antes de las tres tazas. Categoría A significaba que la situación había escalado más allá de lo que un equipo estándar podía resolver, que la amenaza era de tipo armado y organizado, que los civiles estaban en riesgo directo y que el tiempo entre la alerta y la intervención era la diferencia entre un incidente y una tragedia. Categoría A significaba que no había margen para los tres décimos de segundo que Takina había perdido en Shinagawa en octubre. Categoría A significaba perfección o consecuencias.</p>
+
+      <p class="narration">Ubicación: Odaiba. El complejo comercial junto a la bahía. Un grupo armado — cuatro individuos, armamento táctico, comunicaciones cifradas — había tomado el ala oeste del segundo piso. Treinta y dos civiles dentro. Trece menores. Las cámaras del perímetro mostraban posiciones defensivas en las cuatro esquinas y un punto de comando en el centro. Formación de diamante. Entrenamiento militar o paramilitar. No eran aficionados.</p>
+
+      <div class="dialogue mizuki">
+        <span class="speaker speaker-mizuki">Mizuki</span>
+        <p class="line"><span class="action">(La voz por el comunicador. Seca. Profesional. La voz de Mizuki Nakahara cuando el mundo dejaba de ser un lugar donde se daban consejos sobre el amor y se convertía en un tablero donde las fichas eran personas y cada movimiento contaba.)</span> ChisaTaki, tienen punto de ingreso por la escalera de servicio norte. Kurumi los cubre desde las cámaras. Cuatro hostiles. Diamante. El líder está en el centro, moviéndose entre los civiles. Usan a los menores como perímetro interno. Repito: los menores están entre los hostiles y las salidas. No hay línea limpia de tiro desde ningún ángulo estático.</p>
+      </div>
+
+      <div class="dialogue kurumi">
+        <span class="speaker speaker-kurumi">Kurumi</span>
+        <p class="line"><span class="action">(Teclas. Pantallas. La respiración de alguien que vive entre cables y datos y que traduce el mundo real a coordenadas y vectores y probabilidades.)</span> Confirmado. Los cuatro usan chalecos. Punto débil: cuello y extremidades. Pero necesitan entrar y separar al líder del perímetro de menores antes de que los flanqueadores reaccionen. Tiempo estimado de reacción hostil: uno punto dos segundos desde el primer disparo.</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Ya en movimiento. Ya con el arma desenfundada. Ya con la frecuencia cardíaca en el rango operativo — sesenta y cuatro por minuto, el ritmo de combate de Takina Inoue, el ritmo que no era ni alto ni bajo sino exacto.)</span> Uno punto dos. Necesito que Chisato atraiga al líder hacia la zona este en cero punto ocho. Le doy cero punto cuatro para los tres flanqueadores.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Corriendo. Las piernas que no se cansaban. Los ojos que no fallaban. El cuerpo que llevaba dentro una máquina con fecha de caducidad y que funcionaba como si la fecha no existiera.)</span> Cero punto ocho. Hecho. Entro por la vitrina del este. Rompo el cristal, hago ruido, el líder se gira. Takina, tienes tu ventana.</p>
+      </div>
+
+      <p class="narration">Ventana. La palabra cayó en el comunicador como una piedra en un lago quieto — las ondas expandiéndose hacia fuera, tocando los bordes, volviendo al centro. Ventana. La palabra que hacía veintiún días había roto a un hombre en una cafetería. La palabra que Chisato había jurado reemplazar con algo mejor. Y aquí estaba, la misma palabra, pero en otro contexto — el contexto táctico, el contexto donde “ventana” significaba “intervalo de tiempo para el disparo” y no significaba “el lugar que ocupas en mi vida” — y sin embargo el eco del otro significado estaba ahí, presente, inevitable, como el eco de una nota musical que ya se ha dejado de tocar pero que sigue vibrando en las paredes de la habitación.</p>
+
+      <p class="narration">Chisato lo notó. A mitad de la carrera. A mitad de la frase. Lo notó y no lo corrigió porque corregirlo habría sido detenerse y detenerse no era una opción cuando trece menores estaban dentro de un perímetro de diamante y la diferencia entre la vida y lo otro era un segundo y dos décimas. Pero lo notó. Y al notarlo, algo se tensó en su pecho — no el marcapasos, no el mecanismo, sino algo anterior al mecanismo, algo que el mecanismo no registraba pero que existía igual: la memoria. La memoria de la palabra dicha en otro contexto. La memoria de los ojos de Ken cuando escuchó “ventana.” La memoria de la mano abierta en el umbral.</p>
+
+      <p class="narration">Llegaron al complejo en cuatro minutos. La escalera de servicio norte. Takina delante. Chisato detrás. La formación de siempre — Takina como punta de lanza, Chisato como cobertura, las dos mitades de un mecanismo que funcionaba con la sincronía de los organismos que han evolucionado juntos, como los bancos de peces que giran al unísono, como las bandadas que cambian de dirección sin señal visible porque la señal no es visible sino compartida, no se transmite por ondas sonoras ni por gestos sino por algo que no tiene nombre técnico y que los científicos llaman “inteligencia de enjambre” y que Takina y Chisato llamaban, sin decirlo, “nosotras.”</p>
+
+      <p class="kintsugi-sfx" aria-label="Comunicador estático">— — — — —</p>
+    </section>
+
+    <div class="petal-divider" aria-hidden="true">⛈️ ✦ ⛈️</div>
+
+    <section class="scene">
+      <div class="scene-heading"><span class="scene-icon" aria-hidden="true">💥</span> Escena IV — El Cristal de Odaiba</div>
+
+      <p class="narration">Chisato rompió la vitrina del este.</p>
+
+      <p class="narration">El sonido del cristal al quebrarse fue un sonido que las tres — Chisato, Takina, y Kurumi a través de las cámaras — reconocieron. No por la misión. Por el episodio anterior. Por la mesa de la ventana. Por el cristal que se rompe y que no queda igual pero que puede sostener agua. El cristal de Odaiba era vidrio templado de seguridad — diseñado para fragmentarse en cubos pequeños, sin filos, sin las esquirlas asesinas del cristal común — pero el sonido era el mismo. El chasquido seco de algo sólido que deja de ser sólido. La transformación irreversible de una superficie en fragmentos.</p>
+
+      <p class="narration">El líder se giró. Cero punto tres segundos. Más rápido de lo estimado. Los ojos del hombre encontraron a Chisato — la silueta recortada contra la luz gris de noviembre que entraba por la vitrina rota, el pelo rubio, los ojos rápidos, el cuerpo que se movía con la gracia letal de alguien que conoce la balística mejor que la gramática — y levantó el arma.</p>
+
+      <p class="narration">Takina disparó.</p>
+
+      <p class="narration">Tres tiros. En cero punto cuatro segundos. Tres flanqueadores. Tres impactos no letales — hombro derecho, rodilla izquierda, mano de arma. Precisión quirúrgica. Precisión de relojería. Precisión de alguien que no había perdido ni una décima desde octubre porque el dolor privado no se mezclaba con la función, porque Takina Inoue había construido un muro entre la mujer que llenaba tres tazas cada mañana y la soldado que vaciaba cargadores cuando la situación lo requería, y el muro era sólido, y el muro era necesario, y el muro se llamaba disciplina y la disciplina era lo único que Takina tenía que nunca le había fallado.</p>
+
+      <p class="narration">Pero el líder. El líder no cayó con los otros tres. El líder ya estaba girando cuando los flanqueadores recibieron el impacto. El líder ya tenía el arma levantada. El líder apuntaba a Chisato — a la silueta en la vitrina, al blanco más visible de la sala, al cuerpo que se había puesto deliberadamente en la línea de fuego para crear la ventana que Takina necesitaba — y disparó.</p>
+
+      <p class="narration">La bala pasó a centímetros del marcapasos. Chisato se movió — los ojos habían visto la trayectoria antes que la bala la recorriera, porque los ojos de Chisato Nishikigi eran los ojos que leían las balas, los ojos que veían lo invisible, los ojos que procesaban la balística en tiempo real. Se movió hacia la derecha. Centímetros. Los centímetros justos. La bala pasó por el espacio donde el pecho de Chisato había estado una fracción de segundo antes, pasó por el aire que olía a pólvora y a cristal roto, y se incrustó en la pared detrás de ella con un golpe sordo que fue el sonido del casi, el sonido del por poco, el sonido del universo alternativo donde la bala llegaba y donde todo — las tazas, los cafés, las mañanas, los ochenta días, los latidos del tic-tum — terminaba.</p>
+
+      <p class="narration">Pero la esquirla. Un fragmento de la vitrina. Un cubo de vidrio templado que la onda expansiva del disparo había redirigido — una casualidad, un accidente, la clase de evento que no aparece en ningún protocolo ni en ningún manual táctico. El cubo de vidrio impactó en el brazo izquierdo de Chisato. No en el pecho. No en la cabeza. En el brazo. En la cara externa del bíceps, entre el hombro y el codo, en la zona donde la piel es más fina y los vasos sanguíneos más superficiales.</p>
+
+      <p class="narration">Chisato no se detuvo. No gritó. No miró. El cuerpo registró el impacto como información — dolor, brazo izquierdo, nivel cuatro de diez, funcionalidad no comprometida — y siguió moviéndose porque detenerse era morir y Chisato Nishikigi no se detenía, no en combate, no cuando había trece menores en la sala, no cuando Takina estaba a quince metros disparando con la precisión de un metrónomo militar.</p>
+
+      <p class="narration">Takina neutralizó al líder. Un disparo. Hombro. El hombre cayó. El arma cayó. Los cuatro hostiles en el suelo. Trece menores ilesos. Treinta y dos civiles ilesos. Cero bajas. Misión completada en siete punto ocho segundos desde que Chisato rompió la vitrina hasta que el último hostil tocó el suelo.</p>
+
+      <p class="narration">Takina bajó el arma. Miró a Chisato. Y vio la sangre.</p>
+
+      <p class="narration">La sangre en el brazo izquierdo de Chisato Nishikigi. Roja. Brillante. Bajando por la piel con la constancia de la gravedad, dibujando una línea irregular desde el corte hasta el codo, goteando desde el codo hasta el suelo entre los fragmentos de cristal templado que cubrían el piso del ala este como una alfombra de cubos translúcidos que reflejaban la luz gris de noviembre y que ahora reflejaban también el rojo de la sangre de Chisato — el rojo sobre el transparente, el calor sobre el frío, la prueba de que dentro de la persona que esquivaba balas y que rompía vitrinas había algo tan frágil como el cristal que acababa de romper.</p>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Corriendo. El arma enfundada. Las manos libres. Las manos buscando a Chisato con la urgencia que no usaba para las balas — para las balas usaba precisión, para Chisato usaba velocidad.)</span> Chisato. Tu brazo.</p>
+      </div>
+
+      <div class="dialogue chisato">
+        <span class="speaker speaker-chisato">Chisato</span>
+        <p class="line"><span class="action">(Mirando el brazo. La sangre. El corte — superficial, limpio, la herida que sangra mucho y que duele poco.)</span> Estoy bien. Es superficial. No —</p>
+      </div>
+
+      <div class="dialogue takina">
+        <span class="speaker speaker-takina">Takina</span>
+        <p class="line"><span class="action">(Las manos ya en el brazo. Presionando. El vendaje de emergencia desplegado en tres segundos — los mismos tres segundos que había tardado en darle la mano a Ken en agosto, los tres segundos que eran la unidad de tiempo de Takina para los actos importantes.)</span> No es superficial. Es de tres centímetros. Necesita puntos. <span class="action">(Los ojos fijos en la herida. Pero la voz — la voz que tembló. La voz que perdió medio tono durante medio segundo y que se recuperó inmediatamente pero que ese medio segundo existió y que Chisato lo escuchó.)</span> No te muevas.</p>
+      </div>
+
+      <p class="narration">Chisato no se movió. No porque Takina se lo pidiera sino porque la mano de Takina en su brazo — la presión de los dedos sobre la venda, el calor de la palma contra la piel — era un ancla. Un peso. Una gravedad personal que la mantenía en el suelo y en el presente mientras la adrenalina del combate todavía corría por sus venas y mientras el marcapasos registraba ciento dieciocho latidos por minuto que iban bajando de a uno, de a dos, de a tres, como una escalera que se desciende peldaño a peldaño hacia la calma.</p>
+
+      <p class="narration">Y afuera, sobre la bahía de Odaiba, el primer relámpago. Lejano. Silencioso todavía — porque los relámpagos lejanos son silenciosos, porque la luz viaja más rápido que el sonido. El primer relámpago de la tormenta que llevaba todo el día formándose. El aviso. La señal. La tormenta estaba llegando.</p>
+
+      <p class="kintsugi-sfx" aria-label="Relámpago distante">— — — — —</p>
+    </section>
+
+    <div class="scene-break" aria-hidden="true">· · ·</div>
