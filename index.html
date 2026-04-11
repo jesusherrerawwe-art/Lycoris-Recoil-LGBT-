@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lycoris in Bloom — Una Novela Ligera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --rose: #FF6B9D;
+            --rose-deep: #c0392b;
+            --gold: #FFD700;
+            --gold-soft: #f5c842;
+            --lavender: #b8a9c9;
+            --cream: #FFF8F0;
+            --text-light: #e0d6cc;
+            --text-dim: #8a8178;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--black);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===================== LYCORIS FLOWER SVG BACKGROUND ===================== */
+
+        .bg-flowers {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .lycoris-flower {
+            position: absolute;
+            opacity: 0;
+            animation: floatIn 8s ease-in-out infinite;
+        }
+
+        .lycoris-flower:nth-child(1)  { left: 5%;  top: -10%; animation-delay: 0s;   animation-duration: 12s; }
+        .lycoris-flower:nth-child(2)  { left: 15%; top: -10%; animation-delay: 2s;   animation-duration: 14s; }
+        .lycoris-flower:nth-child(3)  { left: 28%; top: -10%; animation-delay: 4s;   animation-duration: 11s; }
+        .lycoris-flower:nth-child(4)  { left: 42%; top: -10%; animation-delay: 1s;   animation-duration: 13s; }
+        .lycoris-flower:nth-child(5)  { left: 55%; top: -10%; animation-delay: 3.5s; animation-duration: 15s; }
+        .lycoris-flower:nth-child(6)  { left: 68%; top: -10%; animation-delay: 5s;   animation-duration: 10s; }
+        .lycoris-flower:nth-child(7)  { left: 80%; top: -10%; animation-delay: 2.5s; animation-duration: 12.5s; }
+        .lycoris-flower:nth-child(8)  { left: 92%; top: -10%; animation-delay: 6s;   animation-duration: 14s; }
+        .lycoris-flower:nth-child(9)  { left: 10%; top: -10%; animation-delay: 7s;   animation-duration: 11.5s; }
+        .lycoris-flower:nth-child(10) { left: 50%; top: -10%; animation-delay: 8s;   animation-duration: 13.5s; }
+        .lycoris-flower:nth-child(11) { left: 35%; top: -10%; animation-delay: 9s;   animation-duration: 12s; }
+        .lycoris-flower:nth-child(12) { left: 75%; top: -10%; animation-delay: 3s;   animation-duration: 16s; }
+
+        @keyframes floatIn {
+            0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10%  { opacity: 0.15; }
+            50%  { opacity: 0.1; }
+            90%  { opacity: 0.05; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===================== HERO SECTION ===================== */
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                var(--rose-deep) 20%,
+                var(--rose) 50%,
+                var(--rose-deep) 80%,
+                transparent 100%
+            );
+            opacity: 0.2;
+        }
+
+        .subtitle-top {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: clamp(0.75rem, 2vw, 1rem);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1.8s ease-out;
+        }
+
+        .main-title .lycoris {
+            display: block;
+            background: linear-gradient(135deg, var(--rose-deep), var(--rose), var(--gold-soft));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-title .in-bloom {
+            display: block;
+            background: linear-gradient(135deg, var(--gold), var(--gold-soft), var(--cream));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 0.55em;
+            margin-top: -0.1em;
+        }
+
+        .tagline {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+            color: var(--lavender);
+            margin-top: 1.5rem;
+            max-width: 600px;
+            line-height: 1.7;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--rose), transparent);
+            margin: 2.5rem auto;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .credit {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            animation: fadeIn 3.5s ease-out;
+        }
+
+        .credit span {
+            color: var(--rose);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeIn 4s ease-out, pulse 2s ease-in-out infinite 4s;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 1px solid var(--rose);
+            border-bottom: 1px solid var(--rose);
+            transform: rotate(45deg);
+            opacity: 0.5;
+        }
+
+        /* ===================== SYNOPSIS SECTION ===================== */
+
+        .synopsis {
+            position: relative;
+            z-index: 1;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            text-align: center;
+        }
+
+        .synopsis-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .synopsis p {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            line-height: 2;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .synopsis p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .synopsis .highlight {
+            color: var(--rose);
+            font-style: italic;
+        }
+
+        /* ===================== CHAPTERS SECTION ===================== */
+
+        .chapters-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .section-title .act-count {
+            font-family: 'Lora', serif;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: var(--lavender);
+        }
+
+        /* ---- Act Group ---- */
+
+        .act-group {
+            margin-bottom: 4rem;
+        }
+
+        .act-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+        }
+
+        .act-number {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .act-name {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            background: linear-gradient(135deg, var(--rose), var(--gold-soft));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 0.3rem;
+        }
+
+        /* ---- Chapter Card ---- */
+
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chapter-card {
+            display: grid;
+            grid-template-columns: 60px 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .chapter-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chapter-card:hover {
+            background: rgba(255, 107, 157, 0.04);
+            border-color: rgba(255, 107, 157, 0.15);
+            transform: translateX(6px);
+        }
+
+        .chapter-card.locked {
+            pointer-events: none;
+        }
+
+        .chapter-card.locked .chapter-title,
+        .chapter-card.locked .chapter-num {
+            opacity: 0.3;
+        }
+
+        .chapter-num {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--rose);
+            text-align: center;
+            line-height: 1;
+        }
+
+        .chapter-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .chapter-title {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: var(--cream);
+            font-weight: 600;
+        }
+
+        .chapter-subtitle {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+        }
+
+        .chapter-status {
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .status-available {
+            color: var(--gold);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .status-soon {
+            color: var(--text-dim);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* ===================== FOOTER ===================== */
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        footer .lycoris-icon {
+            margin-bottom: 1.5rem;
+        }
+
+        footer p {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            line-height: 2;
+            letter-spacing: 0.05em;
+        }
+
+        footer .heart {
+            color: var(--rose);
+        }
+
+        footer a {
+            color: var(--lavender);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(184, 169, 201, 0.3);
+            transition: border-color 0.3s;
+        }
+
+        footer a:hover {
+            border-color: var(--lavender);
+        }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50%      { opacity: 0.8; }
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .chapter-card {
+                grid-template-columns: 45px 1fr;
+                gap: 1rem;
+                padding: 1.2rem 1.5rem;
+            }
+
+            .chapter-status {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
+
+            .synopsis {
+                padding: 3rem 1.5rem 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ FALLING LYCORIS PETALS ============ -->
+    <div class="bg-flowers" aria-hidden="true">
+        <svg class="lycoris-flower" width="28" height="28" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b" opacity="0.6"/>
+        </svg>
+        <svg class="lycoris-flower" width="22" height="22" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D" opacity="0.5"/>
+        </svg>
+        <svg class="lycoris-flower" width="18" height="18" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b" opacity="0.4"/>
+        </svg>
+        <svg class="lycoris-flower" width="25" height="25" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D" opacity="0.5"/>
+        </svg>
+        <svg class="lycoris-flower" width="20" height="20" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b" opacity="0.6"/>
+        </svg>
+        <svg class="lycoris-flower" width="30" height="30" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D" opacity="0.4"/>
+        </svg>
+        <svg class="lycoris-flower" width="24" height="24" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b" opacity="0.5"/>
+        </svg>
+        <svg class="lycoris-flower" width="16" height="16" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D" opacity="0.6"/>
+        </svg>
+        <svg class="lycoris-flower" width="26" height="26" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b" opacity="0.4"/>
+        </svg>
+        <svg class="lycoris-flower" width="21" height="21" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D" opacity="0.5"/>
+        </svg>
+        <svg class="lycoris-flower" width="19" height="19" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b" opacity="0.55"/>
+        </svg>
+        <svg class="lycoris-flower" width="23" height="23" viewBox="0 0 40 40">
+            <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D" opacity="0.45"/>
+        </svg>
+    </div>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+        <p class="subtitle-top">Una novela ligera en 12 episodios</p>
+
+        <h1 class="main-title">
+            <span class="lycoris">Lycoris</span>
+            <span class="in-bloom">in Bloom</span>
+        </h1>
+
+        <div class="divider"></div>
+
+        <p class="tagline">
+            «&thinsp;Mi corazón artificial late por muchas razones.<br>
+            Pero solo se acelera por una.&thinsp;»
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="credit">Basada en el universo de <span>Lycoris Recoil</span></p>
+
+        <div class="scroll-indicator">
+            <span>Descubre</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- ============ SYNOPSIS ============ -->
+    <section class="synopsis" id="synopsis">
+        <p class="synopsis-label">— Sinopsis —</p>
+
+        <p>
+            Después de una misión que casi le cuesta la vida, <strong>Takina Inoue</strong> es salvada
+            en el último segundo por la persona que más admira. En la quietud que sigue a las balas,
+            algo despierta dentro de ella — algo que no puede clasificar como <em>«racional.»</em>
+        </p>
+
+        <p>
+            Mientras Takina lucha por entender lo que siente, un rostro nuevo aparece en
+            Café LycoReco: <strong>Ken Fujimoto</strong>, un universitario con una sonrisa
+            contagiosa, un marcapasos en el pecho, y una conexión instantánea con
+            <strong>Chisato Nishikigi</strong> que amenaza con cambiarlo todo.
+        </p>
+
+        <p>
+            Lo que comienza como amistad pronto se convierte en algo más.
+            Y Takina, observando desde la distancia, descubrirá que
+            <span class="highlight">el amor y los celos pueden ser más peligrosos que cualquier bala.</span>
+        </p>
+    </section>
+
+    <!-- ============ CHAPTERS ============ -->
+    <section class="chapters-section" id="capitulos">
+        <div class="section-title">
+            <h2>Índice de Episodios</h2>
+            <p class="act-count">4 actos · 12 capítulos</p>
+        </div>
+
+        <!-- ── ACT I ── -->
+        <div class="act-group">
+            <div class="act-header">
+                <p class="act-number">Acto I</p>
+                <p class="act-name">Latidos</p>
+            </div>
+            <div class="chapter-list">
+                <a href="#" class="chapter-card locked" data-chapter="1">
+                    <span class="chapter-num">1</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">El peso de una bala</span>
+                        <span class="chapter-subtitle">Pólvora y Ceniza — Perspectiva de Takina</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="2">
+                    <span class="chapter-num">2</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">El chico del marcapasos</span>
+                        <span class="chapter-subtitle">Café con Leche — Narrador omnisciente</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="3">
+                    <span class="chapter-num">3</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Mariposas</span>
+                        <span class="chapter-subtitle">Alas Divididas — Perspectiva dual</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ── ACT II ── -->
+        <div class="act-group">
+            <div class="act-header">
+                <p class="act-number">Acto II</p>
+                <p class="act-name">Mariposas y Espinas</p>
+            </div>
+            <div class="chapter-list">
+                <a href="#" class="chapter-card locked" data-chapter="4">
+                    <span class="chapter-num">4</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Dos corazones artificiales</span>
+                        <span class="chapter-subtitle">Electrocardiograma — Perspectiva de Ken</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="5">
+                    <span class="chapter-num">5</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Lo que no se dice</span>
+                        <span class="chapter-subtitle">Tinta y Agua — Monólogo de Takina</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="6">
+                    <span class="chapter-num">6</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">La cita</span>
+                        <span class="chapter-subtitle">Hanabi (花火) — Narrador cinematográfico</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ── ACT III ── -->
+        <div class="act-group">
+            <div class="act-header">
+                <p class="act-number">Acto III</p>
+                <p class="act-name">Guerra Silenciosa</p>
+            </div>
+            <div class="chapter-list">
+                <a href="#" class="chapter-card locked" data-chapter="7">
+                    <span class="chapter-num">7</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Racional</span>
+                        <span class="chapter-subtitle">Tablero de Ajedrez — Perspectiva de Takina</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="8">
+                    <span class="chapter-num">8</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Veneno dulce</span>
+                        <span class="chapter-subtitle">Espejo Roto — Perspectiva dual</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="9">
+                    <span class="chapter-num">9</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Colapso</span>
+                        <span class="chapter-subtitle">El Reloj — Narrador omnisciente</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ── ACT IV ── -->
+        <div class="act-group">
+            <div class="act-header">
+                <p class="act-number">Acto IV</p>
+                <p class="act-name">Recoil del Corazón</p>
+            </div>
+            <div class="chapter-list">
+                <a href="#" class="chapter-card locked" data-chapter="10">
+                    <span class="chapter-num">10</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Lo que quiero hacer, máxima prioridad</span>
+                        <span class="chapter-subtitle">Lluvia — Perspectiva de Takina</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="11">
+                    <span class="chapter-num">11</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Dos cafés, una verdad</span>
+                        <span class="chapter-subtitle">Dos Tazas — Perspectiva dual</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+                <a href="#" class="chapter-card locked" data-chapter="12">
+                    <span class="chapter-num">12</span>
+                    <div class="chapter-info">
+                        <span class="chapter-title">Lycoris in Bloom</span>
+                        <span class="chapter-subtitle">Florecer — Perspectiva de Chisato</span>
+                    </div>
+                    <span class="chapter-status status-soon">Próximamente</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+        <div class="lycoris-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M20 4 C22 12, 28 16, 36 20 C28 24, 24 28, 20 36 C16 28, 12 24, 4 20 C12 16, 16 12, 20 4Z"
+                      fill="none" stroke="#FF6B9D" stroke-width="0.8" opacity="0.4"/>
+                <circle cx="20" cy="20" r="3" fill="#c0392b" opacity="0.5"/>
+            </svg>
+        </div>
+        <p>
+            «&thinsp;Lycoris in Bloom&thinsp;» es una obra de ficción creada por fans.<br>
+            Basada en el universo de <a href="https://lycorisrecoil.com/" target="_blank" rel="noopener">Lycoris Recoil</a>
+            © A-1 Pictures / Spider Lily / Asaura / Imigimuru.<br>
+            Todos los derechos de los personajes originales pertenecen a sus respectivos creadores.<br><br>
+            Hecho con <span class="heart">♥</span> como proyecto final de literatura.
+        </p>
+    </footer>
+
+    <!-- ============ SCROLL REVEAL SCRIPT ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            document.querySelectorAll('.synopsis p, .chapter-card').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
