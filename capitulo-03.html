@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 3: Mariposas — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@200;300;400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Chisato side — warm gold */
+            --chi-bg: #FFFCF0;
+            --chi-bg-deep: #FFF7E0;
+            --chi-gold: #D4A030;
+            --chi-gold-soft: #E8C868;
+            --chi-gold-faint: rgba(212, 160, 48, 0.08);
+            --chi-text: #4A3F28;
+            --chi-text-soft: #7A6E52;
+            --chi-butterfly: #D4A030;
+
+            /* Takina side — cool lavender */
+            --tak-bg: #F3F0F8;
+            --tak-bg-deep: #EAE4F2;
+            --tak-lavender: #7B6B9E;
+            --tak-lavender-soft: #A899C4;
+            --tak-lavender-faint: rgba(123, 107, 158, 0.08);
+            --tak-text: #2E2840;
+            --tak-text-soft: #5C5470;
+            --tak-butterfly: #4A3D6E;
+
+            /* Shared */
+            --divider-red: #c0392b;
+            --white: #FFFFFF;
+            --text-faint: #999;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--chi-bg) 0%, var(--chi-bg) 50%, var(--tak-bg) 50%, var(--tak-bg) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.9;
+        }
+
+        /* ===================== BUTTERFLY SVG ANIMATIONS ===================== */
+
+        .bg-butterflies {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .butterfly {
+            position: absolute;
+            opacity: 0;
+            animation: flutter 10s ease-in-out infinite;
+        }
+
+        .butterfly.gold { color: var(--chi-butterfly); }
+        .butterfly.dark { color: var(--tak-butterfly); }
+
+        .butterfly:nth-child(1)  { left: 8%;  top: -5%; animation-delay: 0s;   animation-duration: 13s; }
+        .butterfly:nth-child(2)  { left: 18%; top: -5%; animation-delay: 3s;   animation-duration: 11s; }
+        .butterfly:nth-child(3)  { left: 30%; top: -5%; animation-delay: 1.5s; animation-duration: 14s; }
+        .butterfly:nth-child(4)  { left: 40%; top: -5%; animation-delay: 5s;   animation-duration: 12s; }
+        .butterfly:nth-child(5)  { left: 60%; top: -5%; animation-delay: 2s;   animation-duration: 15s; }
+        .butterfly:nth-child(6)  { left: 70%; top: -5%; animation-delay: 4s;   animation-duration: 11.5s; }
+        .butterfly:nth-child(7)  { left: 82%; top: -5%; animation-delay: 6s;   animation-duration: 13.5s; }
+        .butterfly:nth-child(8)  { left: 92%; top: -5%; animation-delay: 1s;   animation-duration: 12.5s; }
+        .butterfly:nth-child(9)  { left: 25%; top: -5%; animation-delay: 7s;   animation-duration: 14.5s; }
+        .butterfly:nth-child(10) { left: 55%; top: -5%; animation-delay: 8s;   animation-duration: 11s; }
+
+        @keyframes flutter {
+            0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            5%   { opacity: 0.15; }
+            25%  { transform: translateY(28vh) translateX(20px) rotate(8deg); opacity: 0.12; }
+            50%  { transform: translateY(55vh) translateX(-15px) rotate(-5deg); opacity: 0.1; }
+            75%  { transform: translateY(82vh) translateX(10px) rotate(6deg); opacity: 0.06; }
+            100% { transform: translateY(110vh) translateX(-10px) rotate(0deg); opacity: 0; }
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(255,252,240,0.95), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(255, 252, 240, 0.97);
+            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-title a:hover { color: var(--chi-gold); }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--chi-gold); }
+        .nav-links .disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, var(--chi-bg) 0%, var(--white) 50%, var(--tak-bg) 100%);
+        }
+
+        .chapter-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--chi-bg));
+            pointer-events: none;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            background: linear-gradient(135deg, var(--chi-gold-soft), var(--tak-lavender-soft));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.2;
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main .char-chi {
+            color: var(--chi-gold);
+        }
+
+        .chapter-title-main .char-mid {
+            color: var(--text-faint);
+        }
+
+        .chapter-title-main .char-tak {
+            color: var(--tak-lavender);
+        }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+            color: var(--text-faint);
+            margin-top: 2rem;
+            max-width: 550px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong {
+            font-weight: 400;
+        }
+
+        .meta-item strong.chi { color: var(--chi-gold); }
+        .meta-item strong.tak { color: var(--tak-lavender); }
+
+        /* ===================== DUAL PERSPECTIVE SYSTEM ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene headers ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scene-header.chi {
+            background: linear-gradient(135deg, var(--chi-bg-deep), var(--chi-bg));
+            border: 1px solid var(--chi-gold-faint);
+        }
+
+        .scene-header.tak {
+            background: linear-gradient(135deg, var(--tak-bg-deep), var(--tak-bg));
+            border: 1px solid var(--tak-lavender-faint);
+        }
+
+        .scene-header.shared {
+            background: linear-gradient(135deg, var(--chi-bg-deep), var(--tak-bg-deep));
+            border: 1px solid rgba(150, 130, 170, 0.1);
+        }
+
+        .scene-header .scene-num {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .scene-header.chi .scene-num { color: var(--chi-gold); }
+        .scene-header.tak .scene-num { color: var(--tak-lavender); }
+        .scene-header.shared .scene-num { color: var(--text-faint); }
+
+        .scene-header .scene-name {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .scene-header.chi .scene-name { color: var(--chi-text); }
+        .scene-header.tak .scene-name { color: var(--tak-text); }
+        .scene-header.shared .scene-name { color: #555; }
+
+        .scene-header .scene-pov {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            display: block;
+            margin-top: 0.3rem;
+        }
+
+        .scene-header.chi .scene-pov { color: var(--chi-text-soft); }
+        .scene-header.tak .scene-pov { color: var(--tak-text-soft); }
+        .scene-header.shared .scene-pov { color: var(--text-faint); }
+
+        /* ---- Prose (Chisato voice) ---- */
+
+        .prose-chi {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            font-weight: 400;
+            line-height: 2;
+            color: var(--chi-text);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            padding-left: 1rem;
+            border-left: 2px solid var(--chi-gold-faint);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose-chi.visible { opacity: 1; transform: translateY(0); }
+        .prose-chi em { color: var(--chi-gold); font-style: italic; }
+        .prose-chi strong { font-weight: 700; color: var(--chi-text); }
+
+        /* ---- Prose (Takina voice) ---- */
+
+        .prose-tak {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            font-weight: 400;
+            line-height: 2;
+            color: var(--tak-text);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            padding-left: 1rem;
+            border-left: 2px solid var(--tak-lavender-faint);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose-tak.visible { opacity: 1; transform: translateY(0); }
+        .prose-tak em { color: var(--tak-lavender); font-style: italic; }
+        .prose-tak strong { font-weight: 600; color: var(--tak-text); }
+
+        /* ---- Shared prose (omniscient moments) ---- */
+
+        .prose-shared {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            font-weight: 400;
+            line-height: 2;
+            color: #4A4050;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose-shared.visible { opacity: 1; transform: translateY(0); }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(150, 130, 170, 0.15);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.chisato { color: var(--chi-gold); }
+        .dialogue .speaker.takina  { color: var(--tak-lavender); }
+        .dialogue .speaker.kurumi  { color: #5A8FA8; }
+        .dialogue .speaker.mika    { color: #6E8B5E; }
+        .dialogue .speaker.mizuki  { color: #C48B6E; }
+        .dialogue .speaker.ken     { color: #C8A84E; }
+
+        .dialogue .line {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 1.9;
+            color: #4A4050;
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.65; }
+
+        /* ---- Wing divider (butterfly between perspectives) ---- */
+
+        .wing-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .wing-divider.visible { opacity: 1; }
+
+        .wing-divider .wing-left {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--chi-gold));
+            opacity: 0.4;
+        }
+
+        .wing-divider .wing-right {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to left, transparent, var(--tak-lavender));
+            opacity: 0.4;
+        }
+
+        /* ---- Internal monologue highlight ---- */
+
+        .mono-chi {
+            text-align: center;
+            margin: 2rem 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--chi-bg-deep);
+            border-radius: 8px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            color: var(--chi-gold);
+            line-height: 1.9;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .mono-chi.visible { opacity: 1; transform: translateY(0); }
+
+        .mono-tak {
+            text-align: center;
+            margin: 2rem 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--tak-bg-deep);
+            border-radius: 8px;
+            font-family: 'Source Serif 4', serif;
+            font-style: italic;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            color: var(--tak-lavender);
+            line-height: 1.9;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .mono-tak.visible { opacity: 1; transform: translateY(0); }
+
+        /* ---- Final divider line that turns red ---- */
+
+        .final-divider {
+            width: 80%;
+            max-width: 300px;
+            height: 2px;
+            margin: 4rem auto 2rem;
+            background: linear-gradient(to right, var(--chi-gold), var(--divider-red), var(--tak-lavender));
+            border-radius: 1px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .final-divider.visible { opacity: 0.6; }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Source Serif 4', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            text-align: center;
+            color: var(--tak-lavender);
+            margin: 2rem auto 2rem;
+            max-width: 550px;
+            line-height: 2;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.2s, transform 1.2s;
+        }
+
+        .final-line.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: linear-gradient(135deg, var(--chi-bg) 30%, var(--tak-bg) 70%);
+            border-top: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .end-ornament { margin-bottom: 2rem; opacity: 0.35; }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #888;
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 24px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover {
+            border-color: var(--chi-gold);
+            color: var(--chi-gold);
+        }
+
+        .chapter-nav a.next-chapter {
+            border-color: rgba(123, 107, 158, 0.3);
+            color: var(--tak-lavender);
+        }
+
+        .chapter-nav a.next-chapter:hover {
+            background: var(--tak-lavender-faint);
+            border-color: var(--tak-lavender);
+        }
+
+        .chapter-nav a.disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+            .prose-chi, .prose-tak { padding-left: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ BUTTERFLIES ============ -->
+    <div class="bg-butterflies" aria-hidden="true">
+        <svg class="butterfly gold" width="20" height="16" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.5"/></svg>
+        <svg class="butterfly dark" width="18" height="14" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.4"/></svg>
+        <svg class="butterfly gold" width="22" height="18" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.45"/></svg>
+        <svg class="butterfly dark" width="16" height="12" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.5"/></svg>
+        <svg class="butterfly gold" width="19" height="15" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.4"/></svg>
+        <svg class="butterfly dark" width="21" height="17" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.45"/></svg>
+        <svg class="butterfly gold" width="17" height="13" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.5"/></svg>
+        <svg class="butterfly dark" width="23" height="18" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.4"/></svg>
+        <svg class="butterfly gold" width="15" height="12" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.45"/></svg>
+        <svg class="butterfly dark" width="20" height="16" viewBox="0 0 20 16"><path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="currentColor" opacity="0.5"/></svg>
+    </div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-02.html">← Anterior</a>
+            <a href="#" class="disabled">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto I · Latidos</p>
+        <div class="chapter-number">03</div>
+        <h1 class="chapter-title-main">
+            <span class="char-chi">Mari</span><span class="char-mid">po</span><span class="char-tak">sas</span>
+        </h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Las mariposas en mi estómago son doradas.<br>
+            Las mariposas en el suyo son oscuras.<br>
+            Ambas nacieron el mismo día.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong class="chi">Chisato</strong> · <strong class="tak">Takina</strong></span>
+            <span class="meta-item"><strong>Tema:</strong> Alas Divididas</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ CHISATO'S SIDE: ONE WEEK LATER ══════ -->
+
+        <div class="scene-header chi">
+            <span class="scene-num">Escena I — Lado Chisato</span>
+            <span class="scene-name">Algo nuevo en la rutina</span>
+            <span class="scene-pov">Una semana después</span>
+        </div>
+
+        <p class="prose-chi">
+            Ken cumplió su promesa. Volvió el miércoles. Y el jueves. Y el viernes. El lunes de la semana siguiente estaba sentado en su taburete antes de que Chisato terminara de abrir el café, esperando junto a la puerta con un libro bajo el brazo y esa sonrisa que ya se estaba convirtiendo en parte del paisaje de LycoReco, tan natural como las plantas colgantes o el zumbido de la máquina de espresso.
+        </p>
+
+        <p class="prose-chi">
+            En una semana, Ken Fujimoto se había convertido en un habitual. Pero no el tipo de habitual que pide siempre lo mismo y se sienta siempre en el mismo lugar y apenas intercambia tres palabras con el personal. Ken era un habitual que ocupaba espacio — no espacio físico, sino espacio en las conversaciones, en las rutinas, en los silencios. Su risa se mezclaba con el tarareo de Chisato por las mañanas. Sus opiniones sobre novelas provocaban debates con Mika que duraban más que el café. Sus chistes malos hacían que Kurumi levantara la vista de su pantalla, que era el equivalente cibernético de un milagro.
+        </p>
+
+        <p class="prose-chi">
+            Y Chisato notaba algo.
+        </p>
+
+        <p class="prose-chi">
+            No era un pensamiento — era algo anterior al pensamiento, más parecido a un reflejo. Como cuando esquivaba balas: su cuerpo sabía antes que su mente. Ahora, su cuerpo sabía algo que su mente todavía no había formulado en palabras. Lo sabía porque cada mañana, al abrir los ojos, lo primero que pensaba no era <em>«otro día genial»</em> sino <em>«me pregunto a qué hora vendrá Ken hoy.»</em> Lo sabía porque se descubrió mirándose al espejo un minuto más de lo habitual antes de bajar al café, ajustándose el flequillo como si el ángulo del pelo importara para servir lattes. Lo sabía porque cuando la campanilla sonaba a las dos de la tarde y no era él, sentía una contracción breve en el pecho que no tenía nada que ver con su corazón artificial.
+        </p>
+
+        <p class="mono-chi">
+            ¿Qué me está pasando? Yo no me pongo nerviosa. Yo hago que los demás se pongan nerviosos. Eso es literalmente mi trabajo. Pero cuando Ken entra por esa puerta con su chaqueta y esa cara de «acabo de descubrir algo genial», siento como si alguien hubiera soltado una docena de mariposas dentro de mi estómago y todas estuvieran volando en direcciones distintas.
+        </p>
+
+        <p class="prose-chi">
+            El jueves, Ken le prestó <em>Kitchen</em> de Banana Yoshimoto. Chisato lo leyó en una noche — acurrucada en la cama con la lámpara de noche, pasando páginas con una velocidad que normalmente reservaba para los informes de DA que necesitaba desechar antes de que alguien los encontrara. Al día siguiente, le devolvió el libro con las esquinas de tres páginas dobladas.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—¿Lo leíste entero en una noche?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡No podía parar! Cuando Mikage cocina en la cocina ajena y siente que ese es su lugar... no sé, me hizo pensar en este café. En que LycoReco es mi cocina. Mi lugar. <em>(pausa)</em> ¿Eso suena raro?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Suena perfecto. Suena exactamente como lo que Yoshimoto quería decir. Que el hogar no es un lugar, es la sensación de pertenecer a algo.</span>
+        </div>
+
+        <p class="prose-chi">
+            Chisato se quedó mirándolo. Ken tenía esa capacidad de decir cosas que parecían simples pero que dejaban eco, como una piedra tirada en un lago que sigue generando ondas después de hundirse. Nadie le hablaba así. Mika le hablaba con ternura de padre. Kurumi le hablaba con sarcasmo de colega. Mizuki le hablaba con la camaradería de quien comparte trinchera. Y Takina le hablaba con...
+        </p>
+
+        <p class="prose-chi">
+            Takina.
+        </p>
+
+        <p class="prose-chi">
+            El pensamiento se detuvo ahí, como un tren que frena en una estación que no estaba en el mapa. Chisato parpadeó. Siguió sonriendo. Pero el tren había parado, y algo en esa estación no visitada se quedó esperando.
+        </p>
+
+        <!-- ══════ SWITCH TO TAKINA ══════ -->
+
+        <div class="wing-divider">
+            <div class="wing-left"></div>
+            <svg width="20" height="16" viewBox="0 0 20 16" opacity="0.3">
+                <path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="#7B6B9E"/>
+            </svg>
+            <div class="wing-right"></div>
+        </div>
+
+        <!-- ══════ TAKINA'S SIDE: THE QUESTION ══════ -->
+
+        <div class="scene-header tak">
+            <span class="scene-num">Escena II — Lado Takina</span>
+            <span class="scene-name">La pregunta</span>
+            <span class="scene-pov">El mismo jueves</span>
+        </div>
+
+        <p class="prose-tak">
+            Había patrones en todo. Takina lo sabía porque DA le había enseñado a verlos: patrones en el movimiento de los objetivos, en el tráfico de información, en el comportamiento de los civiles. Los patrones eran predecibles. Los patrones eran racionales. Los patrones eran la base de toda operación exitosa.
+        </p>
+
+        <p class="prose-tak">
+            El patrón de Ken Fujimoto era el siguiente: llegaba entre las 14:00 y las 14:30. Pedía un café (americano los lunes, miércoles y viernes; pour-over los martes y jueves). Se sentaba en el mismo taburete. Hablaba con Chisato durante un promedio de dos horas y cuarenta y siete minutos. Se despedía con la misma promesa de volver. Y Chisato, cada vez, respondía con una variación de la misma frase: <em>«Te estaré esperando.»</em>
+        </p>
+
+        <p class="prose-tak">
+            Takina había registrado el patrón durante siete días. No intencionalmente — o eso se decía. Simplemente, su entrenamiento la hacía observar. Era un acto reflejo. Profesional. <em>Racional.</em>
+        </p>
+
+        <p class="prose-tak">
+            Lo que no era racional era lo que el patrón le hacía sentir.
+        </p>
+
+        <p class="prose-tak">
+            Fue el jueves por la noche, después del turno, cuando Takina subió al segundo piso y encontró a Kurumi en el pasillo, caminando hacia su habitación con una lata de bebida energética y los audífonos colgando del cuello.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Kurumi.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—¿Mm?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Tengo una pregunta.</span>
+        </div>
+
+        <p class="prose-tak">
+            Kurumi se detuvo. Takina haciendo preguntas voluntariamente era un evento lo suficientemente raro como para justificar una pausa.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Dispara.</span>
+        </div>
+
+        <p class="prose-tak">
+            Takina midió las palabras. Las ensayó mentalmente antes de pronunciarlas, como quien desarma y rearma un arma para asegurarse de que cada pieza esté en su lugar.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Qué significa «sentir mariposas en el estómago»?</span>
+        </div>
+
+        <p class="prose-tak">
+            Kurumi parpadeó. Dos veces. Luego ladeó la cabeza con esa expresión de curiosidad clínica que reservaba para los problemas de código particularmente interesantes.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—¿Mariposas en el estómago? <em>(dando un sorbo a la bebida)</em> Significa que estás enamorada. O que comiste algo en mal estado. <em>(pausa)</em> ¿Por qué preguntas?</span>
+        </div>
+
+        <p class="prose-tak">
+            Takina no se rio. Sus ojos morados, normalmente inexpresivos como la superficie de un lago helado, tuvieron un movimiento casi imperceptible — un temblor en los bordes, como si el hielo estuviera a punto de agrietarse.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—No es por mí. Es un término que escuché y quería verificar su significado.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Ajá. <em>(mirándola fijamente)</em> Bueno, para tu información puramente teórica y que definitivamente no tiene nada que ver contigo: las «mariposas» son una respuesta fisiológica del sistema nervioso. Cuando te atrae alguien, tu cerebro libera norepinefrina y dopamina, lo que reduce el flujo sanguíneo al estómago y produce esa sensación de aleteo. Es básicamente tu cuerpo diciéndote que hay alguien cerca que te importa más de lo que tu mente quiere admitir.</span>
+        </div>
+
+        <p class="prose-tak">
+            Silencio en el pasillo. Desde la planta de abajo llegaba el sonido distante de Chisato tarareando mientras cerraba el café. Una melodía lenta. Nueva. Una melodía que Takina no le conocía y que sospechaba tenía algo que ver con una conversación de tres horas sobre libros y corazones que necesitan ayuda para funcionar.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Entendido. Norepinefrina y dopamina. Respuesta fisiológica. Gracias, Kurumi.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—De nada. <em>(girándose para irse, luego deteniéndose)</em> Oye, Takina.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Sí?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Las mariposas no se van porque entiendas la química detrás de ellas. Si fuera así, los neurocientíficos nunca se enamorarían. <em>(medio sonrisa)</em> Buenas noches.</span>
+        </div>
+
+        <p class="prose-tak">
+            Kurumi desapareció en su habitación. La puerta se cerró con un clic suave. Takina se quedó sola en el pasillo, con la espalda apoyada contra la pared y las manos a los costados, escuchando el tarareo de Chisato filtrado a través del suelo.
+        </p>
+
+        <p class="mono-tak">
+            Norepinefrina. Dopamina. Reducción del flujo sanguíneo al estómago. Una explicación limpia, científica, verificable. Todo lo que necesitaba saber para catalogar este fenómeno y archivarlo en la categoría de «datos procesados.» Excepto que no funciona. Porque lo que siento cuando la escucho reírse con él no es una reducción de flujo sanguíneo. Es algo que no cabe en una categoría. Es algo que se parece al momento justo antes de que alguien apriete el gatillo — esa fracción de segundo en que sabes que algo va a cambiar y no puedes hacer nada para evitarlo.
+        </p>
+
+        <!-- ══════ SWITCH BACK TO CHISATO ══════ -->
+
+        <div class="wing-divider">
+            <div class="wing-left"></div>
+            <svg width="20" height="16" viewBox="0 0 20 16" opacity="0.3">
+                <path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="#D4A030"/>
+            </svg>
+            <div class="wing-right"></div>
+        </div>
+
+        <!-- ══════ CHISATO'S SIDE: THE PHONE CALL ══════ -->
+
+        <div class="scene-header chi">
+            <span class="scene-num">Escena III — Lado Chisato</span>
+            <span class="scene-name">La llamada</span>
+            <span class="scene-pov">Viernes por la noche</span>
+        </div>
+
+        <p class="prose-chi">
+            Viernes, once de la noche. El café estaba cerrado. Mika se había ido a su departamento. Mizuki estaba en su habitación con su copa de vino y su revista. Kurumi hacía lo que Kurumi hace a las once de la noche, que podía ser cualquier cosa entre hackear un satélite y ver videos de gatos.
+        </p>
+
+        <p class="prose-chi">
+            Chisato estaba sentada en el piso de la sala de estar del segundo piso, con las piernas cruzadas, un paquete de galletas a medio abrir, y el teléfono en la oreja. Hablaba en voz baja — no porque temiera despertar a nadie, sino porque la conversación tenía esa intimidad que pide un volumen reducido, como si las palabras fueran más honestas cuando viajan una distancia más corta.
+        </p>
+
+        <p class="prose-chi">
+            Del otro lado de la línea, Ken.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—...y entonces mi compañero de piso entra a la cocina y dice «Fujimoto, ¿por qué hay un libro abierto dentro del microondas?» Y yo estaba tan metido en la lectura que lo dejé ahí cuando fui a calentar agua. El libro. Dentro del microondas. No encendí el microondas, pero el punto sigue siendo válido.</span>
+        </div>
+
+        <p class="prose-chi">
+            Chisato se rio. Una risa contenida, suave, que se escapaba entre sus labios como burbujas de una bebida carbonatada. Se tapó la boca con la mano, pero la risa se filtró entre sus dedos.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Eres un desastre, Ken Fujimoto!</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Un desastre con excelente gusto literario. Hay una diferencia.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(todavía riendo)</em> Dios... oye, ¿qué hora es allá?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—La misma que allá. Vivimos en la misma ciudad, Chisato.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Es verdad! Jajaja. Es que se siente como si estuvieras lejos. Como si esta conversación fuera de larga distancia.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—<em>(suavemente)</em> Tal vez es porque cuando hablas con alguien que te importa, cualquier distancia se siente como demasiada.</span>
+        </div>
+
+        <p class="prose-chi">
+            Chisato dejó de reír. No de golpe — más como una canción cuyo volumen baja gradualmente hasta que solo queda el eco. Se quedó en silencio. Un silencio de tres segundos que, para Chisato, era como una declaración de estado de emergencia interior.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—...Ken.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—¿Sí?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Gracias por llamar. De verdad. Buenas noches.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Buenas noches, Chisato. Nos vemos mañana.</span>
+        </div>
+
+        <p class="prose-chi">
+            Colgó. Se quedó mirando la pantalla del teléfono hasta que se apagó y su reflejo apareció en el cristal oscuro. Su propio rostro le devolvió la mirada — ojos rojos abiertos, mejillas con un color que no estaba ahí antes de la llamada, labios curvados en una sonrisa que no había decidido conscientemente hacer.
+        </p>
+
+        <p class="mono-chi">
+            Mariposas. Ahí están otra vez. Una docena de alas doradas aleteando dentro de mí como si mi estómago fuera un jardín que alguien abrió sin mi permiso. ¿Cuándo fue la última vez que sentí esto? ¿Alguna vez sentí esto? No durante una misión — la adrenalina es diferente, es fría, eléctrica. Esto es cálido. Esto es...
+        </p>
+
+        <p class="prose-chi">
+            No terminó el pensamiento. Lo dejó ahí, suspendido, como una pregunta sin signo de interrogación. Se levantó del piso, se comió la última galleta, y caminó hacia su habitación. Al pasar por la puerta de Takina, se detuvo.
+        </p>
+
+        <p class="prose-chi">
+            La luz estaba apagada. Pero Chisato tenía buenos oídos — mejores de lo que la gente imaginaba — y a través de la puerta podía escuchar la respiración de Takina. No dormía. Su respiración cuando dormía era lenta, espaciada, con un ritmo que Chisato conocía tan bien como su propio tarareo. Esta respiración era diferente. Más corta. Irregular. La respiración de alguien que está despierta, mirando el techo, pensando en algo que no la deja dormir.
+        </p>
+
+        <p class="prose-chi">
+            Chisato levantó la mano. Casi tocó la puerta. Casi.
+        </p>
+
+        <p class="prose-chi">
+            Pero algo la detuvo. No sabía qué — no era miedo ni indecisión, que eran emociones que Chisato Nishikigi no incluía en su repertorio. Era algo más sutil: la intuición de que abrir esa puerta en ese momento activaría algo que no estaba lista para activar. Como desmontar una bomba de relojería sin saber cuál cable cortar.
+        </p>
+
+        <p class="prose-chi">
+            Bajó la mano. Siguió hasta su habitación. Cerró la puerta. Se metió en la cama con el teléfono todavía tibio en la mano y la sonrisa todavía puesta como una prenda que se olvidó de quitarse.
+        </p>
+
+        <p class="prose-chi">
+            Del otro lado de la pared, la respiración de Takina se detuvo un momento. Como si hubiera escuchado los pasos detenerse frente a su puerta. Como si hubiera contenido el aliento esperando un golpe que nunca llegó.
+        </p>
+
+        <!-- ══════ SWITCH TO TAKINA ══════ -->
+
+        <div class="wing-divider">
+            <div class="wing-left"></div>
+            <svg width="20" height="16" viewBox="0 0 20 16" opacity="0.3">
+                <path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="#7B6B9E"/>
+            </svg>
+            <div class="wing-right"></div>
+        </div>
+
+        <!-- ══════ TAKINA'S SIDE: HEARING THE CALL ══════ -->
+
+        <div class="scene-header tak">
+            <span class="scene-num">Escena IV — Lado Takina</span>
+            <span class="scene-name">El sonido al otro lado</span>
+            <span class="scene-pov">El mismo viernes por la noche</span>
+        </div>
+
+        <p class="prose-tak">
+            Takina lo escuchó todo.
+        </p>
+
+        <p class="prose-tak">
+            No era su intención. La pared era delgada. La noche era silenciosa. Y el oído de una Lycoris entrenada no tiene botón de apagado. Cada palabra, cada risa, cada pausa llegaba a través del muro como un mensaje que no estaba dirigido a ella pero que recibía de todas formas, como una estación de radio captando la frecuencia equivocada.
+        </p>
+
+        <p class="prose-tak">
+            Escuchó la risa contenida. Esa risa que Chisato hacía tapándose la boca, la risa que Takina conocía porque dormía a tres metros de distancia desde hacía meses, la risa que antes era suya — no suya en el sentido de que ella la causara siempre, sino suya en el sentido de que siempre estaba presente cuando ocurría, siempre era parte del público, siempre tenía un asiento en primera fila.
+        </p>
+
+        <p class="prose-tak">
+            Ahora esa risa tenía otro destinatario. Y el destinatario estaba al otro lado de una señal telefónica, no al otro lado de una pared.
+        </p>
+
+        <p class="prose-tak">
+            <em>«Eres un desastre, Ken Fujimoto.»</em> Lo escuchó con esa entonación que convierte el insulto en caricia. Takina conocía esa entonación. Chisato la había usado con ella exactamente cuarenta y tres veces desde que empezaron a vivir juntas. Takina las contó. No intencionalmente. Su cerebro simplemente las archivó, como archiva todo lo que considera relevante para la misión.
+        </p>
+
+        <p class="prose-tak">
+            Excepto que Chisato no era una misión. Y lo que Takina sentía al escucharla reír por teléfono con Ken Fujimoto a las once de la noche de un viernes no era información operativa.
+        </p>
+
+        <p class="prose-tak">
+            Era dolor.
+        </p>
+
+        <p class="prose-tak">
+            Un dolor específico, localizado, con coordenadas exactas: centro del pecho, ligeramente a la izquierda, en el espacio que existe entre las costillas cuarta y quinta. No era un dolor físico — Takina conocía el dolor físico, lo había experimentado en entrenamientos, en misiones, en la emboscada de Sumida. El dolor físico era manejable. Tenía causa, tenía tratamiento, tenía final. Esto no tenía ninguna de esas cosas. Esto era un dolor que no respondía a la lógica, que no se reducía con presión ni se anestesiaba con distracción. Esto era un dolor que existía porque Chisato estaba riendo con alguien que no era ella, y esa realidad se había convertido en un cuchillo que alguien giraba lentamente entre sus costillas con cada carcajada filtrada a través de la pared.
+        </p>
+
+        <p class="prose-tak">
+            Cuando la llamada terminó, Takina escuchó los pasos de Chisato acercándose por el pasillo. Los reconoció al instante — ligeros, rápidos, con esa cadencia que solo tiene alguien que se mueve como si la gravedad fuera una sugerencia y no una ley. Los pasos se acercaron. Se detuvieron frente a su puerta.
+        </p>
+
+        <p class="prose-tak">
+            Takina dejó de respirar.
+        </p>
+
+        <p class="prose-tak">
+            No voluntariamente — su cuerpo simplemente decidió que el silencio era más importante que el oxígeno en ese momento. Porque si Chisato abría esa puerta, si entraba, si se sentaba al borde de su cama como hacía a veces cuando no podía dormir y le daban ganas de hablar de cualquier cosa...
+        </p>
+
+        <p class="prose-tak">
+            Los pasos se alejaron.
+        </p>
+
+        <p class="prose-tak">
+            La puerta de Chisato se abrió y se cerró. Y Takina, finalmente, exhaló. Un suspiro largo, tembloroso, que llenó la oscuridad de su habitación con algo que se parecía terriblemente a la derrota.
+        </p>
+
+        <p class="mono-tak">
+            Diecisiete años. He vivido diecisiete años procesando información, ejecutando misiones, tomando decisiones basadas en datos verificables. Nunca necesité más que lógica y entrenamiento para resolver cualquier problema que se presentara. Pero esto no es un problema que se pueda resolver. Esto es Chisato riendo por teléfono con un chico que tiene un marcapasos y una sonrisa que se parece demasiado a la de ella. Esto es escuchar sus pasos detenerse frente a mi puerta y no tocar. Esto es saber, con la misma certeza con la que sé que una bala de 9mm viaja a 360 metros por segundo, que lo que siento no es norepinefrina ni dopamina ni ningún proceso fisiológico que pueda explicar Kurumi con su voz de enciclopedia. Esto es más simple. Más viejo. Más devastador. Esto es que la quiero. Y que ella quiere a otro.
+        </p>
+
+        <!-- ══════ SHARED SCENE: SATURDAY MORNING ══════ -->
+
+        <div class="wing-divider">
+            <div class="wing-left"></div>
+            <svg width="20" height="16" viewBox="0 0 20 16" opacity="0.3">
+                <path d="M10 8 C7 2, 1 0, 0 6 C1 10, 5 10, 10 8Z M10 8 C13 2, 19 0, 20 6 C19 10, 15 10, 10 8Z" fill="#c0392b"/>
+            </svg>
+            <div class="wing-right"></div>
+        </div>
+
+        <!-- ══════ SCENE 5: THE LAUGH, THE LOOK, THE HATE ══════ -->
+
+        <div class="scene-header shared">
+            <span class="scene-num">Escena V — Ambas</span>
+            <span class="scene-name">Lo que nace sin permiso</span>
+            <span class="scene-pov">Sábado</span>
+        </div>
+
+        <p class="prose-shared">
+            El sábado fue el día más concurrido de la semana. Familias con niños, parejas de ancianos, estudiantes con laptops, una madre con un bebé que babeaba sobre la mesa tres. Chisato navegaba entre las mesas con su energía de siempre, bandeja en alto, sonrisa en automático, tarareo en la frecuencia habitual.
+        </p>
+
+        <p class="prose-shared">
+            Ken no vino. Era sábado — los sábados tenía práctica de tenis en la universidad, algo que había mencionado el jueves con un «los sábados son mi día de penitencia deportiva.» Su ausencia debería haber sido un alivio para Takina. No lo fue. Porque la ausencia de Ken no significaba la ausencia de Ken. Significaba que Chisato hablaba de él sin que él estuviera presente, lo cual era peor, porque las ausencias tienen la capacidad cruel de hacer que las personas crezcan en el imaginario de quienes las extrañan.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Mika! ¿Sabías que Ken está leyendo a Dazai? ¡Dice que <em>Ya no humano</em> es el libro más triste que ha leído! Yo le dije que el libro más triste del mundo es el manual de instrucciones de la waflera porque nunca tiene final feliz, ¡jajaja!</span>
+        </div>
+
+        <p class="prose-shared">
+            Takina estaba atendiendo la mesa cinco. Sus manos colocaron el plato de tarta de manzana frente a la clienta con la precisión de un cirujano. Su cara no delató nada. Pero dentro de ella, algo se contrajo — una reacción involuntaria, como un músculo que se tensa ante un estímulo doloroso.
+        </p>
+
+        <p class="prose-shared">
+            Más tarde, mientras Chisato preparaba un latte para la mesa siete, su teléfono vibró. Lo sacó del bolsillo del delantal, miró la pantalla, y sonrió. No la sonrisa del café. La otra sonrisa — la pequeña, la que no sabe que existe, la que nace en las comisuras antes de llegar a los ojos. Escribió algo rápido con el pulgar, guardó el teléfono, y volvió al latte tarareando más fuerte.
+        </p>
+
+        <p class="prose-shared">
+            Desde la barra, Takina vio el ciclo completo: la vibración, la pantalla, la sonrisa, el mensaje, el tarareo. Lo vio con la claridad de una agente entrenada para observar detalles. Y lo sintió con la claridad de una chica de diecisiete años que está descubriendo, en tiempo real, que los sentimientos no son datos y que el corazón humano — el de verdad, no el artificial — no acepta órdenes.
+        </p>
+
+        <p class="prose-shared">
+            A las seis de la tarde, cuando el último cliente se fue y Mizuki empezó a voltear las sillas sobre las mesas, el teléfono de Chisato sonó. Una llamada, esta vez. Chisato miró la pantalla, dijo «¡Un momento!» a nadie en particular, y salió al pequeño patio trasero del café para contestar.
+        </p>
+
+        <p class="prose-shared">
+            A través de la puerta entreabierta, Takina escuchó su risa.
+        </p>
+
+        <p class="prose-shared">
+            Esa risa.
+        </p>
+
+        <p class="prose-shared">
+            La risa de taparse la boca, de cerrar los ojos, de echar la cabeza hacia atrás. La risa que antes se activaba cuando Takina decía algo involuntariamente gracioso, cuando tropezaba con el trapeador, cuando su cara de confusión ante un chiste era más divertida que el chiste mismo. La risa que Takina había archivado cuarenta y tres veces como si cada una fuera una prueba de que algo existía entre ellas, algo que no necesitaba nombre porque los nombres son para las cosas que se pueden perder, y lo que Takina sentía parecía demasiado sólido para perderse.
+        </p>
+
+        <p class="prose-shared">
+            Parecía.
+        </p>
+
+        <p class="prose-shared">
+            Takina tomó el trapo de la barra. Empezó a limpiar la superficie que ya estaba limpia. Sus movimientos eran mecánicos, repetitivos, con la cadencia de alguien que necesita mantener las manos ocupadas para que el resto del cuerpo no haga algo que la delate. Limpió en círculos. Círculos cada vez más pequeños. Círculos que se cerraban sobre sí mismos como el nudo en su garganta.
+        </p>
+
+        <p class="prose-shared">
+            Y entonces, con la misma claridad con que una agente Lycoris identifica una amenaza en el campo de batalla, Takina Inoue identificó algo nuevo dentro de ella. No era tristeza. No era celos — o no solo celos. Era algo más caliente, más afilado, con bordes que cortaban.
+        </p>
+
+        <p class="prose-shared">
+            Era odio.
+        </p>
+
+        <p class="prose-shared">
+            No odio hacia Chisato. Nunca hacia Chisato. Odio hacia Ken Fujimoto — el chico amable, el chico del marcapasos, el chico que no había hecho absolutamente nada malo excepto existir en el lugar correcto en el momento correcto y conectar con la persona que Takina amaba de una forma que Takina no sabía cómo igualar.
+        </p>
+
+        <p class="prose-shared">
+            Un odio irracional. Un odio sin justificación lógica. Un odio que DA nunca le enseñó a manejar porque DA solo entrena a las Lycoris para odiar a los enemigos del estado, no a los estudiantes universitarios que leen a Banana Yoshimoto y dejan buenos propinas.
+        </p>
+
+        <p class="prose-shared">
+            Takina soltó el trapo. Lo dejó sobre la barra. Se enderezó. Miró hacia la puerta del patio, donde la risa de Chisato seguía sonando como una melodía que ya no era suya.
+        </p>
+
+        <p class="prose-tak">
+            Y por primera vez en su vida, Takina Inoue sintió que <em>odiaba</em> a alguien sin una razón que pudiera escribir en un informe.
+        </p>
+
+        <p class="prose-tak">
+            Sin una razón que cupiera en la palabra <em>«racional.»</em>
+        </p>
+
+        <p class="prose-tak">
+            Sin una razón que no fuera, simplemente, devastadoramente, irremediablemente: amor.
+        </p>
+
+        <div class="final-divider"></div>
+
+        <p class="final-line">
+            Las mariposas de Chisato eran doradas y volaban hacia la luz.<br>
+            Las mariposas de Takina eran oscuras y volaban hacia ella.<br><br>
+            Ambas nacieron el mismo martes por la tarde,<br>
+            cuando una campanilla sonó<br>
+            y todo empezó a cambiar.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="40" height="32" viewBox="0 0 40 32" opacity="0.4">
+                <path d="M20 16 C14 4, 2 0, 0 12 C2 20, 10 20, 20 16Z" fill="#D4A030" opacity="0.4"/>
+                <path d="M20 16 C26 4, 38 0, 40 12 C38 20, 30 20, 20 16Z" fill="#7B6B9E" opacity="0.4"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 3</p>
+        <p class="end-title">«&thinsp;Mariposas&thinsp;»</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-02.html">← Capítulo 2</a>
+            <a href="#" class="next-chapter disabled">Capítulo 4: Dos corazones artificiales →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose-chi, .prose-tak, .prose-shared, .dialogue, .mono-chi, .mono-tak, .final-line, .final-divider, .wing-divider, .scene-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
