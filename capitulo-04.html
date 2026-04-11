@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 4: Dos corazones artificiales — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FAFAFA;
+            --bg-warm: #FFF9F5;
+            --bg-cold: #F0F2F6;
+            --ecg-red: #E74C3C;
+            --ecg-red-soft: rgba(231, 76, 60, 0.12);
+            --ecg-red-faint: rgba(231, 76, 60, 0.06);
+            --pulse-glow: rgba(231, 76, 60, 0.25);
+            --text-dark: #1A1A2E;
+            --text-body: #2D2D44;
+            --text-soft: #5C5C78;
+            --text-faint: #9999AA;
+            --ken-amber: #C8A84E;
+            --ken-warm: #A8893E;
+            --chisato-warm: #D4764E;
+            --takina-cool: #6B7FA3;
+            --mika-sage: #6E8B5E;
+            --kurumi-sky: #5A8FA8;
+            --mizuki-peach: #C48B6E;
+            --border-light: rgba(0,0,0,0.04);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.9;
+        }
+
+        /* ===================== ECG LINE DECORATION ===================== */
+
+        .ecg-line {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            opacity: 0.12;
+        }
+
+        .ecg-line svg {
+            position: absolute;
+            bottom: 10px;
+            left: -100%;
+            width: 200%;
+            animation: ecgScroll 8s linear infinite;
+        }
+
+        @keyframes ecgScroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(50%); }
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(250,250,250,0.97), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(250, 250, 250, 0.98);
+            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        .nav-title a:hover { color: var(--ecg-red); }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--ecg-red); }
+        .nav-links .disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .chapter-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--bg));
+            pointer-events: none;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--ecg-red-soft);
+            opacity: 0.3;
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+            color: var(--text-dark);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main span { color: var(--ecg-red); }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+            color: var(--text-soft);
+            margin-top: 2rem;
+            max-width: 520px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong { color: var(--ken-warm); font-weight: 400; }
+
+        /* ===================== HEARTBEAT SEPARATOR ===================== */
+
+        .heartbeat-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .heartbeat-sep.visible { opacity: 1; }
+
+        .heartbeat-sep .beat-line {
+            width: 50px;
+            height: 1px;
+            background: var(--ecg-red);
+            opacity: 0.2;
+        }
+
+        .heartbeat-sep .beat-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+        }
+
+        .heartbeat-sep .beat-icon::before,
+        .heartbeat-sep .beat-icon::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background: var(--ecg-red);
+            border-radius: 50% 50% 0 0;
+            opacity: 0.25;
+        }
+
+        .heartbeat-sep .beat-icon::before { left: 2px; transform: rotate(-45deg); }
+        .heartbeat-sep .beat-icon::after  { left: 8px; transform: rotate(45deg); }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene header ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.2rem 2rem;
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible { opacity: 1; transform: translateY(0); }
+
+        .scene-header .scene-num {
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            display: block;
+        }
+
+        .scene-header .scene-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-top: 0.15rem;
+        }
+
+        .scene-header .scene-pov {
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ecg-red);
+            display: block;
+            margin-top: 0.3rem;
+        }
+
+        /* ---- Prose (Ken's voice / general narrator) ---- */
+
+        .prose {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            font-weight: 400;
+            line-height: 2;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose.visible { opacity: 1; transform: translateY(0); }
+        .prose em { color: var(--text-soft); font-style: italic; }
+        .prose strong { font-weight: 600; color: var(--text-dark); }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--ecg-red-faint);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-weight: 600;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.ken     { color: var(--ken-amber); }
+        .dialogue .speaker.chisato { color: var(--chisato-warm); }
+        .dialogue .speaker.takina  { color: var(--takina-cool); }
+        .dialogue .speaker.mika    { color: var(--mika-sage); }
+        .dialogue .speaker.kurumi  { color: var(--kurumi-sky); }
+        .dialogue .speaker.mizuki  { color: var(--mizuki-peach); }
+
+        .dialogue .line {
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 1.9;
+            color: var(--text-body);
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.6; }
+
+        /* ---- Ken's internal voice (warm pulse) ---- */
+
+        .ken-internal {
+            text-align: center;
+            margin: 2.5rem 1rem;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--bg-warm), var(--bg));
+            border: 1px solid rgba(200, 168, 78, 0.1);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .ken-internal.visible { opacity: 1; transform: translateY(0); }
+
+        .ken-internal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--ken-amber), transparent);
+            opacity: 0.3;
+        }
+
+        .ken-internal .internal-label {
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--ken-warm);
+            margin-bottom: 0.7rem;
+        }
+
+        .ken-internal p {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2;
+            color: var(--ken-warm);
+        }
+
+        /* ---- Takina cold block (erratic ECG feeling) ---- */
+
+        .takina-erratic {
+            margin: 2.5rem 0;
+            padding: 1.5rem;
+            background: var(--bg-cold);
+            border-left: 3px solid var(--takina-cool);
+            border-radius: 0 6px 6px 0;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .takina-erratic.visible { opacity: 1; transform: translateX(0); }
+
+        .takina-erratic .erratic-label {
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--takina-cool);
+            margin-bottom: 0.5rem;
+        }
+
+        .takina-erratic p {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 0.98rem);
+            line-height: 2;
+            color: var(--takina-cool);
+        }
+
+        /* ---- Shared memory block (Ken & Chisato parallel) ---- */
+
+        .shared-memory {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .shared-memory.visible { opacity: 1; transform: translateY(0); }
+
+        .memory-card {
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.85;
+        }
+
+        .memory-card.ken-side {
+            background: var(--bg-warm);
+            border: 1px solid rgba(200, 168, 78, 0.1);
+            color: var(--ken-warm);
+        }
+
+        .memory-card.chi-side {
+            background: linear-gradient(135deg, #FFF5EE, #FFF0E8);
+            border: 1px solid rgba(212, 118, 78, 0.1);
+            color: var(--chisato-warm);
+        }
+
+        .memory-card .card-label {
+            font-weight: 600;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+        }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            text-align: center;
+            color: var(--text-soft);
+            margin: 4rem auto 2rem;
+            max-width: 550px;
+            line-height: 2;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.2s, transform 1.2s;
+        }
+
+        .final-line.visible { opacity: 1; transform: translateY(0); }
+        .final-line span.red { color: var(--ecg-red); }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--bg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .end-ornament { margin-bottom: 2rem; opacity: 0.3; }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-soft);
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover { border-color: var(--ecg-red); color: var(--ecg-red); }
+
+        .chapter-nav a.next-chapter { border-color: rgba(231, 76, 60, 0.2); color: var(--ecg-red); }
+        .chapter-nav a.next-chapter:hover { background: var(--ecg-red-faint); }
+        .chapter-nav a.disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+            .shared-memory { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ ECG LINE AT BOTTOM ============ -->
+    <div class="ecg-line" aria-hidden="true">
+        <svg height="50" viewBox="0 0 1200 50" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#E74C3C" stroke-width="1.5"
+                points="0,25 80,25 100,25 110,10 120,40 130,5 140,35 150,25 170,25 250,25 280,25 290,10 300,40 310,5 320,35 330,25 350,25 430,25 460,25 470,10 480,40 490,5 500,35 510,25 530,25 600,25 630,25 640,10 650,40 660,5 670,35 680,25 700,25 780,25 810,25 820,10 830,40 840,5 850,35 860,25 880,25 960,25 990,25 1000,10 1010,40 1020,5 1030,35 1040,25 1060,25 1140,25 1170,25 1180,10 1190,40 1200,5"/>
+        </svg>
+    </div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-03.html">← Anterior</a>
+            <a href="#" class="disabled">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto II · Mariposas y Espinas</p>
+        <div class="chapter-number">04</div>
+        <h1 class="chapter-title-main">Dos corazones <span>artificiales</span></h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Vivir con un corazón prestado te enseña dos cosas:<br>
+            que cada latido es un regalo,<br>
+            y que los regalos se pueden devolver.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Ken Fujimoto</span>
+            <span class="meta-item"><strong>Tema:</strong> Electrocardiograma</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: KEN'S WORLD ══════ -->
+
+        <div class="scene-header">
+            <span class="scene-num">Escena I</span>
+            <span class="scene-name">El chico del tren de las 13:40</span>
+            <span class="scene-pov">Perspectiva de Ken</span>
+        </div>
+
+        <p class="prose">
+            Lo primero que hay que entender sobre Ken Fujimoto es que no le tiene miedo a la muerte. No por valentía ni por indiferencia — simplemente por costumbre. Cuando te dicen a los once años que tu corazón tiene un defecto de fábrica y que sin una intervención vas a dejar de existir antes de los quince, la muerte deja de ser un concepto abstracto y se convierte en algo parecido a un compañero de clase: está ahí, ocupa un asiento, pero al cabo de un rato te acostumbras a su presencia y sigues con tu vida.
+        </p>
+
+        <p class="prose">
+            El marcapasos llegó a los doce. Un dispositivo del tamaño de una caja de fósforos, implantado debajo de la clavícula izquierda, conectado a su corazón por dos cables que los cirujanos enhebraron a través de una vena como quien pasa hilo por el ojo de una aguja. Desde entonces, Ken Fujimoto vivía con un pequeño metrónomo electrónico dentro del pecho que le decía a su corazón cuándo latir, a qué velocidad, con qué ritmo. Su vida dependía de una batería que duraba entre ocho y diez años. La primera la cambiaron a los dieciocho, en una cirugía ambulatoria que su madre describió como «rutinaria» con una voz que no tenía nada de rutinaria. La segunda batería era la actual. Tenía, según los cálculos, unos seis años más de vida útil.
+        </p>
+
+        <p class="prose">
+            Seis años. La cifra aparecía en la cabeza de Ken con la regularidad de un recordatorio en el teléfono: no lo suficiente como para paralizarlo, pero lo suficiente como para dar forma a la manera en que vivía. Leía rápido porque los libros eran demasiados y el tiempo era finito. Hablaba con desconocidos porque cada persona era una historia que podía no escuchar si la postergaba. Dejaba propinas generosas porque el dinero era una abstracción y la gratitud, no.
+        </p>
+
+        <p class="prose">
+            Y tomaba el tren de las 13:40 de la línea Ginza hacia Asakusa todos los días porque al final de ese trayecto había un café pequeño con una chica rubia que lo hacía sentir como si cada latido — artificial o no — valiera la pena.
+        </p>
+
+        <div class="ken-internal">
+            <span class="internal-label">Ken — voz interna</span>
+            <p>Tres semanas. Llevo tres semanas viniendo a este café y todavía no sé cómo describirla sin sonar como un personaje malo de una novela. Pero es que Chisato no se puede describir con palabras normales. Las palabras normales se quedan cortas. Es como intentar explicar el color de un atardecer a alguien que nunca ha mirado el cielo. Puedes decir «naranja» y «rojo» y «dorado», pero ninguna de esas palabras contiene lo que se siente cuando la luz te da en la cara y el mundo entero parece estar ardiendo de una forma hermosa.</p>
+        </div>
+
+        <p class="prose">
+            Hoy era miércoles. El tren estaba medio vacío — ese paréntesis entre la hora punta de la mañana y la de la tarde que Ken había aprendido a aprovechar. Se sentó junto a la ventana, puso los audífonos, y dejó que la música llenara el espacio entre la estación de Hongo-Sanchome y la de Asakusa. Ocho estaciones. Dieciséis minutos. El tiempo justo para releer un capítulo de <em>Kokoro</em> de Natsume Soseki, que estaba leyendo por segunda vez para un ensayo de la universidad pero que releía por placer, porque hay libros que no se leen por obligación sino por la necesidad de sentirse menos solo.
+        </p>
+
+        <p class="prose">
+            Pero hoy no leyó. Hoy miró por la ventana y pensó en Chisato.
+        </p>
+
+        <p class="prose">
+            Pensó en la forma en que movía las manos cuando hablaba — como si las palabras no fueran suficientes y necesitara que el aire a su alrededor también participara en la conversación. Pensó en cómo su risa tenía varias versiones: la risa de café (amplia, profesional, para todos), la risa de verdad (más corta, más aguda, con los ojos cerrados), y una tercera risa que Ken había escuchado solo una vez, cuando le contó lo del marcapasos — una risa rota, casi un suspiro, que decía <em>«yo también cargo algo que no me pertenece.»</em>
+        </p>
+
+        <p class="prose">
+            Pensó en su corazón. No en el suyo propio — en el de ella. En el «algo parecido» que le había mencionado tocándose el pecho con una naturalidad que escondía un abismo. Ken no sabía los detalles. No había preguntado. Había algo sagrado en la forma en que Chisato le había mostrado esa parte de sí misma — una revelación incompleta, como un libro cuyas páginas centrales estuvieran arrancadas. Y Ken, que amaba los libros más que a casi cualquier cosa, sabía que las páginas arrancadas se respetan. Se esperan. No se arrancan.
+        </p>
+
+        <!-- ══════ SCENE 2: THE DEEPER CONVERSATION ══════ -->
+
+        <div class="heartbeat-sep">
+            <div class="beat-line"></div>
+            <div class="beat-icon"></div>
+            <div class="beat-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena II</span>
+            <span class="scene-name">Las páginas que faltan</span>
+            <span class="scene-pov">LycoReco — Miércoles, 15:10</span>
+        </div>
+
+        <p class="prose">
+            El café estaba tranquilo. Solo dos mesas ocupadas: una pareja de ancianos que compartía un trozo de tarta en silencio cómplice, y una mujer joven con una laptop que no había levantado la vista en una hora. Mika estaba en la cocina haciendo inventario. Kurumi había salido a «comprar cables» (lo cual podía significar cualquier cosa entre ir a Akihabara y hackear un servidor del gobierno desde la red wifi de un Lawson). Mizuki tenía el día libre.
+        </p>
+
+        <p class="prose">
+            Ken estaba en su taburete. Chisato, frente a él, secaba tazas detrás de la barra con un ritmo que no necesitaba tarareo porque la conversación era la música.
+        </p>
+
+        <p class="prose">
+            Takina estaba en la mesa del fondo, con la tableta de DA abierta y la mirada fija en la pantalla. Pero la pantalla estaba en la misma página desde hacía cuarenta minutos. No la había deslizado. No la había tocado. La tableta era una excusa para estar presente sin participar, un escudo de cristal líquido detrás del cual podía observar sin ser observada.
+        </p>
+
+        <p class="prose">
+            La conversación del día había pasado por varios territorios: la diferencia entre la soledad elegida y la soledad impuesta (Ken argumentó que toda soledad es un poco de ambas), el mejor ramen de la zona (Chisato insistió en un puesto ambulante junto al río que «técnicamente no tiene licencia pero el caldo es divino»), y una discusión sobre si los gatos son mejores mascotas que los perros (empate técnico con argumentos apasionados de ambas partes).
+        </p>
+
+        <p class="prose">
+            Luego, sin transición, sin aviso, como quien cambia de canal en un televisor, Ken dijo:
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—¿Puedo hacerte una pregunta personal? De las que no se hacen normalmente en la tercera semana de conocer a alguien.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Creo que hace rato dejamos atrás lo «normal», Ken. Pregunta.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Tu corazón. El «algo parecido» que mencionaste la primera vez. ¿Puedes... contarme más? Solo si quieres. No tienes que...</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Es artificial.</span>
+        </div>
+
+        <p class="prose">
+            Lo dijo rápido. Como quien arranca una curita — el dolor es inevitable, mejor que sea breve. Ken dejó de moverse. La taza de café que estaba llevándose a los labios se detuvo a medio camino.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Nací con un problema. Mi corazón no funcionaba como debía. Cuando era niña, alguien... <em>(pausa)</em> ...alguien me dio uno nuevo. Uno que no es de carne ni de sangre. Es una máquina. Un aparato que late por mí porque el órgano original no podía. <em>(sonrisa, más frágil que de costumbre)</em> Básicamente, Ken, tú y yo somos el mismo chiste con distinta punchline. Los dos vivimos porque alguien puso una máquina donde debería haber biología.</span>
+        </div>
+
+        <p class="prose">
+            El silencio que siguió no fue vacío. Fue el tipo de silencio que existe entre dos notas musicales — necesario, con forma, con peso. Ken dejó la taza en la barra. Muy despacio.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—¿Cuántos años tenías?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Siete.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Siete. <em>(tragando)</em> Yo tenía doce y ya sentía que el mundo se acababa. No puedo imaginar cómo es a los siete.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—A los siete no entiendes lo que pasa. Solo sabes que los adultos están asustados y que tú deberías estarlo también, pero no lo estás porque a los siete años el miedo se siente diferente. Es más pequeño. Cabe en una mano. <em>(pausa larga)</em> El miedo crece después. Cuando creces y entiendes lo que significaba realmente. Cuando entiendes que estás viva de prestado.</span>
+        </div>
+
+        <div class="ken-internal">
+            <span class="internal-label">Ken — voz interna</span>
+            <p>De prestado. Usó esa palabra — «prestado» — y el mundo se detuvo un momento. Porque yo también uso esa palabra. En mis diarios, en mis noches de insomnio, en las conversaciones silenciosas que tengo con el marcapasos cuando el mundo duerme. «Estoy vivo de prestado.» Y ahora esta chica — esta chica imposible que esquiva preguntas con la misma gracia con la que esquiva (sospecho) cosas mucho más peligrosas — dice las mismas palabras. Como si hubiera estado leyendo mis páginas arrancadas.</p>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Chisato. ¿Puedo decirte algo que nunca le he dicho a nadie?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(asintiendo, sin sonrisa)</em></span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—A veces, de noche, pongo la mano aquí <em>(tocándose la clavícula izquierda)</em> y siento el marcapasos latir. Y lo escucho. No con los oídos — con los dedos. Es un pulso que viene de algo que no soy yo, algo que pusieron dentro de mí para que siguiera existiendo. Y en esos momentos pienso: «¿Esto soy yo? ¿Soy yo si lo que me mantiene vivo es una máquina? ¿Dónde termina el aparato y dónde empiezo yo?»</span>
+        </div>
+
+        <p class="prose">
+            Chisato dejó caer la taza que estaba secando. No se rompió — la atrapó a medio camino con un reflejo que habría sido imposible para cualquier otra persona. La dejó en el estante con dedos que temblaban de una forma que Ken no podía saber que era extraordinariamente rara.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Yo también. Ken, yo <em>también.</em> De noche, cuando todo está en silencio, puedo sentirlo. El tic. Cada cuatro latidos hay un tic que no es orgánico, que es mecánico, que me recuerda que esto <em>(presionando el pecho)</em> no es mío. Que me lo dieron. Y a veces me pregunto lo mismo: ¿dónde termina la máquina y dónde empiezo yo?</span>
+        </div>
+
+        <p class="prose">
+            Ken la miró. Chisato lo miró. Y en ese espacio — en esa fracción de segundo en que dos personas descubren que cargan el mismo peso invisible, que han formulado la misma pregunta en la oscuridad de sus respectivas habitaciones, que han sentido el mismo vértigo existencial de vivir como huéspedes en sus propios cuerpos — algo se selló.
+        </p>
+
+        <p class="prose">
+            No fue amor. No todavía. Fue algo anterior al amor y quizás más raro: fue <em>reconocimiento</em>. La sensación de mirarse en un espejo que no refleja tu cara sino tu interior. La certeza de que, en un mundo de siete mil millones de personas, hay al menos otra que sabe exactamente lo que se siente.
+        </p>
+
+        <div class="shared-memory">
+            <div class="memory-card ken-side">
+                <span class="card-label">Ken recuerda</span>
+                La noche después de la operación, a los doce años. Solo en la habitación del hospital. La mano en el pecho, sintiendo algo nuevo que latía por él. Pensando: «Gracias.» Sin saber a quién.
+            </div>
+            <div class="memory-card chi-side">
+                <span class="card-label">Chisato recuerda</span>
+                La noche después de la operación, a los siete años. Mika dormido en la silla junto a su cama. La mano en el pecho, sintiendo algo nuevo que latía por ella. Pensando: «Esto suena raro.» Sin saber qué significaba.
+            </div>
+        </div>
+
+        <!-- ══════ SCENE 3: WHAT TAKINA SEES ══════ -->
+
+        <div class="heartbeat-sep">
+            <div class="beat-line"></div>
+            <div class="beat-icon"></div>
+            <div class="beat-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena III</span>
+            <span class="scene-name">Lo que Takina escucha</span>
+            <span class="scene-pov">Desde la mesa del fondo</span>
+        </div>
+
+        <p class="prose">
+            Takina escuchó toda la conversación.
+        </p>
+
+        <p class="prose">
+            No intencionalmente. Las mesas del fondo estaban a seis metros de la barra, pero el café estaba casi vacío, las paredes reflejaban el sonido, y Takina tenía el oído de una agente entrenada para captar susurros a quince metros de distancia en un campo de tiro.
+        </p>
+
+        <p class="prose">
+            Escuchó la palabra «artificial.» Escuchó la palabra «prestado.» Escuchó la pregunta de Ken — <em>«¿Dónde termina el aparato y dónde empiezo yo?»</em> — y escuchó la respuesta de Chisato — <em>«Yo también»</em> — y cada sílaba le llegó al pecho como un impacto de bala de bajo calibre. De esas que no matan pero que arden.
+        </p>
+
+        <p class="prose">
+            Takina sabía lo del corazón artificial de Chisato. Lo sabía desde hacía meses. Desde el Episodio del corazón, como lo llamaba internamente — cuando descubrió que la chica más viva que había conocido llevaba dentro del pecho un mecanismo que un día podría dejar de funcionar. Había investigado. Había leído los informes de DA. Había memorizado las especificaciones técnicas del dispositivo con la misma meticulosidad con la que memorizaba las rutas de escape de un edificio.
+        </p>
+
+        <p class="prose">
+            Pero nunca se lo dijo. Nunca le dijo a Chisato: <em>«Sé lo de tu corazón. Y me importa más de lo que puedo expresar.»</em> Nunca le dijo que algunas noches, cuando el silencio del segundo piso era absoluto, se quedaba despierta escuchando — no los sonidos normales de una casa dormida, sino el tic. Ese tic imperceptible cada cuatro latidos que le confirmaba, a través de la pared delgada, que Chisato seguía viva. Que la máquina seguía funcionando. Que el préstamo no se había vencido.
+        </p>
+
+        <p class="prose">
+            Y ahora Ken Fujimoto — un chico que conocía a Chisato desde hacía tres semanas — estaba hablando con ella sobre exactamente eso. Y Chisato le estaba respondiendo con una vulnerabilidad que Takina nunca le había escuchado. Una vulnerabilidad que no le pertenecía a ella — que pertenecía a Ken, al espacio entre Ken y Chisato, a esa conexión forjada con la materia prima del metal y la electricidad que ambos llevaban dentro.
+        </p>
+
+        <div class="takina-erratic">
+            <span class="erratic-label">Takina — interferencia</span>
+            <p>Yo sabía todo esto. Todo. Sé el modelo del dispositivo. Sé la duración estimada de la batería. Sé que el tic que se escucha cada cuatro latidos es un artefacto de la calibración original que nunca se corrigió porque hacerlo requeriría una cirugía de riesgo. Sé cosas que él no sabe y que probablemente nunca sabrá. Pero nada de eso importa. Porque yo sé datos. Él sabe cómo se siente. Y ella necesitaba a alguien que supiera cómo se siente, no a alguien que supiera el número de modelo.</p>
+        </div>
+
+        <p class="prose">
+            Takina cerró la tableta. La pantalla se apagó con un clic suave. Se levantó de la mesa, recogió su taza vacía, y caminó hacia la cocina sin pasar por la barra. Sin pasar por ellos.
+        </p>
+
+        <p class="prose">
+            Chisato la vio pasar. Interrumpió la conversación con Ken un momento.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¿Takina? ¿Todo bien?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Todo bien. Voy a revisar el inventario de suministros. Mika lo pidió esta mañana.</span>
+        </div>
+
+        <p class="prose">
+            Mika no había pedido nada. Takina lo sabía. Chisato probablemente lo sabía también. Pero Chisato asintió, le dedicó una sonrisa rápida — la sonrisa del café, no la de verdad — y volvió a mirar a Ken.
+        </p>
+
+        <p class="prose">
+            Takina desapareció en la cocina. Se apoyó contra la puerta cerrada. La madera fría en su espalda era lo único sólido en un mundo que se sentía cada vez más líquido.
+        </p>
+
+        <!-- ══════ SCENE 4: THAT NIGHT ══════ -->
+
+        <div class="heartbeat-sep">
+            <div class="beat-line"></div>
+            <div class="beat-icon"></div>
+            <div class="beat-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena IV</span>
+            <span class="scene-name">Lo que Chisato no dice</span>
+            <span class="scene-pov">Esa noche</span>
+        </div>
+
+        <p class="prose">
+            Chisato le contó esa noche a Takina.
+        </p>
+
+        <p class="prose">
+            No todo — nunca todo, porque Chisato Nishikigi es una artista del qué-decir y el qué-callar, una equilibrista que camina sobre la cuerda floja entre la transparencia y la protección. Pero suficiente.
+        </p>
+
+        <p class="prose">
+            Estaban en la habitación de Chisato. Takina había ido a devolverle un libro que le había prestado — uno de los muchos pretextos que usaba para cruzar el umbral que separaba su espacio del de Chisato, un umbral que medía exactamente tres pasos pero que a veces se sentía como un océano. Chisato estaba sentada en la cama con las piernas cruzadas, todavía con la ropa del café, el pelo suelto, y esa expresión que tiene cuando está procesando algo que no sabe cómo empaquetar en una broma.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Oye, Takina... ¿Puedo contarte algo?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Claro.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Ken me entiende de una forma que nadie más lo ha hecho.</span>
+        </div>
+
+        <p class="prose">
+            Lo dijo mirando la pared. No a Takina — a la pared, como si las palabras fueran más fáciles de pronunciar cuando no tenían un destino preciso. Su voz no era la voz del café ni la voz de las misiones. Era una voz desnuda, del color del hueso.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Lo del corazón. Él sabe lo que se siente. No porque lo haya leído o porque alguien se lo haya explicado. Lo sabe porque lo <em>vive</em>. Tiene un marcapasos, Takina. Una máquina que le dice a su corazón cuándo latir. Igual que a mí. Y hoy me preguntó algo que yo me he preguntado desde que tengo uso de razón: «¿Dónde termina la máquina y dónde empiezo yo?» <em>(pausa, voz temblorosa)</em> Nadie me había hecho esa pregunta. Nadie. Porque nadie sabía que era la pregunta correcta.</span>
+        </div>
+
+        <p class="prose">
+            Takina estaba de pie junto a la puerta. No se había sentado. No se había movido. Sostenía el libro devuelto contra su pecho como un escudo de papel.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Me alegro por ti.</span>
+        </div>
+
+        <p class="prose">
+            Tres palabras. Cuatro sílabas. Pronunciadas con una voz tan plana que podría haber sido generada por una inteligencia artificial. Pero debajo de la planicie, debajo de la superficie inmóvil de lago helado que Takina Inoue presentaba al mundo, había algo que se estaba agrietando. Lenta, silenciosa, irremediablemente.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(sonriendo, con los ojos brillantes)</em> ¿Verdad que es increíble? Es como... como encontrar a alguien que habla tu idioma en un país donde nadie lo habla. ¿Tiene sentido?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Tiene sentido.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Gracias por escucharme, Takina! Eres la mejor. ¡Buenas noches! ¡Mañana hay que abrir temprano porque Mika quiere reorganizar la bodega!</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Buenas noches.</span>
+        </div>
+
+        <p class="prose">
+            Takina salió de la habitación. Cerró la puerta detrás de ella. Caminó los tres pasos hasta su propia puerta. Entró. Cerró.
+        </p>
+
+        <p class="prose">
+            Se sentó en el borde de la cama. Dejó el libro sobre la mesita de noche. Llevó la mano a su pecho — no al lado izquierdo donde late el corazón, sino al centro, donde se concentra ese dolor que no tiene nombre médico.
+        </p>
+
+        <p class="prose">
+            En la oscuridad de su habitación, sin la excusa de un vaso que secar ni una tableta que mirar ni un inventario que revisar, Takina permitió que su cara hiciera lo que llevaba semanas prohibiéndole hacer.
+        </p>
+
+        <p class="prose">
+            No lloró. Takina Inoue no lloraba — no podía, no sabía, no tenía el mecanismo que conecta el dolor emocional con las glándulas lagrimales, porque DA había desconectado ese cable hacía mucho tiempo. Pero su cara se contrajo. Los labios se apretaron. Los ojos se cerraron con la fuerza de alguien que intenta mantener cerrada una puerta detrás de la cual hay algo que empuja.
+        </p>
+
+        <p class="prose">
+            Y la almohada — esa almohada que ya conocía el peso de sus silencios — absorbió lo que sus palabras no dijeron.
+        </p>
+
+        <div class="takina-erratic">
+            <span class="erratic-label">Takina — interferencia</span>
+            <p>«Me alegro por ti.» Eso fue lo que dije. Tres palabras que saben a mentira aunque técnicamente sean verdad. Porque sí me alegro. Me alegro de que haya encontrado a alguien que la entiende. Me alegro de que no esté sola con la pregunta que la atormenta de noche. Me alegro de que exista Ken Fujimoto y su marcapasos y su sonrisa de espejo. Me alegro. De verdad. Es solo que la alegría tiene un sabor amargo cuando viene mezclada con la certeza de que esa persona debería haber sido yo. De que yo debería haber hecho esa pregunta. De que yo debería haber sido el idioma que ella encontró en un país donde nadie lo habla. Pero no lo soy. Porque yo hablo el idioma de los datos, de los informes, de los números de modelo. Y ella necesitaba a alguien que hablara el idioma del pecho abierto.</p>
+        </div>
+
+        <!-- ══════ SCENE 5: MIZUKI'S SUBPLOT ══════ -->
+
+        <div class="heartbeat-sep">
+            <div class="beat-line"></div>
+            <div class="beat-icon"></div>
+            <div class="beat-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena V</span>
+            <span class="scene-name">La que busca lo que no puede encontrar</span>
+            <span class="scene-pov">Interludio — Mizuki</span>
+        </div>
+
+        <p class="prose">
+            Hay que hablar de Mizuki Nakahara.
+        </p>
+
+        <p class="prose">
+            Mizuki tenía veintisiete años, un título en inteligencia que no podía poner en su currículum, un deseo ferviente de casarse que nadie en su vida tomaba en serio, y una capacidad de observación emocional que rivalizaba con la capacidad de Chisato para esquivar balas. Si Chisato leía los cuerpos, Mizuki leía los corazones. Y lo que venía leyendo en Café LycoReco durante las últimas tres semanas era una novela que se escribía sola frente a sus ojos con tinta invisible.
+        </p>
+
+        <p class="prose">
+            El jueves anterior, durante su turno nocturno, Mizuki había intentado coquetear con Ken. No por atracción real — Ken era guapo, sí, pero Mizuki sabía distinguir entre «atractivo» y «mi tipo» — sino como un experimento social, una prueba de fuego para confirmar lo que sospechaba.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker mizuki">Mizuki</span>
+            <span class="line">—Oye, Ken. ¿Siempre vienes solo? Un chico tan guapo debería tener quien lo acompañe al café~</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—<em>(sin levantar la vista de su libro)</em> Hmm, vengo solo porque la conversación de este café es mejor que la de cualquier acompañante que pueda imaginar. Oye, ¿has leído a Ogawa Yoko? Estoy pensando en leer <em>La fórmula preferida del profesor</em> y quiero una segunda opinión antes de empezar.</span>
+        </div>
+
+        <p class="prose">
+            Ken ni se enteró del coqueteo. El halago pasó por su radar con la misma relevancia que un parpadeo. Mizuki, lejos de ofenderse, sonrió para sus adentros. Confirmación obtenida: Ken Fujimoto no venía al café buscando compañía genérica. Venía buscando una compañía específica. Una compañía que se llamaba Chisato y que tenía los ojos rojos.
+        </p>
+
+        <p class="prose">
+            Pero Mizuki también había notado algo más. Algo que nadie más estaba notando — o que todos notaban pero nadie mencionaba, como un elefante en una habitación que todos fingen que es un mueble decorativo.
+        </p>
+
+        <p class="prose">
+            Takina.
+        </p>
+
+        <p class="prose">
+            Mizuki veía cómo Takina se tensaba cada vez que Ken entraba por la puerta. Veía cómo sus ojos seguían a Chisato cuando ella se sentaba junto a Ken. Veía el vaso eternamente seco, las cucharas reorganizadas, la tableta sin deslizar. Y veía, con la claridad dolorosa de alguien que ha buscado el amor durante años sin encontrarlo, que Takina Inoue estaba enamorada de Chisato Nishikigi con la intensidad silenciosa de un incendio que no produce humo.
+        </p>
+
+        <p class="prose">
+            No dijo nada. Mizuki sabía que hay verdades que no se aceleran al nombrarlas. Algunas verdades necesitan tiempo, el mismo tiempo que necesita un café para filtrar gota a gota hasta llenar la taza. Lo único que hizo fue, el viernes por la noche, dejar un chai latte extra sobre la mesa de Takina cuando nadie miraba.
+        </p>
+
+        <p class="prose">
+            Takina lo miró. Miró a Mizuki.
+        </p>
+
+        <p class="prose">
+            Mizuki le guiñó un ojo y volvió a su revista sin decir nada.
+        </p>
+
+        <p class="prose">
+            Takina tomó el chai. Le dio un sorbo. Estaba caliente, dulce, con canela — exactamente como a ella le gustaba, aunque nunca lo había dicho en voz alta.
+        </p>
+
+        <p class="prose">
+            Algunas personas hablan el idioma del pecho abierto. Otras hablan el idioma de un chai latte sin explicación en una noche difícil. Ambos idiomas son válidos. Ambos idiomas dicen: <em>te veo.</em>
+        </p>
+
+        <p class="final-line">
+            Dos corazones artificiales latían en Café LycoReco esa noche.<br>
+            Uno dentro de Chisato. Otro dentro de Ken.<br><br>
+            Y un tercer corazón — orgánico, imperfecto, ruidoso —<br>
+            latía detrás de una pared delgada,<br>
+            más fuerte que los otros dos,<br>
+            y nadie lo <span class="red">escuchaba</span>.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="50" height="30" viewBox="0 0 50 30">
+                <polyline fill="none" stroke="#E74C3C" stroke-width="1" opacity="0.3"
+                    points="0,15 10,15 15,5 20,25 25,2 30,20 35,15 50,15"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 4</p>
+        <p class="end-title">«&thinsp;Dos corazones artificiales&thinsp;»</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-03.html">← Capítulo 3</a>
+            <a href="#" class="next-chapter disabled">Capítulo 5: Lo que no se dice →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose, .dialogue, .ken-internal, .takina-erratic, .shared-memory, .final-line, .heartbeat-sep, .scene-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
