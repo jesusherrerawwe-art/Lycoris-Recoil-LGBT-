@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 2: El chico del marcapasos — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-cream: #FFF8F0;
+            --bg-warm: #FBF3E8;
+            --bg-board: #3C2A1A;
+            --brown-deep: #6F4E37;
+            --brown-medium: #8B6F47;
+            --brown-light: #C4A882;
+            --brown-pale: #D4C4A8;
+            --espresso: #2C1A0E;
+            --text-dark: #2C1A0E;
+            --text-body: #4A3728;
+            --text-soft: #7A6654;
+            --text-faint: #A89680;
+            --chisato-warm: #D4764E;
+            --chisato-glow: #E8945A;
+            --takina-cool: #6B7FA3;
+            --takina-frost: #8B9FBF;
+            --ken-amber: #C8A84E;
+            --ken-gold: #D4B85A;
+            --mika-sage: #6E8B5E;
+            --kurumi-sky: #5A8FA8;
+            --mizuki-peach: #C48B6E;
+            --white: #FFFFFF;
+            --cream-shadow: rgba(111, 78, 55, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.9;
+        }
+
+        /* ===================== COFFEE BEAN SEPARATORS (SVG) ===================== */
+
+        .bean-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 3rem 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .bean-sep.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bean-sep::before,
+        .bean-sep::after {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--brown-light);
+            opacity: 0.5;
+        }
+
+        .bean-svg {
+            opacity: 0.4;
+        }
+
+        /* ===================== CHALK TEXTURE OVERLAY ===================== */
+
+        .chalk-board {
+            background: var(--bg-board);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chalk-board::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.02) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.015) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(255,248,240,0.97), rgba(255,248,240,0));
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(255, 248, 240, 0.98);
+            box-shadow: 0 1px 8px var(--cream-shadow);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-title a:hover {
+            color: var(--brown-deep);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--brown-deep);
+        }
+
+        .nav-links .disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background:
+                radial-gradient(ellipse at 50% 40%, rgba(196, 168, 130, 0.15) 0%, transparent 70%),
+                var(--bg-cream);
+        }
+
+        .chapter-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--bg-cream));
+            pointer-events: none;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--brown-light);
+            opacity: 0.2;
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            color: var(--brown-deep);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main span {
+            color: var(--chisato-warm);
+        }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+            color: var(--text-soft);
+            margin-top: 2rem;
+            max-width: 520px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong {
+            color: var(--brown-deep);
+            font-weight: 400;
+        }
+
+        /* ===================== MENU BOARD (SCENE HEADER) ===================== */
+
+        .menu-board {
+            background: var(--bg-board);
+            margin: 0 auto 3rem;
+            max-width: 340px;
+            padding: 1.2rem 2rem;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow:
+                0 4px 20px rgba(44, 26, 14, 0.15),
+                inset 0 0 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .menu-board.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-board .scene-num {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--brown-pale);
+            opacity: 0.6;
+        }
+
+        .menu-board .scene-name {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--bg-cream);
+            margin-top: 0.2rem;
+        }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Prose paragraphs ---- */
+
+        .prose {
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            font-weight: 400;
+            line-height: 2;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .prose.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .prose em {
+            font-style: italic;
+            color: var(--brown-deep);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* ---- Dialogue (warm rounded bubbles) ---- */
+
+        .dialogue-wrap {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .dialogue-wrap.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dialogue-bubble {
+            padding: 1rem 1.4rem;
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            max-width: 88%;
+            position: relative;
+            margin-bottom: 0.3rem;
+        }
+
+        .dialogue-bubble.right {
+            margin-left: auto;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .speaker-tag {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .dialogue-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 1.85;
+        }
+
+        .dialogue-text em {
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        /* Chisato bubbles */
+        .bubble-chisato {
+            background: linear-gradient(135deg, #FFF0E6, #FFE8D6);
+            border: 1px solid rgba(212, 118, 78, 0.15);
+        }
+        .bubble-chisato .speaker-tag { color: var(--chisato-warm); }
+        .bubble-chisato .dialogue-text { color: var(--text-dark); }
+
+        /* Takina bubbles */
+        .bubble-takina {
+            background: linear-gradient(135deg, #EDF1F7, #E4EAF2);
+            border: 1px solid rgba(107, 127, 163, 0.15);
+        }
+        .bubble-takina .speaker-tag { color: var(--takina-cool); }
+        .bubble-takina .dialogue-text { color: var(--text-dark); }
+
+        /* Ken bubbles */
+        .bubble-ken {
+            background: linear-gradient(135deg, #FFF8E6, #FFF3D4);
+            border: 1px solid rgba(200, 168, 78, 0.2);
+        }
+        .bubble-ken .speaker-tag { color: var(--ken-amber); }
+        .bubble-ken .dialogue-text { color: var(--text-dark); }
+
+        /* Mika bubbles */
+        .bubble-mika {
+            background: linear-gradient(135deg, #EFF5EC, #E8F0E4);
+            border: 1px solid rgba(110, 139, 94, 0.15);
+        }
+        .bubble-mika .speaker-tag { color: var(--mika-sage); }
+        .bubble-mika .dialogue-text { color: var(--text-dark); }
+
+        /* Kurumi bubbles */
+        .bubble-kurumi {
+            background: linear-gradient(135deg, #EBF4F8, #E2EFF5);
+            border: 1px solid rgba(90, 143, 168, 0.15);
+        }
+        .bubble-kurumi .speaker-tag { color: var(--kurumi-sky); }
+        .bubble-kurumi .dialogue-text { color: var(--text-dark); }
+
+        /* Mizuki bubbles */
+        .bubble-mizuki {
+            background: linear-gradient(135deg, #FFF2EC, #FFE8DE);
+            border: 1px solid rgba(196, 139, 110, 0.15);
+        }
+        .bubble-mizuki .speaker-tag { color: var(--mizuki-peach); }
+        .bubble-mizuki .dialogue-text { color: var(--text-dark); }
+
+        /* ---- Takina's cold sidebar thoughts ---- */
+
+        .takina-aside {
+            margin: 2rem 0;
+            padding: 1.2rem 1.5rem;
+            background: linear-gradient(135deg, #E8ECF2, #E0E5ED);
+            border-left: 3px solid var(--takina-cool);
+            border-radius: 0 8px 8px 0;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .takina-aside.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .takina-aside .aside-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--takina-cool);
+            margin-bottom: 0.5rem;
+        }
+
+        .takina-aside p {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 0.98rem);
+            line-height: 1.9;
+            color: var(--takina-cool);
+        }
+
+        /* ---- Time stamps ---- */
+
+        .timestamp {
+            text-align: center;
+            margin: 2rem 0;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .timestamp.visible {
+            opacity: 1;
+        }
+
+        .timestamp span {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            background: var(--bg-cream);
+            padding: 0.2rem 1rem;
+        }
+
+        /* ---- Sound effect ---- */
+
+        .sfx {
+            text-align: center;
+            margin: 1.5rem 0;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.5em;
+            color: var(--brown-light);
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .sfx.visible {
+            opacity: 0.5;
+        }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            text-align: center;
+            color: var(--takina-cool);
+            margin: 4rem 0 2rem;
+            line-height: 1.9;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+        }
+
+        .final-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--bg-warm);
+            border-top: 1px solid rgba(111, 78, 55, 0.06);
+        }
+
+        .end-ornament {
+            margin-bottom: 2rem;
+            opacity: 0.35;
+        }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-soft);
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid rgba(111, 78, 55, 0.12);
+            border-radius: 24px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover {
+            border-color: var(--brown-deep);
+            color: var(--brown-deep);
+            background: rgba(111, 78, 55, 0.04);
+        }
+
+        .chapter-nav a.next-chapter {
+            border-color: rgba(212, 118, 78, 0.3);
+            color: var(--chisato-warm);
+        }
+
+        .chapter-nav a.next-chapter:hover {
+            background: rgba(212, 118, 78, 0.06);
+            border-color: var(--chisato-warm);
+        }
+
+        .chapter-nav a.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .prose-container {
+                padding: 0 1.5rem 4rem;
+            }
+
+            .chapter-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            .dialogue-bubble {
+                max-width: 95%;
+            }
+
+            .takina-aside {
+                margin: 1.5rem 0;
+                padding: 1rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-01.html">← Anterior</a>
+            <a href="#" class="disabled">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto I · Latidos</p>
+        <div class="chapter-number">02</div>
+        <h1 class="chapter-title-main">El chico del <span>marcapasos</span></h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Entró pidiendo un café y se quedó<br>
+            tres horas. Cuando se fue, algo en el café<br>
+            había cambiado. O tal vez fui yo.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Narrador omnisciente</span>
+            <span class="meta-item"><strong>Tema:</strong> Café con Leche</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: MORNING AT LYCORICO ══════ -->
+
+        <div class="menu-board">
+            <span class="scene-num">Escena I</span>
+            <span class="scene-name">El olor de la mañana</span>
+        </div>
+
+        <p class="prose">
+            Los martes en Café LycoReco tenían un ritmo propio. No era el ritmo frenético de los sábados, cuando las familias del barrio llegaban con niños que pedían batidos y dejaban migajas de galleta en los cojines. Tampoco el letargo de los lunes, cuando solo aparecía el señor Tanaka a las ocho en punto a pedir su americano sin azúcar y leer el periódico en silencio durante exactamente cuarenta y cinco minutos. Los martes eran otra cosa: un flujo intermitente de rostros habituales, pausas largas entre un cliente y el siguiente, y el lujo de poder limpiar las mesas sin prisa.
+        </p>
+
+        <p class="prose">
+            Eran las diez de la mañana. El sol de otoño entraba por los ventanales del café en ángulos oblicuos que convertían el polvo flotante en constelaciones doradas. Desde la cocina llegaba el aroma de los waffles que Chisato había prometido la noche anterior — con la miel de Asakusa, como dijo — y un tarareo desafinado que probablemente intentaba ser una canción de alguna película occidental que nadie más en el café había visto.
+        </p>
+
+        <p class="prose">
+            Mika estaba detrás de la barra, calibrando la presión de la máquina de espresso con la meticulosidad de un relojero. Tenía un trapo sobre el hombro y las mangas enrolladas hasta los codos, y entre ajuste y ajuste echaba miradas hacia la cocina con esa expresión entre resignada y paternal que reservaba exclusivamente para los momentos en que Chisato intentaba cocinar.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mika">
+                <span class="speaker-tag">Mika</span>
+                <span class="dialogue-text">—Chisato, la waflera tiene dos luces. La roja significa que no está lista. La verde significa que puedes verter la masa. ¿Cuál está encendida ahora?</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Las dos! ¿Eso es... bueno?</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mika">
+                <span class="speaker-tag">Mika</span>
+                <span class="dialogue-text">—Eso significa que la desenchufaste y la volviste a enchufar sin esperar. Deja que se caliente. Paciencia.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡La paciencia es para la gente que no tiene reflejos sobrehumanos, Mika~!</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Mizuki, sentada en la mesa junto a la ventana con una taza de chai latte y su revista mensual de bodas (la edición especial de otoño, con un artículo sobre ceremonias en templos de Kyoto que había marcado con tres post-its distintos), levantó la mirada por encima de la página.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mizuki">
+                <span class="speaker-tag">Mizuki</span>
+                <span class="dialogue-text">—Chisato, cariño, la última vez que dijiste eso, los waffles salieron con la forma de Japón. Y no de la manera artística.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Oye, la prefectura de Hokkaido quedó perfecTA!</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Desde su rincón — ese espacio entre la estantería y la pared que Kurumi había colonizado con un alargador, tres adaptadores USB y una planta artificial que usaba para camuflar una antena —, la hacker más joven del café tecleaba sin levantar la vista. El resplandor azulado de la pantalla le daba un aspecto fantasmal que contrastaba con la calidez del resto del local.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-kurumi">
+                <span class="speaker-tag">Kurumi</span>
+                <span class="dialogue-text">—A mí me daba igual la forma. Lo que importa es que sabían bien. Aunque el centro estaba crudo.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Esta vez es diferente! ¡Hoy estoy cocinando con motivación! ¿Verdad, Takina? ¡Diles!</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Takina Inoue estaba sentada al final de la barra, con una taza de té verde a medio terminar y la postura recta de alguien que ha dormido poco pero se niega a demostrarlo. Tenía la mirada fija en algún punto intermedio entre la barra y la pared, los dedos de su mano izquierda descansando sobre la superficie de madera junto a su taza, inmóviles. De vez en cuando, sin motivo aparente, los dedos de su mano derecha se cerraban sobre la palma y se abrían de nuevo, como si estuvieran buscando algo que ya no estaba ahí.
+        </p>
+
+        <p class="prose">
+            Algo había cambiado en Takina desde la noche anterior. Era un cambio sutil — nadie que no la conociera lo habría notado. Pero las personas que compartían ese café con ella todos los días no eran nadie. Mika lo percibió en la forma en que Takina evitaba mirar directamente a Chisato, como si sus ojos pudieran delatarla. Kurumi lo percibió en el silencio — Takina siempre era silenciosa, pero este silencio tenía textura, peso, gravedad. Y Chisato... Chisato lo percibía en el hecho de que Takina no había respondido a su pregunta.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¿Takina? ¿Holaaa? Tierra llamando a Takina~</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-takina">
+                <span class="speaker-tag">Takina</span>
+                <span class="dialogue-text">—...Sí. Lo que ella dijo.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—<em>(entornando los ojos)</em> Eso no es un apoyo muy convincente, Takina.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-takina">
+                <span class="speaker-tag">Takina</span>
+                <span class="dialogue-text">—Los waffles estarán bien. Confío en ti.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Lo dijo sin inflexión, sin énfasis, con la misma voz plana que usaba para reportar el conteo de objetivos neutralizados. Pero las tres últimas palabras se quedaron flotando en el aire del café como el vapor sobre una taza caliente, y Chisato las atrapó con una sonrisa que no era de broma — era una sonrisa pequeña, genuina, la clase de sonrisa que no sabe que está siendo observada.
+        </p>
+
+        <p class="prose">
+            Y fue observada. No por Takina, que había vuelto a mirar su té. Fue observada por Mika, que dejó de calibrar la máquina por un momento y miró a las dos chicas como quien reconoce una melodía que escuchó hace mucho tiempo, en otra vida, con otra persona.
+        </p>
+
+        <p class="sfx">· · ·</p>
+
+        <p class="prose">
+            Los waffles quedaron bien. No perfectos — Chisato había vertido demasiada masa en la tercera tanda y el resultado fue un waffle que desbordaba los bordes como un pequeño volcán de harina —, pero la miel de Asakusa hizo su trabajo, y por unos minutos el café se llenó del sonido de tenedores contra platos y de las críticas gastronómicas improvisadas de Mizuki, que insistía en que «el punto de cocción del borde exterior necesita trabajo, pero la textura interior es prometedora.»
+        </p>
+
+        <p class="prose">
+            Takina comió en silencio. Cada vez que Chisato le pasaba la miel, sus dedos evitaban tocar los de ella. Cada vez que Chisato le hablaba, Takina respondía mirando el plato. Y cada vez que Chisato se reía de algo — de Mizuki, de Kurumi, del waffle volcánico —, Takina levantaba la vista una fracción de segundo para mirarla reír, y luego la bajaba de nuevo, como alguien que mira al sol y aparta la vista por instinto.
+        </p>
+
+        <div class="takina-aside">
+            <span class="aside-label">Takina — observación lateral</span>
+            <p>El vendaje en su brazo izquierdo está cubierto por la manga de la camisa. Nadie lo ha mencionado. Ella no lo ha mencionado. Actúa como si anoche no hubiera pasado nada. Como si no hubiera sangrado. Como si no hubiera puesto su mano sobre las mías y dicho «estoy aquí» con una voz que no era la de la mesera ni la de la Lycoris más fuerte de la historia, sino la de alguien que tenía miedo de que yo no estuviera.</p>
+        </div>
+
+        <!-- ══════ SCENE 2: THE BELL RINGS ══════ -->
+
+        <div class="bean-sep">
+            <svg class="bean-svg" width="20" height="14" viewBox="0 0 20 14">
+                <ellipse cx="10" cy="7" rx="9" ry="6" fill="none" stroke="#6F4E37" stroke-width="1.2"/>
+                <path d="M10 1 C10 7, 10 7, 10 13" stroke="#6F4E37" stroke-width="0.8" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="menu-board">
+            <span class="scene-num">Escena II</span>
+            <span class="scene-name">La campanilla</span>
+        </div>
+
+        <div class="timestamp"><span>Martes — 14:22</span></div>
+
+        <p class="prose">
+            La campanilla de la puerta sonó a las dos y veintidós de la tarde.
+        </p>
+
+        <p class="prose">
+            Café LycoReco tenía una campanilla de bronce encima de la puerta que Mika había instalado cuando abrió el local — un sonido dulce, anticuado, que anunciaba cada llegada como un pequeño evento. Después de meses trabajando ahí, Takina había aprendido a clasificar a los clientes por el sonido de esa campanilla: los habituales la hacían sonar suavemente porque abrían la puerta con familiaridad; los nuevos la hacían sonar con fuerza porque empujaban con la cautela excesiva de quien no sabe si está entrando a un café o a una oficina gubernamental.
+        </p>
+
+        <p class="prose">
+            Este sonido fue distinto. La campanilla sonó con un tintineo limpio, decidido, ni cauteloso ni descuidado. Era el sonido de alguien que entra a un lugar como si ya hubiera estado ahí antes, aunque fuera la primera vez.
+        </p>
+
+        <p class="prose">
+            Chisato estaba limpiando la mesa tres cuando levantó la vista. Takina estaba detrás de la barra, acomodando las tazas en el estante. Desde su posición, ambas vieron al mismo tiempo al chico que cruzó el umbral de Café LycoReco con las manos en los bolsillos de una chaqueta universitaria azul marino y una expresión en el rostro que solo puede describirse como la de alguien que acaba de descubrir algo agradable por accidente.
+        </p>
+
+        <p class="prose">
+            Era alto — no imponente, sino cómodamente alto, como alguien que creció sin prisa. Tenía el pelo castaño oscuro revuelto de una forma que podía ser intencional o resultado de haberse pasado la mano por la cabeza demasiadas veces. Sus ojos eran marrones, cálidos, del color del café que aún no había pedido. Llevaba una mochila colgada de un solo hombro, una camiseta blanca debajo de la chaqueta, y unos audífonos alrededor del cuello que todavía emitían un hilo de música — algo acústico, suave, apenas audible.
+        </p>
+
+        <p class="prose">
+            Lo primero que hizo fue mirar alrededor. No como quien busca una mesa — como quien observa un lugar para entenderlo. Su mirada recorrió los ventanales, las plantas colgantes, el menú escrito con tiza en la pizarra detrás de la barra, la máquina de espresso que Mika trataba como a una hija, las estanterías con libros que nadie leía pero que le daban al café ese aspecto de lugar que ha existido siempre.
+        </p>
+
+        <p class="prose">
+            Sonrió.
+        </p>
+
+        <p class="prose">
+            No la sonrisa cortés de quien entra a un establecimiento comercial. Era una sonrisa de reconocimiento — como si el café fuera exactamente lo que esperaba encontrar sin saber que lo estaba buscando.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Wow. Este lugar es real.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Lo dijo en voz alta, para nadie en particular, con la naturalidad de alguien que piensa en voz alta como forma de existir. Chisato, que estaba a tres metros de distancia con un trapo húmedo en la mano, ladeó la cabeza.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Claro que es real! Puedes tocar las paredes si quieres comprobarlo. ¡Bienvenido a LycoReco! ¿Mesa para uno o prefieres la barra?</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            El chico giró hacia ella. Por un momento — brevísimo, casi imperceptible, del tipo que solo se nota cuando se está prestando atención, y Takina Inoue siempre presta atención — algo cruzó por su rostro. No sorpresa exactamente. Algo más parecido a un ajuste, como cuando enfocas una cámara y la imagen que estaba borrosa se vuelve nítida.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—La barra, si no es mucha molestia. Me dijeron que el café de este lugar era bueno, pero no me dijeron que el lugar en sí tenía tanta... <em>(buscando la palabra)</em> ...personalidad.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Personalidad! Me gusta esa palabra. ¿Escuchaste eso, Mika? El cliente dice que tenemos personalidad. Eso es mucho mejor que lo que dijo el último inspector sanitario.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mika">
+                <span class="speaker-tag">Mika</span>
+                <span class="dialogue-text">—<em>(sin levantar la vista)</em> El inspector dijo que el baño necesitaba mejor ventilación, Chisato. No nos insultó.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Detalles! ¡Siéntate, siéntate! ¿Cómo te llamas? Soy Chisato. Chi-sa-to. Y ella es Takina. ¡Y ese de ahí que finge no escuchar es Mika, nuestro jefe!</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            El chico se sentó en el taburete central de la barra — el que quedaba directamente frente a la máquina de espresso — y dejó la mochila en el suelo con un movimiento fluido. Puso los codos sobre la barra con una familiaridad que normalmente toma semanas en construirse.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Ken Fujimoto. Primer año en la Universidad de Tokyo. Facultad de Literatura. Y soy incapaz de funcionar como ser humano antes de mi primer café del día, así que esto es básicamente una visita médica de emergencia.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Chisato soltó una carcajada. No la risa medida que usa con los clientes habituales — una carcajada real, de las que le hacen cerrar los ojos y echar la cabeza hacia atrás. El sonido llenó el café como una campanada.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Emergencia cafetera! ¡Mika, tenemos un código rojo! ¡Un estudiante en peligro de colapso existencial!</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Crítico. Nivel de cafeína en sangre: peligrosamente bajo. Los doctores recomiendan un espresso doble inmediato o las consecuencias serán... <em>(dramáticamente)</em> ...tener que leer a Mishima sin ningún estímulo cerebral.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—Dios mío. Mishima sin café. Eso debería ser ilegal.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—¿Verdad? Es como ver una película de acción sin sonido. Técnicamente funciona, pero te pierdes toda la experiencia.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Eso! ¡Exactamente eso! ¡Oye, ¿te gustan las películas de acción?!</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—¿Gustarme? Soy incapaz de pasar frente a un cine sin entrar a ver qué están proyectando. El mes pasado vi tres películas en un solo fin de semana. Mi compañero de piso cree que tengo un problema.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Tu compañero de piso no entiende el arte! ¡Mika, Mika! ¡Prepárale lo mejor que tengas! ¡Este chico es de los nuestros!</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Detrás de la barra, a menos de dos metros de la conversación, Takina secaba un vaso. Lo había tomado del escurridor cuando Ken se sentó. Ahora, siete minutos después, seguía secando el mismo vaso. El cristal estaba tan seco que podría haberse usado como lente de telescopio. Pero las manos de Takina seguían girando el trapo sobre la superficie con la insistencia mecánica de alguien que necesita hacer algo con las manos para no hacer algo con la cara.
+        </p>
+
+        <div class="takina-aside">
+            <span class="aside-label">Takina — observación lateral</span>
+            <p>Tiene la misma energía que ella. La misma forma de hablar — rápida, sin filtro, pasando de un tema a otro como si la conversación fuera un juego y cada frase fuera un punto. Ella se ríe con él de una forma que no es la risa del café, la risa social, la risa de «soy la mesera simpática.» Es la risa de antes. La risa que me dedicaba a mí cuando hacía algo que le parecía gracioso sin querer.</p>
+        </div>
+
+        <!-- ══════ SCENE 3: THREE HOURS ══════ -->
+
+        <div class="bean-sep">
+            <svg class="bean-svg" width="20" height="14" viewBox="0 0 20 14">
+                <ellipse cx="10" cy="7" rx="9" ry="6" fill="none" stroke="#6F4E37" stroke-width="1.2"/>
+                <path d="M10 1 C10 7, 10 7, 10 13" stroke="#6F4E37" stroke-width="0.8" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="menu-board">
+            <span class="scene-num">Escena III</span>
+            <span class="scene-name">Tres horas, dos cafés, una conexión</span>
+        </div>
+
+        <p class="prose">
+            Una hora pasó sin que nadie la contara.
+        </p>
+
+        <p class="prose">
+            Mika le preparó a Ken un pour-over con granos colombianos tostados artesanalmente — «la reserva especial de la casa», como lo presentó, aunque en realidad era la bolsa que había comprado en oferta la semana pasada en el mercado de Ameyoko. Ken lo probó, cerró los ojos, y dijo «Esto es lo que la civilización debería saber hacer antes que cualquier otra cosa.» Mika, por primera vez en meses, sonrió detrás de la barra.
+        </p>
+
+        <p class="prose">
+            Chisato se sentó frente a él. No al otro lado de la barra, como correspondería a una mesera atendiendo a un cliente, sino en el taburete de al lado, como si fueran amigos que habían quedado para verse. La conversación fluyó con una naturalidad que parecía ensayada pero no lo era.
+        </p>
+
+        <p class="prose">
+            Hablaron de películas. Ken había visto <em>Heat</em> siete veces. Chisato, nueve. Discutieron sobre si la escena del tiroteo era mejor que la escena del café entre De Niro y Pacino. Ken argumentó que el café era superior porque «la tensión entre dos personas sentadas es más difícil de filmar que cien balas.» Chisato abrió la boca para contradecirlo, se detuvo, lo pensó, y dijo: «Tienes razón. Dios mío, ¡tienes razón! ¡Nadie nunca tiene razón cuando discute conmigo!»
+        </p>
+
+        <p class="prose">
+            Hablaron de libros. Ken estaba leyendo a Banana Yoshimoto por tercera vez. «<em>Kitchen</em> es el libro más honesto que existe sobre el duelo», dijo. «No intenta ser profundo. Simplemente <em>es</em> profundo, de la misma forma que una taza de té caliente es reconfortante sin necesidad de explicar por qué.» Chisato admitió que no leía mucho — «los libros se quedan quietos y yo necesito que las cosas se muevan» — pero le pidió que le prestara uno.
+        </p>
+
+        <p class="prose">
+            Hablaron de Tokyo. Ken se había mudado desde Osaka hacía tres meses. «La ciudad es más grande de lo que me imaginaba, lo cual es ridículo porque siempre supe que era enorme, pero saberlo y sentirlo son cosas muy diferentes.» Chisato dijo que ella había vivido en Tokyo toda su vida — una verdad a medias que pronunció con la misma facilidad con la que disparaba balas de goma — y le recomendó sitios: la vista del río desde el puente Kuramae al atardecer, el takoyaki del puesto ambulante junto al templo Sensō-ji, la librería escondida en el segundo piso de un edificio en Jimbocho que solo abría los jueves.
+        </p>
+
+        <p class="prose">
+            Dos horas pasaron. Mika sirvió un segundo café sin que nadie se lo pidiera. Mizuki había cerrado la revista y observaba la escena por encima de su chai, con una expresión que mezclaba ternura y un dejo casi imperceptible de envidia — la envidia de alguien que lleva años buscando la conexión que estas dos personas acababan de encontrar por accidente un martes por la tarde.
+        </p>
+
+        <p class="prose">
+            Kurumi seguía tecleando, pero su ritmo había cambiado. Era más lento. Estaba escuchando.
+        </p>
+
+        <p class="prose">
+            Takina seguía detrás de la barra. Había abandonado el vaso — finalmente — y ahora acomodaba las cucharas en el cajón. Las ordenaba por tamaño. Luego las desordenaba. Luego las volvía a ordenar. Era un ciclo que no tenía propósito y que no planeaba detener.
+        </p>
+
+        <p class="prose">
+            La tercera hora empezó con una pausa. Ken se quedó callado por un momento, mirando su taza vacía con una expresión que era nueva: más seria, más íntima, como si la conversación hubiera llegado a un lugar donde las bromas ya no alcanzaban.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Oye, Chisato... ¿puedo decirte algo raro?</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—Las cosas raras son las mejores. Dispara.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Tengo algo que no le cuento a la gente cuando la conozco. Normalmente espero semanas, a veces meses. No es un secreto, es solo... algo que cambia la forma en que la gente te mira. Y no quiero que tú me mires diferente, pero al mismo tiempo siento que debería decírtelo porque... no sé. Porque esta conversación se lo merece.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Chisato ladeó la cabeza. Su sonrisa se suavizó. No desapareció — nunca desaparece — pero cambió de forma, como una vela cuya llama se estabiliza cuando el viento deja de soplar.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—Dime.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Ken se llevó la mano al pecho. No al centro, donde está el corazón en las películas, sino ligeramente a la izquierda, justo debajo de la clavícula. Presionó con los dedos como si estuviera verificando que algo seguía ahí.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Llevo un marcapasos. Me lo pusieron a los doce años. Arritmia cardíaca severa — mi corazón decidió un día que el ritmo regular era aburrido y empezó a improvisar. Los doctores dijeron que sin el dispositivo, era cuestión de tiempo antes de que se detuviera del todo.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            El café se quedó en silencio. No el silencio incómodo de la lástima, sino el silencio que precede a las cosas importantes. Mizuki bajó la revista. Kurumi dejó de teclear. Mika, que estaba secando tazas, detuvo las manos.
+        </p>
+
+        <p class="prose">
+            Takina, detrás de la barra, sintió que el aire cambiaba de densidad.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Desde entonces, tengo una pequeña máquina aquí dentro <em>(tocándose el pecho)</em> que le dice a mi corazón cuándo latir. Es... raro. La mayor parte del tiempo no lo pienso. Pero a veces, en las noches tranquilas, puedo sentirlo. Este pulso que no es exactamente mío. Como un metrónomo que alguien más puso en marcha. Sigo vivo gracias a un aparato que no puedo ver pero que puedo sentir.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Chisato no se movió. Sus ojos — rojos, amplios, con esa capacidad de absorber todo lo que miran — estaban fijos en Ken con una quietud que no le era natural. Su mano derecha, la que descansaba sobre la barra, se había desplazado, lenta e involuntariamente, hacia su propio pecho.
+        </p>
+
+        <p class="prose">
+            Tocó el lugar donde latía su corazón artificial. Ese corazón que no era suyo. Esa ingeniería que le permitía existir. Ese metrónomo puesto en marcha por alguien más.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—Yo también...</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Su voz salió más baja de lo normal. Sin la energía habitual. Sin el tarareo implícito que siempre llevan sus palabras. Solo dos palabras desnudas en el aire.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—Yo también tengo algo así. Aquí. <em>(tocándose el pecho)</em> No es... no es exactamente un marcapasos. Es algo parecido. Es algo que me mantiene viva. Algo que alguien me dio cuando era niña porque sin ello mi corazón no... no funcionaba.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Los ojos de Ken se abrieron. No con sorpresa — con algo más profundo. Con la expresión de alguien que ha cargado una maleta pesada durante años y de pronto descubre que la persona a su lado carga la misma maleta.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—¿En serio?</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—En serio. <em>(pausa, sonrisa temblorosa)</em> Los dos tenemos corazones que necesitan ayuda para latir. Qué cosas, ¿verdad?</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Qué cosas.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Se miraron. No como cliente y mesera. No como extraños que se acaban de conocer. Se miraron como dos personas que comparten una cicatriz que nadie más puede ver — la cicatriz invisible de vivir con un corazón prestado, de saber que tu existencia depende de un mecanismo ajeno, de haber escuchado alguna vez las palabras «sin esto, se detendrá.»
+        </p>
+
+        <p class="prose">
+            Fue Chisato quien rompió el silencio. Porque siempre es Chisato quien rompe los silencios.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¿Sabes qué? Necesitas otro café. ¡Este va por cuenta de la casa! Mika, pon la reserva especial de nuevo. ¡Es una emergencia cardíaca de solidaridad!</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Y así como se rompió, el momento se reconstruyó en algo más liviano. Ken rio. Chisato rio. Mika preparó el tercer café del día sin hacer preguntas. Pero algo se había depositado en el fondo de la conversación — un sedimento de entendimiento mutuo que ningún chiste podía disolver.
+        </p>
+
+        <!-- ══════ SCENE 4: THE GOODBYE ══════ -->
+
+        <div class="bean-sep">
+            <svg class="bean-svg" width="20" height="14" viewBox="0 0 20 14">
+                <ellipse cx="10" cy="7" rx="9" ry="6" fill="none" stroke="#6F4E37" stroke-width="1.2"/>
+                <path d="M10 1 C10 7, 10 7, 10 13" stroke="#6F4E37" stroke-width="0.8" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="menu-board">
+            <span class="scene-num">Escena IV</span>
+            <span class="scene-name">Promesa de regreso</span>
+        </div>
+
+        <div class="timestamp"><span>Martes — 17:35</span></div>
+
+        <p class="prose">
+            El sol de la tarde había cambiado de ángulo. Las constelaciones doradas de polvo se habían desplazado hacia el otro extremo del café, y la luz que entraba ahora era más naranja, más pesada, como si el día estuviera empezando a cansarse. Ken miró su teléfono por primera vez en tres horas.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—No puede ser. ¿Las cinco y media? Tengo un seminario en... <em>(calculando)</em> ...hace cuarenta minutos. Creo que acabo de reprobar asistencia en mi segunda semana.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Ups! ¿Quieres que te escriba una nota de justificación? «Estimado profesor: Ken no pudo asistir porque se encontraba en una intervención de café de emergencia. Es un asunto de salud pública.» ¡Firmado: Chisato Nishikigi, profesional del espresso!</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—<em>(riéndose mientras se levanta)</em> Honestamente, valdría la pena reprobar solo por ver la cara de mi profesor leyendo eso.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Se puso la mochila al hombro. Sacó su cartera y dejó sobre la barra el pago por los tres cafés más una propina que era casi igual al total. Mika levantó una ceja. Ken se encogió de hombros con una sonrisa que decía «no discuta, señor, usted prepara el mejor café que he probado.»
+        </p>
+
+        <p class="prose">
+            Caminó hacia la puerta. Se detuvo. Se giró.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Oye, Chisato.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¿Sí?</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Gracias. No solo por el café. Por la conversación. Por no mirarme con cara de «pobrecito» cuando te conté lo del marcapasos. Hacía mucho que alguien no me hacía sentir tan... normal. <em>(pausa)</em> Voy a volver mañana. Si me dejas.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Chisato Nishikigi, la chica que esquiva balas, que nunca duda, que tiene una respuesta para todo y un chiste para cada respuesta, se quedó callada por un segundo entero. Un segundo que en tiempo-Chisato es una eternidad. Y cuando habló, su voz tenía algo que Takina nunca le había escuchado: una suavidad desarmada, como si alguien le hubiera quitado una capa de armadura que ni ella sabía que llevaba puesta.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—Te voy a estar esperando, Ken.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Ken sonrió. No la sonrisa de la llegada, amplia y fácil. Una sonrisa más pequeña. Más significativa. La clase de sonrisa que se guarda para las cosas que importan.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-ken">
+                <span class="speaker-tag">Ken</span>
+                <span class="dialogue-text">—Entonces, hasta mañana.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            La campanilla sonó cuando la puerta se cerró detrás de él. Esta vez, el tintineo sonó diferente. O tal vez era el mismo sonido de siempre y lo que había cambiado era el café que lo escuchaba.
+        </p>
+
+        <!-- ══════ SCENE 5: BUTTERFLIES AND BROKEN GLASS ══════ -->
+
+        <div class="bean-sep">
+            <svg class="bean-svg" width="20" height="14" viewBox="0 0 20 14">
+                <ellipse cx="10" cy="7" rx="9" ry="6" fill="none" stroke="#6F4E37" stroke-width="1.2"/>
+                <path d="M10 1 C10 7, 10 7, 10 13" stroke="#6F4E37" stroke-width="0.8" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="menu-board">
+            <span class="scene-num">Escena V</span>
+            <span class="scene-name">Lo que se rompe sin hacer ruido</span>
+        </div>
+
+        <p class="prose">
+            Chisato se quedó mirando la puerta cerrada. Tres segundos. Cuatro. Cinco. Una duración inédita en su diccionario corporal — Chisato Nishikigi no se queda mirando nada durante cinco segundos porque cinco segundos es suficiente tiempo para esquivar ocho balas y servir dos cafés.
+        </p>
+
+        <p class="prose">
+            Pero ahí estaba, inmóvil frente a la puerta cerrada, con las manos cruzadas sobre el delantal y una expresión que el café entero podía leer pero que ninguno de sus habitantes se atrevía a nombrar en voz alta.
+        </p>
+
+        <p class="prose">
+            Mizuki fue la primera en hablar, porque Mizuki siempre es la primera en hablar cuando el tema involucra sentimientos.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mizuki">
+                <span class="speaker-tag">Mizuki</span>
+                <span class="dialogue-text">—Bueeeeno... <em>(cerrando la revista despacio)</em> ...eso fue interesante.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—<em>(girándose de golpe, como si la hubieran descubierto)</em> ¿Qué? ¿Qué fue interesante? ¡Es un cliente! ¡Un cliente normal que vino a tomar café! ¡Eso hacen los clientes, Mizuki, vienen a tomar café!</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mizuki">
+                <span class="speaker-tag">Mizuki</span>
+                <span class="dialogue-text">—Ajá. Y la mayoría de los clientes «normales» se quedan tres horas, comparten su historial médico y se despiden con un «hasta mañana» que suena a promesa de matrimonio. Totalmente normal.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Mizuki!</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-kurumi">
+                <span class="speaker-tag">Kurumi</span>
+                <span class="dialogue-text">—<em>(sin levantar la vista de la pantalla)</em> Tu frecuencia cardíaca subió un diecisiete por ciento en las últimas tres horas. Lo sé porque tu corazón artificial emite una señal electromagnética que mi laptop capta cuando estás cerca. Solo digo.</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡KURUMI! ¡Eso es invasión de privacidad! ¡Mika, dile algo!</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mika">
+                <span class="speaker-tag">Mika</span>
+                <span class="dialogue-text">—<em>(secando una taza con demasiada calma)</em> Es un buen chico.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Todos miraron a Mika. El gerente de Café LycoReco rara vez opinaba sobre los clientes. Cuando lo hacía, cada palabra era una sentencia.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-mika">
+                <span class="speaker-tag">Mika</span>
+                <span class="dialogue-text">—Se ve que es genuino. Que dice lo que piensa. Que no está actuando. <em>(pausa)</em> Y prepara su propia opinión sobre los libros, lo cual es raro en alguien de su edad. Que vuelva cuando quiera.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Chisato miró a Mika con una expresión que nadie en el café le conocía. No era gratitud exactamente. Era algo más frágil — la expresión de una hija que recibe la aprobación de un padre sin haberla pedido, y que descubre que la necesitaba.
+        </p>
+
+        <p class="prose">
+            Después, Chisato hizo algo que delataba todo. Caminó hacia la barra, tomó la taza vacía que Ken había dejado, y en lugar de ponerla con las demás en el fregadero, la sostuvo un momento. Solo un momento. La miró como si la taza pudiera contarle algo que la conversación de tres horas no le había dicho. Luego la dejó en el fregadero con cuidado, como si fuera de cristal fino y no de cerámica robusta del mercado de Kappabashi.
+        </p>
+
+        <p class="prose">
+            Suspiró.
+        </p>
+
+        <p class="prose">
+            Fue un suspiro apenas audible — una exhalación más larga de lo normal, con un temblor mínimo al final, como la última nota de una canción que no quiere terminar.
+        </p>
+
+        <p class="prose">
+            Y fue ahí — en ese suspiro, en ese instante preciso en que el aire salió de los pulmones de Chisato Nishikigi con una forma que no era alegría ni tristeza sino algo nuevo, algo sin precedente en los registros emocionales de la Lycoris más fuerte de la historia — cuando el vaso se rompió.
+        </p>
+
+        <p class="sfx">CRAC</p>
+
+        <p class="prose">
+            No fue un ruido dramático. Un vaso que se estrella contra el suelo en un anime se rompe en cámara lenta con destellos de luz y música de fondo. En la vida real, un vaso que se escapa de unos dedos que han apretado demasiado fuerte simplemente se raja por la mitad y los dos pedazos caen a lados opuestos de la barra con un sonido sordo que no justifica la atención de nadie.
+        </p>
+
+        <p class="prose">
+            Pero todos miraron.
+        </p>
+
+        <p class="prose">
+            Takina estaba de pie detrás de la barra con las manos abiertas sobre el espacio donde el vaso había estado. Los dos fragmentos de cristal yacían a sus pies. No se había cortado — el corte fue limpio, el vaso cedió antes que la piel — pero sus manos estaban suspendidas en el aire con los dedos extendidos, como si todavía estuvieran sosteniendo algo que ya no existía.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—¡Takina! ¿Estás bien? ¿Te cortaste?</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Chisato se acercó con la velocidad de siempre — esa velocidad que reserva para las emergencias, para las balas, para los momentos en que alguien que le importa podría estar herido. Le tomó las manos. Las examinó. No había sangre.
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-takina">
+                <span class="speaker-tag">Takina</span>
+                <span class="dialogue-text">—Se me resbaló.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            Mentira. Takina Inoue no deja que las cosas se le resbalen. Takina Inoue tiene manos que desarman armas en la oscuridad, que suturan heridas sin temblar, que aciertan blancos a ciento veinte metros. Takina Inoue no rompe vasos.
+        </p>
+
+        <p class="prose">
+            Pero Chisato no lo cuestionó. Solo asintió, le soltó las manos, se agachó a recoger los pedazos con cuidado, y dijo:
+        </p>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-chisato right">
+                <span class="speaker-tag">Chisato</span>
+                <span class="dialogue-text">—No te preocupes, era de los baratos. Mika compra en cantidad justamente para estas cosas. ¿Segura que estás bien?</span>
+            </div>
+        </div>
+
+        <div class="dialogue-wrap">
+            <div class="dialogue-bubble bubble-takina">
+                <span class="speaker-tag">Takina</span>
+                <span class="dialogue-text">—Estoy bien.</span>
+            </div>
+        </div>
+
+        <p class="prose">
+            No estaba bien.
+        </p>
+
+        <p class="prose">
+            Pero nadie en Café LycoReco dijo nada más. Mika barrió los cristales. Mizuki volvió a su revista. Kurumi retomó su tecleo. Chisato se fue a la cocina tarareando una canción que, esta vez, sonaba distinta — más suave, más lenta, como una melodía que ha adquirido una letra nueva que aún no se atreve a cantar.
+        </p>
+
+        <p class="prose">
+            Y Takina se quedó detrás de la barra, con las manos vacías y un dolor en el pecho que no era una herida, no era una bala, no era nada que un botiquín pudiera curar.
+        </p>
+
+        <p class="prose">
+            El reloj marcaba las seis de la tarde. El sol se había ido. Las constelaciones de polvo dorado habían desaparecido.
+        </p>
+
+        <p class="prose">
+            Mañana, Ken Fujimoto volvería.
+        </p>
+
+        <p class="prose">
+            Y Chisato lo estaría esperando.
+        </p>
+
+        <div class="takina-aside">
+            <span class="aside-label">Takina — observación lateral</span>
+            <p>Cuarenta y siete minutos. Estuve secando ese vaso durante cuarenta y siete minutos, escuchando su risa, su voz, el sonido de una conversación en la que no existía un espacio para mí. Y cuando ella suspiró — cuando el aire salió de sus labios con esa forma que nunca le he visto, esa forma que ya tiene nombre aunque yo me niegue a pronunciarlo — mis dedos apretaron el cristal como si pudieran detener algo que ya se había puesto en marcha.</p>
+            <p>No pudieron.</p>
+        </div>
+
+        <p class="final-line">
+            El sonido del vaso al romperse fue pequeño.<br>
+            El sonido de algo rompiéndose dentro de ella fue silencioso.<br>
+            Ambos fueron irreparables.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="40" height="28" viewBox="0 0 40 28">
+                <ellipse cx="20" cy="14" rx="16" ry="10" fill="none" stroke="#6F4E37" stroke-width="0.8" opacity="0.4"/>
+                <path d="M20 4 C20 14, 20 14, 20 24" stroke="#6F4E37" stroke-width="0.6" fill="none" opacity="0.3"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 2</p>
+        <p class="end-title">«&thinsp;El chico del marcapasos&thinsp;»</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-01.html">← Capítulo 1</a>
+            <a href="#" class="next-chapter disabled">Capítulo 3: Mariposas →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose, .dialogue-wrap, .takina-aside, .final-line, .bean-sep, .menu-board, .timestamp, .sfx'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
