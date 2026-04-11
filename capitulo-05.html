@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 5: Lo que no se dice — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+JP:wght@200;300;400;500;600&family=Raleway:wght@200;300;400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-washi: #F5F0EB;
+            --bg-washi-deep: #EDE6DD;
+            --bg-ink-wash: rgba(107, 127, 163, 0.06);
+            --ink-blue: #5C6B82;
+            --ink-blue-soft: #7A8BA3;
+            --ink-blue-faint: rgba(92, 107, 130, 0.1);
+            --ink-dark: #2E3440;
+            --text-body: #3B3632;
+            --text-soft: #6B6460;
+            --text-faint: #9E9690;
+            --takina-lav: #6B7FA3;
+            --takina-deep: #4A5A78;
+            --mika-gold: #A89260;
+            --mika-gold-soft: rgba(168, 146, 96, 0.12);
+            --chisato-warm: #C47A52;
+            --kurumi-teal: #5A8FA8;
+            --mizuki-peach: #B87E68;
+            --border-ink: rgba(92, 107, 130, 0.08);
+            --handwriting: 'Lora', serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Libre Baskerville', serif;
+            background: var(--bg-washi);
+            color: var(--text-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 2;
+        }
+
+        /* ===================== WATERCOLOR WASH BACKGROUNDS ===================== */
+
+        .wash-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .wash-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            animation: washAppear 12s ease-in-out infinite;
+        }
+
+        .wash-blob:nth-child(1) {
+            width: 400px; height: 400px;
+            background: rgba(107, 127, 163, 0.06);
+            top: 10%; left: 5%;
+            animation-delay: 0s; animation-duration: 15s;
+        }
+        .wash-blob:nth-child(2) {
+            width: 300px; height: 350px;
+            background: rgba(92, 107, 130, 0.05);
+            top: 40%; right: 10%;
+            animation-delay: 5s; animation-duration: 18s;
+        }
+        .wash-blob:nth-child(3) {
+            width: 350px; height: 300px;
+            background: rgba(107, 127, 163, 0.04);
+            bottom: 15%; left: 20%;
+            animation-delay: 8s; animation-duration: 14s;
+        }
+        .wash-blob:nth-child(4) {
+            width: 250px; height: 280px;
+            background: rgba(168, 146, 96, 0.04);
+            top: 60%; right: 30%;
+            animation-delay: 3s; animation-duration: 16s;
+        }
+
+        @keyframes washAppear {
+            0%   { opacity: 0; transform: scale(0.8); }
+            30%  { opacity: 1; transform: scale(1); }
+            70%  { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0; transform: scale(0.9); }
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(245,240,235,0.97), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(245, 240, 235, 0.98);
+            box-shadow: 0 1px 8px rgba(0,0,0,0.03);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        .nav-title a:hover { color: var(--ink-blue); }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--ink-blue); }
+        .nav-links .disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .chapter-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--bg-washi));
+            pointer-events: none;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 200;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: var(--ink-blue);
+            opacity: 0.08;
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 500;
+            font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+            color: var(--ink-dark);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main span { color: var(--takina-lav); }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1.02rem);
+            color: var(--text-soft);
+            margin-top: 2rem;
+            max-width: 480px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong { color: var(--takina-lav); font-weight: 400; }
+
+        /* ===================== INK WASH SEPARATOR ===================== */
+
+        .ink-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.8s;
+        }
+
+        .ink-sep.visible { opacity: 1; }
+
+        .ink-sep .ink-stroke {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--ink-blue), transparent);
+            opacity: 0.15;
+            border-radius: 1px;
+        }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene header (Japanese scroll style) ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem 2rem;
+            background: var(--bg-washi-deep);
+            border-top: 1px solid var(--border-ink);
+            border-bottom: 1px solid var(--border-ink);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible { opacity: 1; transform: translateY(0); }
+
+        .scene-header .scene-num {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            display: block;
+        }
+
+        .scene-header .scene-name {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--ink-dark);
+            margin-top: 0.2rem;
+        }
+
+        /* ---- Prose (Takina's deep monologue) ---- */
+
+        .prose {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 2.1;
+            color: var(--text-body);
+            margin-bottom: 1.6rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose.visible { opacity: 1; transform: translateY(0); }
+        .prose em { color: var(--takina-lav); font-style: italic; }
+        .prose strong { font-weight: 700; color: var(--ink-dark); }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border-ink);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.takina  { color: var(--takina-lav); }
+        .dialogue .speaker.mika    { color: var(--mika-gold); }
+        .dialogue .speaker.chisato { color: var(--chisato-warm); }
+        .dialogue .speaker.kurumi  { color: var(--kurumi-teal); }
+        .dialogue .speaker.mizuki  { color: var(--mizuki-peach); }
+
+        .dialogue .line {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2;
+            color: var(--text-body);
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.6; }
+
+        /* ---- Mika's wisdom (golden border) ---- */
+
+        .mika-wisdom {
+            margin: 2.5rem 0;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(168, 146, 96, 0.06), transparent);
+            border-left: 3px solid var(--mika-gold);
+            border-radius: 0 6px 6px 0;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .mika-wisdom.visible { opacity: 1; transform: translateX(0); }
+
+        .mika-wisdom .wisdom-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--mika-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .mika-wisdom p {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: clamp(0.93rem, 2vw, 1rem);
+            line-height: 2;
+            color: var(--mika-gold);
+        }
+
+        /* ---- Takina's internal (handwritten style) ---- */
+
+        .takina-handwritten {
+            text-align: center;
+            margin: 2.5rem 1rem;
+            padding: 1.5rem 2rem;
+            background: var(--bg-washi-deep);
+            border: 1px solid var(--border-ink);
+            border-radius: 4px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .takina-handwritten.visible { opacity: 1; transform: translateY(0); }
+
+        .takina-handwritten .hw-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.8rem;
+        }
+
+        .takina-handwritten p {
+            font-family: var(--handwriting);
+            font-style: italic;
+            font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+            line-height: 2;
+            color: var(--takina-lav);
+        }
+
+        /* ---- The crumpled paper (the note) ---- */
+
+        .crumpled-note {
+            max-width: 320px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: #FEFCF8;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 2px;
+            box-shadow:
+                2px 3px 8px rgba(0,0,0,0.04),
+                inset 0 0 20px rgba(0,0,0,0.01);
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px) rotate(-0.5deg);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .crumpled-note.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(-0.5deg);
+        }
+
+        .crumpled-note::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                linear-gradient(135deg, transparent 40%, rgba(0,0,0,0.01) 40%, rgba(0,0,0,0.01) 60%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .crumpled-note .note-text {
+            font-family: var(--handwriting);
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--takina-deep);
+            letter-spacing: 0.02em;
+        }
+
+        .crumpled-note .note-context {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-top: 1rem;
+        }
+
+        /* ---- Watercolor emotional burst ---- */
+
+        .wash-burst {
+            position: relative;
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .wash-burst.visible { opacity: 1; }
+
+        .wash-burst::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; height: 200px;
+            background: radial-gradient(ellipse, rgba(107, 127, 163, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .wash-burst p {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+            line-height: 2;
+            color: var(--takina-lav);
+            position: relative;
+        }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            text-align: center;
+            color: var(--takina-lav);
+            margin: 4rem auto 2rem;
+            max-width: 520px;
+            line-height: 2.2;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.2s, transform 1.2s;
+        }
+
+        .final-line.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--bg-washi-deep);
+            border-top: 1px solid var(--border-ink);
+        }
+
+        .end-ornament { margin-bottom: 2rem; }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-soft);
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.75rem;
+            color: var(--text-soft);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid var(--border-ink);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover { border-color: var(--ink-blue); color: var(--ink-blue); }
+
+        .chapter-nav a.next-chapter { border-color: rgba(107,127,163,0.2); color: var(--takina-lav); }
+        .chapter-nav a.next-chapter:hover { background: var(--ink-blue-faint); }
+        .chapter-nav a.disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+            .crumpled-note { max-width: 90%; margin: 2rem auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ WATERCOLOR WASH BACKGROUND ============ -->
+    <div class="wash-bg" aria-hidden="true">
+        <div class="wash-blob"></div>
+        <div class="wash-blob"></div>
+        <div class="wash-blob"></div>
+        <div class="wash-blob"></div>
+    </div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-04.html">← Anterior</a>
+            <a href="#" class="disabled">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto II · Mariposas y Espinas</p>
+        <div class="chapter-number">五</div>
+        <h1 class="chapter-title-main">Lo que <span>no se dice</span></h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Hay un papel arrugado en la basura<br>
+            que contiene todo lo que soy<br>
+            y todo lo que no me atrevo a ser.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Takina Inoue (monólogo profundo)</span>
+            <span class="meta-item"><strong>Tema:</strong> Tinta y Agua</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: THE PLACES THEY GO ══════ -->
+
+        <div class="scene-header">
+            <span class="scene-num">一 · Escena I</span>
+            <span class="scene-name">Los lugares a los que van</span>
+        </div>
+
+        <p class="prose">
+            Las semanas siguientes ocurrieron con la inevitabilidad de la marea. No hubo un momento definido en el que la relación entre Ken y Chisato cruzó la línea que separa la amistad de algo más — simplemente se deslizó, como agua que encuentra la grieta en una pared y pasa al otro lado sin hacer ruido.
+        </p>
+
+        <p class="prose">
+            Ken dejó de ser un cliente que venía al café. Se convirtió en alguien que venía a ver a Chisato y, de paso, tomaba un café. La diferencia era sutil pero absoluta, como la diferencia entre una persona que camina hacia el mar y una persona que camina porque el mar la está llamando.
+        </p>
+
+        <p class="prose">
+            Salían. No dentro del café — fuera de él. Chisato le mostraba el Tokyo que ella conocía, el Tokyo de las calles laterales y los atajos que solo existen en la memoria muscular de alguien que ha corrido por ellas persiguiendo (o siendo perseguida por) algo que el mundo no debe saber. Lo llevó al puente Kuramae al atardecer, como le había prometido. Se sentaron en la baranda con los pies colgando sobre el río Sumida, comiendo taiyaki relleno de crema que goteaba sobre sus rodillas, mientras el cielo hacía ese truco de luces que Tokyo solo ejecuta en las tardes de octubre — un degradado de naranja a violeta que duraba exactamente once minutos antes de que la noche lo borrara todo.
+        </p>
+
+        <p class="prose">
+            Lo llevó al Acuario de Sumida. El mismo acuario donde meses atrás había llevado a Takina — donde Takina había gritado «¡Pescadooo~!» con un entusiasmo que hizo que tres turistas se giraran a mirar. Chisato no pensó en ese detalle al elegir el lugar. O tal vez sí, en algún pliegue inconsciente de su memoria, y decidió no desdoblar ese pliegue.
+        </p>
+
+        <p class="prose">
+            Ken y Chisato caminaron por los túneles de cristal rodeados de agua azul y sombras de medusas. Ken le contó que de niño, en Osaka, su madre lo llevaba al acuario Kaiyukan cada vez que salía del hospital, como un ritual de celebración: «Sobreviviste otro chequeo, vamos a ver las ballenas.» Chisato rio y dijo que Mika la llevaba a comer ramen después de cada revisión médica en DA, aunque no dijo «DA» sino «la clínica.»
+        </p>
+
+        <p class="prose">
+            Compartían comida en el café después del cierre. Ken traía onigiri que compraba en el Lawson de la esquina de su residencia universitaria, y Chisato hacía café con la excusa de «necesito practicar un nuevo método de preparación», que era la excusa más transparente del mundo porque Chisato ya sabía preparar café de todas las formas posibles y solo necesitaba una razón para quedarse hasta tarde con él.
+        </p>
+
+        <p class="prose">
+            Takina veía todo. Lo veía con la precisión de una agente de campo y con el dolor de alguien que ha aprendido, demasiado tarde, que la precisión no protege de nada.
+        </p>
+
+        <div class="takina-handwritten">
+            <span class="hw-label">Takina — pensamiento interior</span>
+            <p>El puente Kuramae. El acuario. Los onigiri después del cierre. Cada uno de esos lugares era un punto en un mapa que yo conocía antes que él. Cada uno de esos momentos era una versión de algo que yo viví primero. Pero las versiones de Ken son diferentes. Las versiones de Ken tienen algo que las mías no tenían: la forma en que ella lo mira.</p>
+        </div>
+
+        <!-- ══════ SCENE 2: THE CONVERSATION WITH MIKA ══════ -->
+
+        <div class="ink-sep">
+            <div class="ink-stroke"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">二 · Escena II</span>
+            <span class="scene-name">El hombre que perdió antes</span>
+        </div>
+
+        <p class="prose">
+            Un jueves por la noche, después del cierre, Takina se encontró sola con Mika en el café. Chisato había subido a su habitación temprano — Ken había llamado por teléfono y ella se excusó con un «¡Buenas noches a todos! ¡Mañana tenemos reserva de un grupo de ocho, así que a dormir pronto!» que engañó a exactamente cero personas. Kurumi estaba en su cuarto. Mizuki tenía turno nocturno de «inteligencia personal», que era su forma elegante de decir que tenía una cita por una app.
+        </p>
+
+        <p class="prose">
+            Mika lavaba los vasos. Takina secaba. Era un ritual silencioso que habían desarrollado sin acordarlo — él mojaba, ella secaba, ambos callaban. Pero esa noche, el silencio tenía una densidad diferente. Era un silencio que pedía ser roto.
+        </p>
+
+        <p class="prose">
+            Takina abrió la boca. La cerró. La volvió a abrir. Mika siguió lavando, pero sus manos se movían más despacio — la forma que tenía de decir «te estoy escuchando» sin usar palabras.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Mika.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Dime.</span>
+        </div>
+
+        <p class="prose">
+            Un vaso pasó de las manos de él a las de ella. El agua goteó sobre el trapo.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Alguna vez has... <em>(pausa)</em> ...sentido algo que no tiene nombre?</span>
+        </div>
+
+        <p class="prose">
+            Mika no la miró. Siguió lavando. Pero el ritmo de sus manos cambió — se volvió más lento, más deliberado, como si estuviera manejando algo frágil.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Sí. Una vez. Hace mucho tiempo.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Qué hiciste?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Nada.</span>
+        </div>
+
+        <p class="prose">
+            La palabra cayó entre ellos como una piedra en agua quieta. Mika cerró el grifo. Se secó las manos con el trapo del hombro. Se apoyó contra la barra y miró hacia la ventana del café, donde la calle estaba vacía y las farolas dibujaban círculos de luz naranja sobre la acera.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—No hice nada. Sentí algo que no tenía nombre y decidí que, si no tenía nombre, no existía. Lo archivé. Lo clasifiqué como irrelevante. Me dije que era una distracción, que tenía una misión, que las misiones eran más importantes que las... <em>(pausa larga)</em> ...que lo que sentía.</span>
+        </div>
+
+        <p class="prose">
+            Takina dejó el vaso en el estante. No tomó otro. Sus manos se quedaron suspendidas sobre la barra, inmóviles.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Y qué pasó?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Lo perdí.</span>
+        </div>
+
+        <p class="prose">
+            Dos palabras. Dos sílabas cada una. Cuatro sílabas que contenían una historia que Takina no conocía en detalle pero que podía intuir — porque Mika tenía en los ojos esa mirada que tienen las personas que han aprendido algo importante demasiado tarde. La mirada de alguien que mira hacia atrás y ve el momento exacto en que debería haber girado a la izquierda en vez de seguir recto, el momento en que debería haber dicho algo en vez de callarse, el momento en que debería haber elegido el corazón en vez de la misión.
+        </p>
+
+        <div class="mika-wisdom">
+            <span class="wisdom-label">Mika — sabiduría de quien ya perdió</span>
+            <p>Amé a alguien. No se lo dije. Y lo perdí. No porque se muriera ni porque se fuera — lo perdí porque el silencio creó una distancia que, con el tiempo, se volvió insalvable. Cuando finalmente entendí lo que sentía, ya era tarde. Él había tomado un camino y yo otro, y los caminos no volvieron a cruzarse hasta que fue demasiado tarde para que el cruce significara algo.</p>
+        </div>
+
+        <p class="prose">
+            Mika se giró hacia Takina. La miró directamente — algo que rara vez hacía, porque Mika entendía que Takina era como ciertos animales que se asustan con el contacto visual directo y necesitan que los miren de costado, con paciencia, sin presión. Pero esta vez la miró de frente. Y lo que dijo lo dijo con la voz de alguien que le habla a su yo del pasado a través del cuerpo de otra persona.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Cuando amé a alguien y no se lo dije, lo perdí. No cometas mi error, Takina.</span>
+        </div>
+
+        <p class="prose">
+            Takina no respondió. No porque no tuviera palabras — sino porque las palabras que tenía eran demasiado grandes para su garganta, demasiado afiladas para su boca, demasiado honestas para un café cerrado a las once de la noche con un hombre de cuarenta y ocho años que la miraba como un padre mira a una hija que está a punto de cometer el mismo error que lo destruyó.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—<em>(volviendo a los vasos)</em> No tienes que decirme quién es. Ya lo sé. Lo sé desde hace semanas. Probablemente lo sé desde antes que tú.</span>
+        </div>
+
+        <p class="prose">
+            Takina sintió que el suelo se movía bajo sus pies. No literal sino emocionalmente — esa sensación de que una verdad que creías escondida estaba a la vista de todos, como una mancha de tinta en una camisa blanca que tú no puedes ver porque está en tu espalda pero que el resto del mundo ve cada vez que te das la vuelta.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—...¿Desde cuándo?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Desde la primera vez que la miraste cuando ella no te estaba mirando. Hay una forma de mirar a alguien cuando no saben que los estás mirando. Una forma que no se puede fingir ni entrenar ni aprender en DA. Una forma que solo existe cuando lo que sientes es real. <em>(pausa)</em> Tú la miras así.</span>
+        </div>
+
+        <p class="prose">
+            El silencio que siguió fue de los que cambian la temperatura de una habitación. Takina bajó la mirada. Sus ojos morados se fijaron en el charco de agua que la esponja había dejado en la barra — un charco pequeño, insignificante, con forma de nada. Lo miró como si pudiera contener respuestas.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Y si ya es tarde?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—«Ya es tarde» es lo que me dije a mí mismo todos los días durante veinte años. Y cada día era un día más tarde que el anterior. <em>(secándose las manos, colgando el trapo)</em> Buenas noches, Takina. Piénsalo.</span>
+        </div>
+
+        <p class="prose">
+            Mika se fue. Sus pasos se alejaron por el pasillo trasero — pasos pesados, de hombre que carga más de lo que su cuerpo debería soportar. La puerta trasera se abrió y se cerró.
+        </p>
+
+        <p class="prose">
+            Takina se quedó sola en el café cerrado.
+        </p>
+
+        <p class="prose">
+            El charco de agua en la barra se secó mientras ella lo miraba, como una pregunta que se responde sola por evaporación.
+        </p>
+
+        <!-- ══════ SCENE 3: THE NIGHT WALK ══════ -->
+
+        <div class="ink-sep">
+            <div class="ink-stroke"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">三 · Escena III</span>
+            <span class="scene-name">El paseo que nadie sabe</span>
+        </div>
+
+        <p class="prose">
+            Takina no subió a dormir. En vez de eso, se puso la chaqueta y salió por la puerta trasera del café. La noche de octubre en Asakusa era fría, clara, con un cielo que mostraba las pocas estrellas que la contaminación lumínica de Tokyo permitía — un puñado de puntos blancos que parecían estar ahí por obligación más que por vocación.
+        </p>
+
+        <p class="prose">
+            Caminó. Sin dirección, sin objetivo, sin la eficiencia que DA le había incrustado en los huesos. Solo caminó. Pasó por el templo Sensō-ji, cerrado a esas horas, con sus linternas rojas apagadas y su enorme puerta Kaminarimon vigilando la oscuridad como un centinela dormido. Pasó por las calles de Nakamise-dōri, vacías de los turistas que durante el día las abarrotaban con sus cámaras y sus mapas. Pasó por el puente Azuma, desde donde podía ver el reflejo de la torre Enkuboku en el agua negra del río — esa torre que era «el símbolo de la paz» para el país y que para ella era el recordatorio de una batalla que casi le costó a Chisato la vida.
+        </p>
+
+        <p class="prose">
+            Todo en Tokyo le recordaba a Chisato. Cada esquina, cada callejón, cada farola. No porque Chisato estuviera en todas partes, sino porque Takina la había puesto ahí — inconscientemente, durante meses, había ido tejiendo a Chisato dentro del mapa de la ciudad hasta que la ciudad y la chica se volvieron inseparables. Tokyo sin Chisato era un plano arquitectónico sin color. Un acuario sin peces. Un café sin café.
+        </p>
+
+        <p class="prose">
+            Se detuvo en el puente Kuramae. El mismo puente donde Chisato y Ken habían comido taiyaki con los pies colgando sobre el río. Se apoyó en la baranda. Miró el agua.
+        </p>
+
+        <div class="takina-handwritten">
+            <span class="hw-label">Takina — pensamiento interior</span>
+            <p>Mika dijo «no cometas mi error.» Pero, ¿cuál es la alternativa? ¿Decírselo? ¿Pararme frente a ella, mirarla a esos ojos rojos que leen el futuro medio segundo antes de que ocurra, y decirle que estoy enamorada de ella? ¿Qué pasa después? Ella me mira con compasión. Me dice «Takina, eres mi mejor amiga.» Me abraza. Y el abrazo es peor que el silencio, porque el abrazo confirma que hay una línea que ella nunca cruzará conmigo, una línea que Ken cruzó sin siquiera saber que existía.</p>
+        </div>
+
+        <p class="prose">
+            El agua del río Sumida corría debajo del puente con la indiferencia de las cosas que existen desde antes que las personas y existirán después. Takina pensó en Mika. En el «alguien» que Mika amó y perdió. Sabía quién era — los rumores en DA eran difusos pero persistentes, y Takina era buena conectando puntos. Shinji Yoshimatsu. El hombre que le dio a Chisato su corazón artificial. El hombre al que Mika tuvo que disparar para salvar la vida de la hija que ambos compartían sin haberse puesto de acuerdo en criarla.
+        </p>
+
+        <p class="prose">
+            Mika había amado a un hombre y lo había perdido por el silencio. Ahora le estaba pidiendo a Takina que no repitiera la historia.
+        </p>
+
+        <p class="prose">
+            Pero Takina no era Mika. Mika era cálido, sabio, capaz de articular lo que sentía aunque eligiera no hacerlo. Takina era fría. Precisa. Construida para ejecutar, no para confesar. DA le había dado un vocabulario extenso para describir tácticas de combate, calibres de munición, protocolos de extracción. No le había dado una sola palabra para describir lo que sentía cuando Chisato le sonreía.
+        </p>
+
+        <p class="prose">
+            Y sin embargo. Sin embargo. Había algo en las palabras de Mika que se había adherido a ella como una espina a un jersey — no dolía si no te movías, pero si intentabas seguir adelante, se clavaba más profundo.
+        </p>
+
+        <p class="prose">
+            <em>«No cometas mi error.»</em>
+        </p>
+
+        <!-- ══════ SCENE 4: THE NOTE ══════ -->
+
+        <div class="ink-sep">
+            <div class="ink-stroke"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">四 · Escena IV</span>
+            <span class="scene-name">Tinta sobre papel</span>
+        </div>
+
+        <p class="prose">
+            Volvió al café pasada la medianoche. Subió las escaleras sin hacer ruido — años de entrenamiento le permitían moverse por la casa sin que un solo peldaño crujiera. El pasillo del segundo piso estaba oscuro. La puerta de Chisato estaba cerrada. Detrás de ella, silencio. La respiración profunda y espaciada del sueño. Dormía.
+        </p>
+
+        <p class="prose">
+            Takina entró a su habitación. Se quitó la chaqueta. Se sentó en el escritorio — un mueble pequeño junto a la ventana que normalmente usaba para limpiar su arma o escribir informes de misión. Encendió la lámpara. Tomó un bolígrafo. Tomó una hoja de papel.
+        </p>
+
+        <p class="prose">
+            Y escribió.
+        </p>
+
+        <p class="prose">
+            No supo qué iba a escribir hasta que la tinta tocó el papel. No fue un plan ni un borrador ni una carta. Fue algo anterior a la estructura — un impulso que viajó desde el centro de su pecho, subió por su brazo, llegó a sus dedos, y se vertió en forma de tinta antes de que su cerebro pudiera interceptarlo y reclasificarlo como «irracional.»
+        </p>
+
+        <p class="prose">
+            Escribió durante tres minutos. Después se detuvo. Miró lo que había escrito.
+        </p>
+
+        <p class="prose">
+            Lo leyó una vez. Lo leyó dos veces. Lo leyó una tercera vez con el labio inferior entre los dientes y los ojos más abiertos de lo habitual, como si estuviera leyendo un documento clasificado que no debería existir.
+        </p>
+
+        <p class="prose">
+            Luego, con la deliberación de alguien que desarma una bomba, tomó el papel con ambas manos. Lo arrugó. Lentamente, sin prisa, comprimiendo cada centímetro de tinta hasta que la hoja se convirtió en una bola compacta que cabía en el hueco de su puño.
+        </p>
+
+        <p class="prose">
+            Abrió el cajón inferior del escritorio, donde guardaba la papelera. Dejó caer la bola de papel. Cerró el cajón.
+        </p>
+
+        <p class="prose">
+            Apagó la lámpara. Se metió en la cama. Cerró los ojos.
+        </p>
+
+        <p class="prose">
+            No durmió.
+        </p>
+
+        <!-- ══════ SCENE 5: KURUMI FINDS IT ══════ -->
+
+        <div class="ink-sep">
+            <div class="ink-stroke"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">五 · Escena V</span>
+            <span class="scene-name">La que encuentra lo que fue descartado</span>
+        </div>
+
+        <p class="prose">
+            A la mañana siguiente, Kurumi vació las papeleras. Era una de sus tareas asignadas en el café — la menos glamorosa, la que nadie quería, la que ella aceptó a cambio de que la dejaran usar el ancho de banda del wifi sin restricciones. Recorría las habitaciones con una bolsa de basura, recogiendo pañuelos, envoltorios, restos de la existencia diaria de cinco personas que vivían y trabajaban juntas.
+        </p>
+
+        <p class="prose">
+            En la habitación de Takina, abrió el cajón inferior del escritorio. Había una sola cosa adentro: una bola de papel arrugado. Kurumi la sacó, la sostuvo un momento — la textura era irregular, como si quien la arrugó hubiera querido borrarla por compresión — y, por un impulso que luego atribuiría a la «curiosidad científica», la abrió.
+        </p>
+
+        <p class="prose">
+            El papel estaba marcado con arrugas que cruzaban las palabras como cicatrices en un mapa. Pero la tinta era legible. La caligrafía era la de Takina: precisa, vertical, sin adornos, del tipo que se aprende en una academia militar donde la belleza de la letra no importa pero la claridad es obligatoria.
+        </p>
+
+        <p class="prose">
+            Kurumi leyó lo que decía.
+        </p>
+
+        <p class="prose">
+            Era una sola palabra.
+        </p>
+
+        <div class="crumpled-note">
+            <span class="note-text">Chisato</span>
+            <span class="note-context">Papel encontrado en la papelera de Takina Inoue</span>
+        </div>
+
+        <p class="prose">
+            Una sola palabra. Siete letras. El nombre de una persona escrito con la presión de alguien que aprieta el bolígrafo como si estuviera agarrándose a algo. La «C» inicial tenía un trazo más grueso de lo normal — la tinta se había acumulado en el punto de inicio, como si el bolígrafo hubiera dudado antes de empezar a moverse. La «o» final se cerraba con un arco que casi salía del papel, como si la mano quisiera seguir escribiendo pero el cerebro hubiera dado la orden de parar.
+        </p>
+
+        <p class="prose">
+            No era una carta. No era una confesión. No era un poema ni una declaración ni un plan. Era algo más elemental que todo eso. Era el nombre de la persona que Takina Inoue amaba, escrito a solas, de noche, como prueba de que el sentimiento existía — porque a veces, cuando no puedes decir algo en voz alta, lo escribes, y cuando lo escribes, se vuelve real, y cuando se vuelve real, lo destruyes, porque la realidad de lo que sientes es más aterradora que el silencio.
+        </p>
+
+        <p class="prose">
+            Kurumi miró el papel un momento más. Después, con cuidado, lo volvió a arrugar. Lo metió en la bolsa de basura junto con el resto de los desechos. No era su secreto. No era su historia. Solo era una palabra en un papel arrugado que nadie más vería jamás.
+        </p>
+
+        <p class="prose">
+            Pero al salir de la habitación, Kurumi se detuvo en el pasillo. Miró hacia la escalera por donde bajaba el sonido del café abriéndose — Chisato tarareando, Mika moviendo sillas, el silbido de la máquina de espresso calentándose. Y miró hacia la puerta del baño, detrás de la cual se escuchaba el agua de la ducha de Takina.
+        </p>
+
+        <p class="prose">
+            Kurumi era una hacker. Procesaba datos. Encontraba patrones. Resolvía problemas.
+        </p>
+
+        <p class="prose">
+            Pero este no era un problema de datos. Este era un problema de personas. Y Kurumi, que a sus trece años había fingido su propia muerte para escapar de un mundo que la quería usar como herramienta, sabía mejor que nadie que las personas no son código. Las personas no se debuguean. Las personas se rompen de formas que ningún parche puede arreglar.
+        </p>
+
+        <p class="prose">
+            Bajó las escaleras con la bolsa de basura. No dijo nada a nadie.
+        </p>
+
+        <p class="prose">
+            Pero esa noche, cuando Takina se sentó sola en la barra después del cierre mientras Chisato hablaba por teléfono con Ken en el patio, Kurumi se sentó a su lado. No dijo nada. No la miró. Solo se sentó, abrió su laptop, y empezó a teclear.
+        </p>
+
+        <p class="prose">
+            Después de cinco minutos, sin levantar la vista de la pantalla, dijo:
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Los nombres más difíciles de pronunciar son los que más importan.</span>
+        </div>
+
+        <p class="prose">
+            Takina la miró. Kurumi siguió tecleando como si no hubiera dicho nada. Y Takina, por primera vez en mucho tiempo, sintió que el hielo que la cubría tenía una grieta — pequeña, casi invisible, pero suficiente para que algo de luz entrara.
+        </p>
+
+        <div class="wash-burst">
+            <p>No respondió. No hacía falta. Kurumi ya lo sabía.<br>
+            Mika ya lo sabía. Mizuki ya lo sabía.<br><br>
+            Todos en Café LycoReco sabían lo que Takina sentía<br>
+            excepto la persona que necesitaba saberlo.</p>
+        </div>
+
+        <p class="prose">
+            La risa de Chisato se filtró desde el patio. Lejana, amortiguada, dirigida a alguien que no estaba en la habitación.
+        </p>
+
+        <p class="prose">
+            Y Takina, sentada en la barra del café que era su hogar, rodeada de personas que la veían, escuchó esa risa y pensó en un papel arrugado que contenía una sola palabra y que ahora estaba en una bolsa de basura en algún lugar entre los desechos del día.
+        </p>
+
+        <p class="prose">
+            Donde nadie la encontraría.
+        </p>
+
+        <p class="prose">
+            Donde ella la había puesto.
+        </p>
+
+        <p class="final-line">
+            En un papel arrugado al fondo de una papelera,<br>
+            en letra vertical de academia militar,<br>
+            con tinta que pesaba más que una bala,<br><br>
+            Takina Inoue escribió todo lo que era<br>
+            y todo lo que no se atrevía a ser.<br><br>
+            Una sola palabra.<br>
+            Siete letras.<br>
+            Un universo entero.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="60" height="20" viewBox="0 0 60 20" opacity="0.2">
+                <line x1="0" y1="10" x2="25" y2="10" stroke="#5C6B82" stroke-width="0.8"/>
+                <circle cx="30" cy="10" r="2" fill="#5C6B82"/>
+                <line x1="35" y1="10" x2="60" y2="10" stroke="#5C6B82" stroke-width="0.8"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 5</p>
+        <p class="end-title">«&thinsp;Lo que no se dice&thinsp;»</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-04.html">← Capítulo 4</a>
+            <a href="#" class="next-chapter disabled">Capítulo 6: La cita →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose, .dialogue, .takina-handwritten, .mika-wisdom, .crumpled-note, .wash-burst, .final-line, .ink-sep, .scene-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
