@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 6: La cita — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --night-deep: #0D1B2A;
+            --night-mid: #1B2838;
+            --night-soft: #243447;
+            --gold-spark: #FFD700;
+            --gold-soft: #E8C868;
+            --gold-faint: rgba(255, 215, 0, 0.08);
+            --red-spark: #E74C3C;
+            --violet-spark: #9B59B6;
+            --violet-faint: rgba(155, 89, 182, 0.15);
+            --cream: #F0E6D6;
+            --cream-soft: #D4C8B8;
+            --cream-dim: #8A8070;
+            --text-light: #D8D0C4;
+            --text-dim: #7A7268;
+            --chisato-warm: #E8945A;
+            --takina-grey: #7A8898;
+            --takina-fade: #5A6878;
+            --ken-gold: #D4B85A;
+            --mika-sage: #7A9A6A;
+            --kurumi-teal: #5AA0B8;
+            --mizuki-peach: #D49A7A;
+            --kiss-gold: #FFD700;
+            --kiss-glow: rgba(255, 215, 0, 0.2);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Kosugi Maru', sans-serif;
+            background: var(--night-deep);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.95;
+        }
+
+        /* ===================== FIREWORK PARTICLES ===================== */
+
+        .fireworks-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .fw-gold   { background: var(--gold-spark); box-shadow: 0 0 6px var(--gold-spark); }
+        .fw-red    { background: var(--red-spark); box-shadow: 0 0 6px var(--red-spark); }
+        .fw-violet { background: var(--violet-spark); box-shadow: 0 0 6px var(--violet-spark); }
+
+        .firework:nth-child(1)  { top: 15%; left: 10%; animation: burst 4s ease-out 0s infinite; }
+        .firework:nth-child(2)  { top: 8%;  left: 25%; animation: burst 5s ease-out 1.5s infinite; }
+        .firework:nth-child(3)  { top: 20%; left: 45%; animation: burst 4.5s ease-out 0.8s infinite; }
+        .firework:nth-child(4)  { top: 12%; left: 65%; animation: burst 5.5s ease-out 2s infinite; }
+        .firework:nth-child(5)  { top: 18%; left: 80%; animation: burst 4s ease-out 3s infinite; }
+        .firework:nth-child(6)  { top: 25%; left: 35%; animation: burst 6s ease-out 1s infinite; }
+        .firework:nth-child(7)  { top: 10%; left: 55%; animation: burst 4.5s ease-out 2.5s infinite; }
+        .firework:nth-child(8)  { top: 22%; left: 90%; animation: burst 5s ease-out 0.3s infinite; }
+        .firework:nth-child(9)  { top: 5%;  left: 15%; animation: burst 5.5s ease-out 3.5s infinite; }
+        .firework:nth-child(10) { top: 28%; left: 72%; animation: burst 4s ease-out 1.8s infinite; }
+        .firework:nth-child(11) { top: 14%; left: 40%; animation: burst 5s ease-out 4s infinite; }
+        .firework:nth-child(12) { top: 8%;  left: 85%; animation: burst 6s ease-out 0.5s infinite; }
+
+        @keyframes burst {
+            0%   { transform: scale(0); opacity: 0; }
+            10%  { transform: scale(1); opacity: 0.8; }
+            30%  { transform: scale(2.5); opacity: 0.5; }
+            60%  { transform: scale(4); opacity: 0.15; }
+            100% { transform: scale(6); opacity: 0; }
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(13,27,42,0.97), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(13, 27, 42, 0.98);
+            box-shadow: 0 1px 0 rgba(255,215,0,0.05);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .nav-title a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        .nav-title a:hover { color: var(--gold-spark); }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--gold-spark); }
+        .nav-links .disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,215,0,0.15);
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            color: var(--cream);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main span { color: var(--gold-spark); }
+
+        .chapter-title-jp {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: 1rem;
+            color: var(--gold-soft);
+            opacity: 0.4;
+            margin-top: 0.3rem;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1.02rem);
+            color: var(--cream-dim);
+            margin-top: 2rem;
+            max-width: 480px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .meta-item strong { color: var(--gold-soft); font-weight: 400; }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene header ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.2rem 2rem;
+            border-top: 1px solid rgba(255,215,0,0.06);
+            border-bottom: 1px solid rgba(255,215,0,0.06);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible { opacity: 1; transform: translateY(0); }
+
+        .scene-header .scene-num {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            display: block;
+        }
+
+        .scene-header .scene-name {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: 1.1rem;
+            color: var(--cream);
+            margin-top: 0.15rem;
+        }
+
+        .scene-header .scene-time {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--gold-soft);
+            opacity: 0.5;
+            margin-top: 0.3rem;
+        }
+
+        /* ---- Prose (festival narration) ---- */
+
+        .prose {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose.visible { opacity: 1; transform: translateY(0); }
+        .prose em { color: var(--gold-soft); font-style: normal; }
+        .prose strong { color: var(--cream); }
+
+        /* ---- Desaturated prose (Takina's perspective fading) ---- */
+
+        .prose.fading {
+            color: var(--takina-grey);
+            transition: opacity 0.7s, transform 0.7s, color 1s;
+        }
+
+        .prose.gone {
+            color: var(--takina-fade);
+            font-size: clamp(0.88rem, 1.8vw, 0.95rem);
+        }
+
+        .prose.whisper {
+            color: var(--takina-fade);
+            font-size: clamp(0.82rem, 1.6vw, 0.88rem);
+            text-align: center;
+        }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(255,215,0,0.08);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.chisato { color: var(--chisato-warm); }
+        .dialogue .speaker.takina  { color: var(--takina-grey); }
+        .dialogue .speaker.ken     { color: var(--ken-gold); }
+        .dialogue .speaker.mika    { color: var(--mika-sage); }
+        .dialogue .speaker.mizuki  { color: var(--mizuki-peach); }
+        .dialogue .speaker.kurumi  { color: var(--kurumi-teal); }
+
+        .dialogue .line {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 1.95;
+            color: var(--text-light);
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.6; }
+
+        /* ---- Kiss moment (golden frame) ---- */
+
+        .kiss-frame {
+            margin: 3rem auto;
+            padding: 2rem 2.5rem;
+            max-width: 520px;
+            text-align: center;
+            border: 1px solid var(--kiss-glow);
+            border-radius: 4px;
+            background: radial-gradient(ellipse at center, rgba(255,215,0,0.03) 0%, transparent 70%);
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1.2s, transform 1.2s;
+        }
+
+        .kiss-frame.visible { opacity: 1; transform: translateY(0); }
+
+        .kiss-frame::before,
+        .kiss-frame::after {
+            content: '';
+            position: absolute;
+            width: 20px; height: 20px;
+            border-color: var(--gold-spark);
+            opacity: 0.3;
+        }
+
+        .kiss-frame::before { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+        .kiss-frame::after  { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+
+        .kiss-frame p {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+            line-height: 2;
+            color: var(--gold-soft);
+        }
+
+        /* ---- Takina empty eyes moment ---- */
+
+        .empty-eyes {
+            margin: 3rem 0;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(90,104,120,0.08), transparent);
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .empty-eyes.visible { opacity: 1; }
+
+        .empty-eyes p {
+            font-family: 'Source Serif 4', serif;
+            font-style: italic;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2;
+            color: var(--takina-grey);
+        }
+
+        /* ---- Hanabi separator ---- */
+
+        .hanabi-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .hanabi-sep.visible { opacity: 1; }
+
+        .hanabi-sep .spark {
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+        .hanabi-sep .spark.g { background: var(--gold-spark); }
+        .hanabi-sep .spark.r { background: var(--red-spark); }
+        .hanabi-sep .spark.v { background: var(--violet-spark); }
+
+        .hanabi-sep .sep-line {
+            width: 40px; height: 1px;
+            background: rgba(255,215,0,0.15);
+        }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Source Serif 4', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            text-align: center;
+            color: var(--takina-grey);
+            margin: 4rem auto 2rem;
+            max-width: 550px;
+            line-height: 2.2;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.2s, transform 1.2s;
+        }
+
+        .final-line.visible { opacity: 1; transform: translateY(0); }
+        .final-line .gold { color: var(--gold-soft); }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--night-mid);
+            border-top: 1px solid rgba(255,215,0,0.04);
+        }
+
+        .end-ornament { margin-bottom: 2rem; }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--cream-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-act-close {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold-soft);
+            opacity: 0.4;
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'Kosugi Maru', sans-serif;
+            font-size: 0.75rem;
+            color: var(--cream-dim);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover { border-color: var(--gold-spark); color: var(--gold-spark); }
+        .chapter-nav a.next-chapter { border-color: rgba(255,215,0,0.15); color: var(--gold-soft); }
+        .chapter-nav a.next-chapter:hover { background: var(--gold-faint); }
+        .chapter-nav a.disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+            .kiss-frame { padding: 1.5rem; max-width: 95%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ FIREWORK PARTICLES ============ -->
+    <div class="fireworks-bg" aria-hidden="true">
+        <div class="firework fw-gold"></div>
+        <div class="firework fw-red"></div>
+        <div class="firework fw-violet"></div>
+        <div class="firework fw-gold"></div>
+        <div class="firework fw-red"></div>
+        <div class="firework fw-violet"></div>
+        <div class="firework fw-gold"></div>
+        <div class="firework fw-red"></div>
+        <div class="firework fw-gold"></div>
+        <div class="firework fw-violet"></div>
+        <div class="firework fw-red"></div>
+        <div class="firework fw-gold"></div>
+    </div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-05.html">← Anterior</a>
+            <a href="#" class="disabled">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto II · Mariposas y Espinas</p>
+        <div class="chapter-number">06</div>
+        <h1 class="chapter-title-main">La <span>cita</span></h1>
+        <p class="chapter-title-jp">花火 — Hanabi</p>
+        <p class="chapter-epigraph">
+            «&thinsp;Los fuegos artificiales son hermosos<br>
+            porque son breves. Igual que el momento<br>
+            en que todo se rompió.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Narrador cinematográfico</span>
+            <span class="meta-item"><strong>Tema:</strong> Hanabi (花火)</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: THE INVITATION ══════ -->
+
+        <div class="scene-header">
+            <span class="scene-num">Escena I</span>
+            <span class="scene-name">La invitación</span>
+            <span class="scene-time">Miércoles — Café LycoReco</span>
+        </div>
+
+        <p class="prose">
+            Ken lo dijo como quien menciona el clima. Sin preámbulo, sin preparación, con la naturalidad de alguien para quien los momentos importantes no necesitan ceremonia.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Oye, Chisato. Este sábado hay un matsuri en Asakusa. El festival de otoño del templo Sensō-ji. Dicen que los fuegos artificiales son impresionantes. ¿Te gustaría ir?</span>
+        </div>
+
+        <p class="prose">
+            Era media tarde. El café tenía ese estado de calma suspendida que precede a la hora del cierre — las mesas vacías, los últimos rayos de sol cayendo oblicuos sobre la barra, el zumbido del refrigerador como un bajo continuo. Chisato estaba recogiendo las tazas de la mesa cuatro cuando se detuvo con una en cada mano, como una balanza humana que acaba de recibir un peso inesperado en uno de los platillos.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¿Un matsuri? ¿Los dos?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Los dos. ¿O prefieres que invite a todo el café? Porque puedo. Tengo carisma para grupos grandes.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(riendo)</em> ¡Eso sonó casi como una cita, Ken Fujimoto!</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—<em>(sonrisa sin apartar la mirada)</em> Sonó como lo que es.</span>
+        </div>
+
+        <p class="prose">
+            El café se quedó en silencio. El tipo de silencio que tiene forma — rectangular, como un sobre que contiene algo importante y que acabas de abrir. Chisato sostuvo las dos tazas un momento más. Luego las dejó en la barra con un cuidado que normalmente no dedicaba a la cerámica.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—...Sí. Me encantaría.</span>
+        </div>
+
+        <p class="prose">
+            Su voz tenía ese temblor nuevo que Takina había aprendido a identificar en las últimas semanas — un temblor que no era de inseguridad sino de anticipación, como la nota que vibra en una cuerda de guitarra un instante después de que el dedo la toque.
+        </p>
+
+        <p class="prose">
+            Takina estaba en la cocina. Había escuchado todo a través de la puerta entreabierta. La frase de Ken — <em>«Sonó como lo que es»</em> — se repitió en su cabeza con la insistencia de una alarma que no tiene botón de apagado. Miró sus manos. Estaban quietas. Completamente quietas. Y eso era peor que el temblor, porque significaba que su cuerpo había dejado de reaccionar. Como si el dolor hubiera llegado a un nivel donde las respuestas físicas ya no eran suficientes y el organismo simplemente se apagaba.
+        </p>
+
+        <p class="prose">
+            Cuando Chisato entró a la cocina cinco minutos después, tarareando algo nuevo — siempre tarareando algo nuevo cuando algo nuevo le pasaba —, Takina le dijo:
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—El matsuri de Asakusa. Si vas a ir, necesitas acompañante de seguridad. Puedo ir como respaldo.</span>
+        </div>
+
+        <p class="prose">
+            Lo formuló como una cuestión operativa. Protocolos de DA. Lycoris en zona pública. Nada personal. Nada emocional. Solo el lenguaje frío y funcional de una agente que justifica su presencia con terminología de manual.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(mirándola un momento)</em> ¿Quieres venir? ¡Genial! Cuantos más, mejor. ¡Será divertido! Le diré a Ken que seremos tres. ¡Puedes probar los yakisoba del puesto del señor Tanaka, son increíbles!</span>
+        </div>
+
+        <p class="prose">
+            Chisato no preguntó por qué. No cuestionó la excusa de «seguridad.» No mencionó que llevaban meses sin seguir protocolos de DA en sus salidas personales. Simplemente dijo que sí con la misma facilidad con la que dice que sí a todo, como si el mundo fuera un lugar donde decir que sí nunca tiene consecuencias.
+        </p>
+
+        <p class="prose">
+            Takina asintió. Volvió a los platos. Y la alarma en su cabeza siguió sonando, pero ahora tenía un segundo tono: el sonido de su propia mentira.
+        </p>
+
+        <!-- ══════ SCENE 2: THE FESTIVAL ══════ -->
+
+        <div class="hanabi-sep">
+            <div class="sep-line"></div>
+            <div class="spark g"></div>
+            <div class="spark r"></div>
+            <div class="spark v"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena II</span>
+            <span class="scene-name">El festival</span>
+            <span class="scene-time">Sábado — Templo Sensō-ji, 18:00</span>
+        </div>
+
+        <p class="prose">
+            El matsuri de otoño de Asakusa era un organismo vivo. Miles de personas fluyendo entre puestos de comida iluminados por farolillos rojos, niños corriendo con máscaras de kitsune, parejas caminando con algodón de azúcar rosa compartido entre dos manos, ancianos sentados en bancos de madera mirando el espectáculo con la expresión tranquila de quienes ya han visto suficientes festivales como para no necesitar sorprenderse pero sí disfrutar. El olor era una sinfonía: takoyaki friéndose en aceite, yakisoba salteado con salsa dulce, maíz asado, castañas tostadas, y debajo de todo, el incienso persistente del templo Sensō-ji, que llevaba siglos perfumando este rincón de Tokyo como si el humo fuera su forma de decir <em>«sigo aquí.»</em>
+        </p>
+
+        <p class="prose">
+            Chisato llegó vestida con un yukata azul claro estampado con pequeñas flores blancas. Se había recogido el pelo rubio en un moño informal del que escapaban mechones rebeldes que enmarcaban su cara como pinceles dorados. Llevaba unas geta de madera que hacían un sonido particular al caminar — cloc, cloc, cloc — un ritmo que se sumaba al tarareo habitual como una sección de percusión improvisada.
+        </p>
+
+        <p class="prose">
+            Ken la esperaba junto a la puerta Kaminarimon, bajo la enorme linterna roja que era el emblema de Asakusa. Vestía una camisa blanca arremangada hasta los codos, pantalones oscuros, y la misma chaqueta universitaria que llevaba el primer día en LycoReco colgada del hombro. Cuando vio a Chisato, su expresión hizo algo que las palabras no pueden capturar con precisión — algo entre sorpresa y confirmación, como si la imagen frente a él fuera exactamente lo que esperaba pero mejor de lo que había imaginado.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Wow.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(haciendo una vuelta, el yukata girando)</em> ¿Te gusta? Mizuki me ayudó a elegirlo. Bueno, Mizuki eligió tres opciones y luego votamos. Kurumi votó por el negro, pero Mizuki dijo que el azul hacía juego con... no importa. ¡Estás aquí! ¡Hola!</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—<em>(riendo)</em> Hola. Estás... increíble.</span>
+        </div>
+
+        <p class="prose">
+            Takina llegó tres metros detrás de Chisato. Vestía ropa oscura — pantalón negro, blusa gris, chaqueta negra. No era un yukata. No era un atuendo de festival. Era la ropa de alguien que viene a trabajar, no a celebrar. Su pelo negro caía recto como siempre, sin adorno, sin esfuerzo, sin intención. La única concesión que había hecho a la ocasión era un par de aretes pequeños que Mizuki le había puesto casi a la fuerza antes de salir, argumentando que «ir a un matsuri sin un solo accesorio es un crimen contra la feminidad y contra Japón.»
+        </p>
+
+        <p class="prose">
+            Ken la saludó con amabilidad genuina. Chisato la tomó del brazo y la arrastró hacia el primer puesto de comida. Y así empezó la noche.
+        </p>
+
+        <!-- ══════ SCENE 3: THREE PEOPLE, TWO WORLDS ══════ -->
+
+        <div class="hanabi-sep">
+            <div class="sep-line"></div>
+            <div class="spark g"></div>
+            <div class="spark r"></div>
+            <div class="spark v"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena III</span>
+            <span class="scene-name">Tres personas, dos mundos</span>
+            <span class="scene-time">19:00 — 20:30</span>
+        </div>
+
+        <p class="prose">
+            Ken le compró a Chisato una máscara de kitsune. La eligió de un puesto atendido por un señor mayor que tallaba las máscaras a mano, con líneas rojas y doradas pintadas sobre madera blanca. Chisato se la puso sobre la cabeza, inclinada hacia un lado, y declaró que parecía «una heroína de película de Kurosawa, pero con mejor pelo.»
+        </p>
+
+        <p class="prose">
+            Ken le ganó un peluche en un puesto de tiro. No a la primera — falló tres veces, lo cual hizo reír a Chisato hasta que las lágrimas le nublaron los ojos —, pero a la cuarta acertó al blanco central y el vendedor le entregó un oso de felpa beige con un lazo rojo que Ken le ofreció a Chisato con una reverencia exagerada: «Para la dama, un oso de la más alta alcurnia.» Chisato lo abrazó contra su pecho y dijo que se llamaría «Ken-oso» y que viviría en la estantería del café junto a la planta falsa de Kurumi.
+        </p>
+
+        <p class="prose">
+            Compartieron yakisoba de un solo plato. Chisato comía rápido, con la voracidad de alguien que trata la comida como otra forma de energía que procesar. Ken comía despacio, saboreando, haciendo comentarios sobre la textura del fideos y la proporción de salsa que habrían hecho que un crítico gastronómico lo odiara o lo respetara profundamente. Cuando quedó un solo fideo, ambos intentaron tomarlo al mismo tiempo. Sus palillos chocaron. Se miraron. Rieron.
+        </p>
+
+        <p class="prose">
+            Takina caminaba tres metros detrás.
+        </p>
+
+        <p class="prose fading">
+            Siempre tres metros. La distancia exacta de un perímetro de seguridad para una Lycoris en misión de protección civil. La distancia que le permitía ver sin ser vista, escuchar sin participar, existir sin ocupar espacio en una historia que no la incluía.
+        </p>
+
+        <p class="prose fading">
+            Nadie le compró una máscara. Nadie le ganó un peluche. Nadie compartió un plato de yakisoba con ella. No porque fuera invisible — Chisato se giró varias veces para incluirla, para ofrecerle comida, para preguntarle si estaba bien, con esa generosidad instintiva que era a la vez su virtud más luminosa y su arma más cruel, porque cada gesto de inclusión era un recordatorio de que la inclusión no era lo mismo que la pertenencia.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Takina, prueba este taiyaki! ¡Tiene relleno de matcha! ¡Toma, toma!</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Gracias.</span>
+        </div>
+
+        <p class="prose fading">
+            Lo comió. Sabía a matcha. O a nada. Takina no estaba segura de la diferencia.
+        </p>
+
+        <p class="prose fading">
+            Ken intentó incluirla también. Era genuino — Ken Fujimoto no era capaz de la crueldad deliberada. Le preguntó si había leído a algún autor que le gustara. Takina respondió que los informes técnicos no contaban como literatura. Ken rio y dijo que algunos manuales militares tenían mejor prosa que ciertos bestsellers. Fue un intento honesto de conexión, y Takina lo reconoció como tal. Lo cual lo hacía peor. Porque odiar a Ken sería más fácil si Ken fuera detestable. Pero Ken era amable, inteligente, considerado. Ken era todo lo que un ser humano debería ser. Ken era la persona que Takina habría querido como amigo en cualquier otra circunstancia — en cualquier universo donde Ken Fujimoto no estuviera enamorándose de la persona que Takina amaba.
+        </p>
+
+        <div class="empty-eyes">
+            <p>La máscara de kitsune en la cabeza de Chisato reflejaba las luces del festival.<br>
+            El peluche en sus brazos tenía un lazo del color de la sangre.<br>
+            El fideo compartido era una promesa que nadie pronunció.<br><br>
+            Y Takina, tres metros detrás, registraba cada detalle<br>
+            con la precisión de una agente y el dolor de una persona<br>
+            que está siendo testigo de cómo alguien más vive la vida que ella quería.</p>
+        </div>
+
+        <!-- ══════ SCENE 4: THE FIREWORKS ══════ -->
+
+        <div class="hanabi-sep">
+            <div class="sep-line"></div>
+            <div class="spark g"></div>
+            <div class="spark r"></div>
+            <div class="spark v"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena IV</span>
+            <span class="scene-name">花火</span>
+            <span class="scene-time">20:45 — El cielo sobre Asakusa</span>
+        </div>
+
+        <p class="prose">
+            Los fuegos artificiales empezaron a las nueve menos cuarto, cuando el cielo ya estaba lo suficientemente oscuro como para que cada explosión fuera un acto de creación — un universo naciendo y muriendo en el espacio de dos segundos, repitiendo el ciclo una y otra vez como un recordatorio de que las cosas más hermosas son las que duran menos.
+        </p>
+
+        <p class="prose">
+            La multitud se congregó a lo largo de la ribera del río Sumida. Miles de caras levantadas hacia el cielo, miles de pupilas reflejando los mismos colores pero viendo cosas diferentes — porque los fuegos artificiales son como los test de Rorschach: cada persona ve en ellos lo que lleva dentro.
+        </p>
+
+        <p class="prose">
+            Chisato y Ken encontraron un lugar junto a la baranda del río. De pie, hombro con hombro, con el peluche «Ken-oso» asomando de la bolsa de Chisato y la máscara de kitsune ahora colgada del cuello como un amuleto. El primer fuego artificial fue dorado — una esfera perfecta que se abrió como una flor invertida y derramó sus pétalos de luz sobre el agua negra.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(sin aliento)</em> Es hermoso.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Lo es.</span>
+        </div>
+
+        <p class="prose">
+            No estaba mirando los fuegos artificiales. Estaba mirándola a ella. Su perfil iluminado por destellos de dorado y rojo, los mechones rubios brillando como si fueran parte del espectáculo, los ojos rojos abiertos hacia el cielo con una expresión que Ken solo le había visto una vez — cuando le contó lo de su corazón artificial. La expresión de alguien que mira algo más grande que sí misma y, por un momento, se olvida de tener miedo.
+        </p>
+
+        <p class="prose">
+            El segundo fuego artificial fue rojo. Después uno violeta. Después tres al mismo tiempo — dorado, rojo, azul — que iluminaron toda la ribera como un amanecer comprimido en un instante. La multitud exclamó. Chisato aplaudió. Ken sonrió.
+        </p>
+
+        <p class="prose">
+            Y entre el estruendo y la luz, sus manos se acercaron.
+        </p>
+
+        <p class="prose">
+            No fue un gesto deliberado. Fue la gravedad haciendo lo que la gravedad hace: acercar las cosas que ya estaban en órbita. Los meñiques primero — un roce accidental que ninguno de los dos retiró. Luego los dedos, entrelazándose con la lentitud de algo que quiere ser recordado. La mano de Ken, grande, cálida, con el pulso del marcapasos latiendo en la muñeca. La mano de Chisato, pequeña, fuerte, con la vibración imperceptible de un corazón artificial que esa noche latía un diecisiete por ciento más rápido de lo normal.
+        </p>
+
+        <p class="prose">
+            Se tomaron de la mano.
+        </p>
+
+        <p class="prose">
+            Y Takina, tres metros detrás, lo vio todo.
+        </p>
+
+        <p class="prose fading">
+            Un fuego artificial iluminó su rostro. No había lágrimas. Los ojos de Takina Inoue estaban secos, abiertos, fijos. Pero vacíos. Vacíos de la forma en que se vacía una habitación cuando alguien se lleva el único mueble que la hacía habitable.
+        </p>
+
+        <!-- ══════ SCENE 5: THE KISS ══════ -->
+
+        <div class="hanabi-sep">
+            <div class="sep-line"></div>
+            <div class="spark g"></div>
+            <div class="spark r"></div>
+            <div class="spark v"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena V</span>
+            <span class="scene-name">Lo que la luz ilumina</span>
+            <span class="scene-time">21:30 — Final del espectáculo</span>
+        </div>
+
+        <p class="prose">
+            Los últimos fuegos artificiales fueron los más grandes. Una cascada de luz dorada que cayó desde el punto más alto del cielo hasta la superficie del río, convirtiendo el agua en un espejo de oro líquido durante tres segundos que se sintieron como tres horas. La multitud aplaudió. Los niños gritaron. Las parejas se abrazaron.
+        </p>
+
+        <p class="prose">
+            Ken y Chisato se soltaron las manos cuando la luz se apagó. No por incomodidad — sino por ese instinto que tienen las cosas nuevas de necesitar pausas para existir. Caminaron hacia la salida del recinto junto con el río de personas que fluía hacia las estaciones de tren.
+        </p>
+
+        <p class="prose">
+            Llegaron a la esquina donde los caminos se separaban. El de Ken iba hacia la estación de Asakusa, línea Ginza. El de Chisato y Takina, de vuelta al café.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Bueno... esta fue la mejor noche que he tenido en Tokyo. Y probablemente la mejor noche que he tenido en general.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Para mí también. <em>(apretando el peluche contra su pecho)</em> Gracias, Ken. Por todo.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—¿Por el oso de peluche o por los yakisoba?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(riendo suave)</em> Por no tratarme como si fuera de cristal.</span>
+        </div>
+
+        <p class="prose">
+            Ken la miró. Chisato lo miró. Un farol de la calle proyectaba una luz anaranjada que suavizaba los bordes de todo — de sus caras, de la noche, de la distancia entre ellos.
+        </p>
+
+        <p class="prose">
+            Ken se inclinó hacia adelante. Lentamente. Con la misma deliberación con la que elegía las palabras de sus ensayos literarios — cada movimiento medido, cada centímetro consciente. Se detuvo a la distancia exacta donde una intención se convierte en un gesto. Y ahí, en esa frontera, inclinó la cabeza y depositó un beso en la mejilla de Chisato.
+        </p>
+
+        <div class="kiss-frame">
+            <p>Fue un beso breve. Suave. Del peso de un pétalo cayendo sobre agua quieta. Sus labios tocaron la piel de ella durante menos de un segundo — el tiempo que tarda un corazón en latir una vez. Cuando se separó, Chisato tenía los ojos abiertos, la boca entreabierta, y las manos aferradas al peluche como si fuera lo único que la mantenía en contacto con la superficie terrestre.</p>
+        </div>
+
+        <p class="prose">
+            Chisato no se movió. No habló. No tarareó. No hizo ninguna de las cosas que Chisato Nishikigi hace automáticamente para llenar los espacios vacíos. Se quedó ahí, congelada, como un fotograma detenido en la película que más le gustaría ver pero que no está segura de poder terminar.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—<em>(sonrisa pequeña, significativa)</em> Buenas noches, Chisato. Nos vemos el lunes.</span>
+        </div>
+
+        <p class="prose">
+            Se dio la vuelta. Caminó hacia la estación. No miró atrás. Porque Ken Fujimoto sabía que hay momentos que necesitan espacio para respirar, y mirar atrás es una forma de quitarles el aire.
+        </p>
+
+        <p class="prose">
+            Chisato se quedó en la esquina. La mejilla donde el beso había aterrizado ardía con una temperatura que su corazón artificial no podía explicar.
+        </p>
+
+        <!-- ══════ SCENE 6: THE WALK AWAY ══════ -->
+
+        <div class="hanabi-sep">
+            <div class="sep-line"></div>
+            <div class="spark g"></div>
+            <div class="spark r"></div>
+            <div class="spark v"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena VI</span>
+            <span class="scene-name">La que se va</span>
+            <span class="scene-time">21:34</span>
+        </div>
+
+        <p class="prose fading">
+            Takina lo vio.
+        </p>
+
+        <p class="prose fading">
+            Vio a Ken inclinarse. Vio sus labios acercarse a la mejilla de Chisato. Vio el contacto — ese medio segundo que duró exactamente un latido — y vio la expresión de Chisato después: la boca abierta, los ojos brillantes, las manos apretando un peluche que tenía el nombre de él.
+        </p>
+
+        <p class="prose fading">
+            Lo vio todo con la misma claridad con que veía los blancos en un campo de tiro. La diferencia era que en un campo de tiro, cuando el blanco es alcanzado, es el objetivo el que cae. Aquí, el objetivo fue alcanzado y la que cayó fue ella.
+        </p>
+
+        <p class="prose fading">
+            Se dio la vuelta.
+        </p>
+
+        <p class="prose fading">
+            No esperó a Chisato. No dijo «buenas noches.» No ofreció una excusa sobre protocolos de seguridad ni inventó una razón operativa para marcharse. Simplemente giró sobre sus talones y empezó a caminar hacia la estación de tren con pasos que eran regulares, medidos, mecánicos — los pasos de un autómata que ha recibido la orden de «moverse» y la ejecuta sin preguntar por qué ni hacia dónde.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Takina! ¡Espera!</span>
+        </div>
+
+        <p class="prose gone">
+            La voz de Chisato llegó desde atrás. Amortiguada por la distancia, por el murmullo de la multitud, por el ruido residual de los fuegos artificiales que todavía resonaba en el aire como el eco de algo que ya terminó pero que se niega a desaparecer.
+        </p>
+
+        <p class="prose gone">
+            Takina no se detuvo.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Takina! ¡Espera, por favor! ¿A dónde vas?</span>
+        </div>
+
+        <p class="prose gone">
+            No se detuvo. Sus piernas se movían con la inercia de alguien que sabe que si se para, si gira, si mira hacia atrás y ve la cara de Chisato bajo la luz de los faroles con la mejilla todavía tibia del beso de otro hombre, algo dentro de ella se romperá de una forma que no tiene reparación. Y Takina Inoue era muchas cosas — agente, Lycoris, soldado — pero no era alguien que pudiera permitirse romperse en público.
+        </p>
+
+        <p class="prose whisper">
+            Aceleró el paso. La estación estaba a doscientos metros. El sonido de las geta de Chisato — cloc, cloc, cloc — intentó seguirla pero se fue apagando. Chisato no podía correr con geta. Y Takina podía correr sin ellas.
+        </p>
+
+        <p class="prose whisper">
+            Llegó a la estación. Bajó las escaleras. El tren estaba ahí. Las puertas abiertas. Entró. Se sentó. Las puertas se cerraron.
+        </p>
+
+        <p class="prose whisper">
+            A través del cristal de la ventanilla, el andén estaba vacío. Chisato no había llegado. No podía llegar — estaba a doscientos metros, con geta de madera y un peluche y una mejilla que ardía y una pregunta que no tenía respuesta: <em>¿por qué Takina se fue?</em>
+        </p>
+
+        <p class="prose whisper">
+            El tren se puso en marcha. Las luces de la estación se alejaron. El reflejo de Takina apareció en la ventanilla — una silueta oscura sobre un fondo de luces en movimiento, como una fotografía en negativo de la persona que solía ser.
+        </p>
+
+        <p class="prose whisper">
+            No lloró. No tembló. No hizo nada.
+        </p>
+
+        <p class="prose whisper">
+            Solo miró su propio reflejo y pensó que la persona que la miraba de vuelta no se parecía a nadie que conociera.
+        </p>
+
+        <p class="final-line">
+            Los fuegos artificiales sobre Asakusa<br>
+            duraron veinte minutos.<br><br>
+            El beso en la mejilla de Chisato<br>
+            duró <span class="gold">un latido</span>.<br><br>
+            La caminata de Takina hacia la estación<br>
+            duró doscientos metros.<br><br>
+            Y el silencio dentro del tren<br>
+            duró todo el camino a casa.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="50" height="20" viewBox="0 0 50 20" opacity="0.2">
+                <circle cx="15" cy="10" r="2" fill="#FFD700"/>
+                <circle cx="25" cy="10" r="2" fill="#E74C3C"/>
+                <circle cx="35" cy="10" r="2" fill="#9B59B6"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 6</p>
+        <p class="end-title">«&thinsp;La cita&thinsp;»</p>
+        <p class="end-act-close">— Fin del Acto II: Mariposas y Espinas —</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-05.html">← Capítulo 5</a>
+            <a href="#" class="next-chapter disabled">Capítulo 7: Racional →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose, .dialogue, .kiss-frame, .empty-eyes, .final-line, .hanabi-sep, .scene-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
