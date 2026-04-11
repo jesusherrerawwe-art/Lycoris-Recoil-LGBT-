@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 10: Lo que quiero hacer, máxima prioridad — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Raleway:wght@200;300;400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+        :root {
+            --rain-bg: #708090;
+            --rain-bg-deep: #5A6A7A;
+            --rain-bg-light: #8090A0;
+            --rain-sky: #4A5A6A;
+            --rain-drop: rgba(180, 200, 220, 0.25);
+            --gold-dawn: #FFD700;
+            --gold-warm: #E8C050;
+            --gold-faint: rgba(255, 215, 0, 0.06);
+            --text-light: #E8E4E0;
+            --text-body: #D8D4D0;
+            --text-soft: #A09890;
+            --text-faint: #787068;
+            --takina-lav: #9AA8C0;
+            --takina-bright: #B0C0D8;
+            --chisato-warm: #D89060;
+            --mika-sage: #80A070;
+            --kurumi-teal: #60A0B8;
+            --red-memory: #C06050;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Merriweather', serif;
+            background: var(--rain-bg);
+            color: var(--text-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 2;
+        }
+
+        /* ===================== RAIN ANIMATION ===================== */
+
+        .rain-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .raindrop {
+            position: absolute;
+            top: -20px;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--rain-drop));
+            animation: rainFall linear infinite;
+        }
+
+        .raindrop:nth-child(1)  { left: 3%;  height: 18px; animation-duration: 0.8s; animation-delay: 0s; }
+        .raindrop:nth-child(2)  { left: 8%;  height: 22px; animation-duration: 0.7s; animation-delay: 0.2s; }
+        .raindrop:nth-child(3)  { left: 14%; height: 15px; animation-duration: 0.9s; animation-delay: 0.1s; }
+        .raindrop:nth-child(4)  { left: 20%; height: 20px; animation-duration: 0.75s; animation-delay: 0.3s; }
+        .raindrop:nth-child(5)  { left: 27%; height: 17px; animation-duration: 0.85s; animation-delay: 0.15s; }
+        .raindrop:nth-child(6)  { left: 33%; height: 23px; animation-duration: 0.65s; animation-delay: 0.25s; }
+        .raindrop:nth-child(7)  { left: 39%; height: 16px; animation-duration: 0.9s; animation-delay: 0.05s; }
+        .raindrop:nth-child(8)  { left: 45%; height: 21px; animation-duration: 0.7s; animation-delay: 0.35s; }
+        .raindrop:nth-child(9)  { left: 52%; height: 19px; animation-duration: 0.8s; animation-delay: 0.12s; }
+        .raindrop:nth-child(10) { left: 58%; height: 14px; animation-duration: 0.95s; animation-delay: 0.28s; }
+        .raindrop:nth-child(11) { left: 64%; height: 22px; animation-duration: 0.72s; animation-delay: 0.08s; }
+        .raindrop:nth-child(12) { left: 70%; height: 17px; animation-duration: 0.88s; animation-delay: 0.32s; }
+        .raindrop:nth-child(13) { left: 76%; height: 20px; animation-duration: 0.78s; animation-delay: 0.18s; }
+        .raindrop:nth-child(14) { left: 82%; height: 16px; animation-duration: 0.92s; animation-delay: 0.22s; }
+        .raindrop:nth-child(15) { left: 88%; height: 23px; animation-duration: 0.68s; animation-delay: 0.38s; }
+        .raindrop:nth-child(16) { left: 94%; height: 18px; animation-duration: 0.82s; animation-delay: 0.02s; }
+        .raindrop:nth-child(17) { left: 6%;  height: 20px; animation-duration: 0.76s; animation-delay: 0.4s; }
+        .raindrop:nth-child(18) { left: 17%; height: 15px; animation-duration: 0.93s; animation-delay: 0.16s; }
+        .raindrop:nth-child(19) { left: 36%; height: 21px; animation-duration: 0.71s; animation-delay: 0.26s; }
+        .raindrop:nth-child(20) { left: 48%; height: 17px; animation-duration: 0.87s; animation-delay: 0.09s; }
+        .raindrop:nth-child(21) { left: 61%; height: 19px; animation-duration: 0.79s; animation-delay: 0.33s; }
+        .raindrop:nth-child(22) { left: 73%; height: 22px; animation-duration: 0.69s; animation-delay: 0.14s; }
+        .raindrop:nth-child(23) { left: 85%; height: 16px; animation-duration: 0.91s; animation-delay: 0.36s; }
+        .raindrop:nth-child(24) { left: 97%; height: 20px; animation-duration: 0.74s; animation-delay: 0.07s; }
+
+        @keyframes rainFall {
+            to { transform: translateY(110vh); }
+        }
+
+        /* ===================== DAWN GRADIENT (end of chapter) ===================== */
+
+        .dawn-layer {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(to top, rgba(255, 215, 0, 0.08), transparent 40%);
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(112,128,144,0.97), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(112, 128, 144, 0.98);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        .nav-title a:hover { color: var(--text-light); }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--text-light); }
+        .nav-links .disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-weight: 700;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.08);
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-weight: 700;
+            font-size: clamp(1.3rem, 4vw, 2.2rem);
+            color: var(--text-light);
+            max-width: 600px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main span { color: var(--gold-warm); }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.88rem, 2vw, 1rem);
+            color: var(--text-soft);
+            margin-top: 2rem;
+            max-width: 480px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong { color: var(--takina-lav); font-weight: 400; }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene header ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.2rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible { opacity: 1; transform: translateY(0); }
+
+        .scene-header .scene-num {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            display: block;
+        }
+
+        .scene-header .scene-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-light);
+            margin-top: 0.15rem;
+        }
+
+        /* ---- Prose ---- */
+
+        .prose {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(0.92rem, 1.9vw, 1rem);
+            font-weight: 400;
+            line-height: 2.1;
+            color: var(--text-body);
+            margin-bottom: 1.6rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose.visible { opacity: 1; transform: translateY(0); }
+        .prose em { color: var(--takina-bright); font-style: italic; }
+        .prose strong { font-weight: 700; color: var(--text-light); }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(255,255,255,0.06);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 400;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.takina  { color: var(--takina-lav); }
+        .dialogue .speaker.chisato { color: var(--chisato-warm); }
+        .dialogue .speaker.mika    { color: var(--mika-sage); }
+        .dialogue .speaker.kurumi  { color: var(--kurumi-teal); }
+
+        .dialogue .line {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(0.92rem, 1.9vw, 1rem);
+            line-height: 2;
+            color: var(--text-body);
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.6; }
+
+        /* ---- Flashback blocks ---- */
+
+        .flashback {
+            margin: 2rem 0;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--red-memory);
+            border-radius: 0 6px 6px 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .flashback.visible { opacity: 1; transform: translateY(0); }
+
+        .flashback .fb-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--red-memory);
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+
+        .flashback p {
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+            font-size: clamp(0.88rem, 1.8vw, 0.95rem);
+            line-height: 2;
+            color: var(--text-soft);
+        }
+
+        /* ---- The cry (special formatting) ---- */
+
+        .the-cry {
+            text-align: center;
+            margin: 3rem 1rem;
+            padding: 2rem;
+            background: radial-gradient(ellipse at center, rgba(154, 168, 192, 0.08), transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 1.2s;
+        }
+
+        .the-cry.visible { opacity: 1; }
+
+        .the-cry p {
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+            font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+            line-height: 2.2;
+            color: var(--takina-bright);
+        }
+
+        /* ---- Resolution block (golden warmth) ---- */
+
+        .resolution {
+            margin: 3rem auto;
+            max-width: 520px;
+            padding: 2rem 2.5rem;
+            text-align: center;
+            background: linear-gradient(to top, var(--gold-faint), transparent);
+            border: 1px solid rgba(255, 215, 0, 0.08);
+            border-radius: 4px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .resolution.visible { opacity: 1; transform: translateY(0); }
+
+        .resolution p {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2.1;
+            color: var(--gold-warm);
+        }
+
+        /* ---- Rain separator ---- */
+
+        .rain-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .rain-sep.visible { opacity: 1; }
+
+        .rain-sep .drop {
+            width: 2px; height: 8px;
+            background: var(--rain-drop);
+            border-radius: 0 0 2px 2px;
+        }
+
+        .rain-sep .drop:nth-child(2) { height: 12px; }
+        .rain-sep .drop:nth-child(4) { height: 10px; }
+
+        .rain-sep .sep-space { width: 20px; }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            text-align: center;
+            color: var(--takina-bright);
+            margin: 4rem auto 2rem;
+            max-width: 520px;
+            line-height: 2.2;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.5s, transform 1.5s;
+        }
+
+        .final-line.visible { opacity: 1; transform: translateY(0); }
+        .final-line .gold { color: var(--gold-warm); }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: linear-gradient(to bottom, var(--rain-bg), var(--rain-bg-deep));
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .end-ornament { margin-bottom: 2rem; }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--text-soft);
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'Merriweather', serif;
+            font-size: 0.72rem;
+            color: var(--text-soft);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover { border-color: var(--gold-warm); color: var(--gold-warm); }
+        .chapter-nav a.next-chapter { border-color: rgba(255,215,0,0.12); color: var(--gold-warm); }
+        .chapter-nav a.next-chapter:hover { background: var(--gold-faint); }
+        .chapter-nav a.disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(25px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+            .resolution { padding: 1.5rem; max-width: 95%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ RAIN ============ -->
+    <div class="rain-container" aria-hidden="true">
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+    </div>
+
+    <!-- ============ DAWN GRADIENT ============ -->
+    <div class="dawn-layer" id="dawnLayer"></div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-09.html">← Anterior</a>
+            <a href="#" class="disabled">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto IV · Recoil del Corazón</p>
+        <div class="chapter-number">10</div>
+        <h1 class="chapter-title-main">Lo que quiero hacer, <span>máxima prioridad</span></h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Lloré. Por primera vez desde que tengo memoria.<br>
+            Y cuando terminé, supe lo que tenía que hacer.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Takina Inoue</span>
+            <span class="meta-item"><strong>Tema:</strong> Lluvia</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: THREE DAYS OF SILENCE ══════ -->
+
+        <div class="scene-header">
+            <span class="scene-num">Escena I</span>
+            <span class="scene-name">El peso del vacío</span>
+        </div>
+
+        <p class="prose">
+            Chisato no me habló en tres días.
+        </p>
+
+        <p class="prose">
+            No fue una decisión anunciada. No hubo una declaración de silencio, un portazo, un grito. No hubo nada. Y el nada fue peor que cualquier cosa que hubiera podido hacer, porque el nada significaba que Chisato Nishikigi — la persona que llenaba cada espacio con sonido, que no podía estar en una habitación sin que la habitación se enterara de su presencia, que trataba el silencio como un enemigo personal al que combatía con tarareos y risas y palabras — había decidido que yo no merecía ni siquiera eso.
+        </p>
+
+        <p class="prose">
+            El café siguió funcionando. Mika abría por las mañanas, preparaba la máquina de espresso, disponía las mesas. Chisato atendía a los clientes con su sonrisa — la profesional, la del café, la que no tiene raíces. Mizuki trabajaba sus turnos sin hacer preguntas, aunque sus ojos me seguían cuando creía que no la veía, con esa mezcla de compasión y preocupación que tienen las personas que entienden lo que ha pasado pero no saben cómo intervenir. Kurumi tecleaba en su rincón, en silencio, como siempre, pero de vez en cuando levantaba la vista y me miraba con una expresión que decía: <em>«Sabes lo que tienes que hacer.»</em>
+        </p>
+
+        <p class="prose">
+            Y yo existía. Esa es la única palabra que aplica. No vivía — vivir requiere participar en algo, y yo había sido excluida de todo lo que hacía que este lugar fuera más que un café con una cobertura de organización secreta. Existía en los márgenes: llegaba temprano, limpiaba las mesas, atendía las pocas mesas que me asignaban, y desaparecía en mi habitación cuando el turno terminaba. Comía sola. Dormía sola. Recorría los pasillos del segundo piso sin cruzarme con Chisato porque ella había aprendido a moverse por el espacio evitándome con la misma eficiencia con que esquivaba balas — sin contacto, sin colisión, sin que nuestros caminos se tocaran.
+        </p>
+
+        <p class="prose">
+            Tres días. Setenta y dos horas. Cuatro mil trescientos veinte minutos en los que la persona que más me importaba en el mundo se comportó como si yo no existiera.
+        </p>
+
+        <p class="prose">
+            Y cada minuto fue merecido.
+        </p>
+
+        <!-- ══════ SCENE 2: THE ROOFTOP ══════ -->
+
+        <div class="rain-sep">
+            <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+            <div class="sep-space"></div>
+            <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena II</span>
+            <span class="scene-name">La azotea</span>
+        </div>
+
+        <p class="prose">
+            El cuarto día amaneció lloviendo.
+        </p>
+
+        <p class="prose">
+            No una lluvia de las que invitan a quedarse dentro con una taza de té y un libro — esa es una fantasía de las personas que no han estado en el campo de batalla bajo la lluvia. Esta era una lluvia gris, constante, sin viento, que caía sobre Tokyo como si el cielo hubiera decidido que la ciudad necesitaba ser lavada de algo. El agua golpeaba los ventanales del café con un ritmo monótono que se parecía demasiado al tic-tac del reloj que me había acompañado la noche del colapso.
+        </p>
+
+        <p class="prose">
+            Subí a la azotea. No sé por qué. No había una razón operativa. No había una misión, un protocolo, una justificación lógica. Solo necesitaba estar en un lugar donde la lluvia pudiera tocarme sin que una pared la detuviera. Necesitaba que algo del exterior llegara a mi interior, porque mi interior se había convertido en una habitación cerrada sin ventanas ni puertas, y la única forma de abrir una grieta era dejar que el mundo entrara por la fuerza.
+        </p>
+
+        <p class="prose">
+            La azotea del edificio de LycoReco era un rectángulo de concreto con una baranda metálica, dos unidades de aire acondicionado que zumbaban como colmenas mecánicas, y una vista de Asakusa que en los días claros incluía la torre Enkuboku al fondo y los techos rojos del templo Sensō-ji en primer plano. Hoy no se veía nada de eso. Solo gris. Capas y capas de gris, como si alguien hubiera puesto un filtro sobre el mundo para desaturarlo.
+        </p>
+
+        <p class="prose">
+            Me paré al borde de la azotea. No en la baranda — no era eso. Simplemente necesitaba estar lo más cerca posible del vacío para sentir algo que no fuera la presión interna de una culpa que no tenía salida. La lluvia me empapó en segundos. El pelo negro se pegó a mi cara. La ropa se oscureció. El agua corría por mis brazos como líneas de código que el cielo escribía sobre mi piel y que yo no sabía leer.
+        </p>
+
+        <p class="prose">
+            Y entonces, por primera vez desde que tengo memoria, lloré.
+        </p>
+
+        <div class="the-cry">
+            <p>No fue como en las películas. No fue un llanto bonito, cinematográfico, con una sola lágrima rodando por la mejilla mientras la cámara se acerca. Fue feo. Fue ruidoso. Fue un sonido que salió de algún lugar debajo de las costillas y subió por la garganta como un animal que ha estado encerrado demasiado tiempo y que, al salir, destroza la jaula. Fue un sollozo que se convirtió en otro y en otro y en otro, hasta que no eran sollozos individuales sino un flujo continuo, un río que se desbordaba después de años de sequía.<br><br>La lluvia caía sobre mi cara y se mezclaba con las lágrimas y las dos eran agua y las dos eran saladas — la lluvia por la contaminación de Tokyo, las lágrimas por la contaminación de mis decisiones.</p>
+        </div>
+
+        <p class="prose">
+            DA no me enseñó a llorar. DA me enseñó a disparar, a correr, a evaluar amenazas, a neutralizar objetivos, a sobrevivir en condiciones extremas, a resistir interrogatorios, a matar si era necesario. DA me enseñó todo lo que se puede enseñar sobre cómo destruir y nada sobre cómo reconstruir. Y la reconstrucción — la de mí misma, la de lo que había roto — no venía con manual ni con protocolo ni con calificación de desempeño.
+        </p>
+
+        <p class="prose">
+            Lloré hasta que el llanto se agotó. No porque hubiera terminado de sentir — el sentimiento seguía ahí, inmenso, inagotable, como el río Sumida que no se vacía por más agua que fluya hacia el mar. Se agotó porque mi cuerpo tenía un límite físico que mi dolor no tenía, y en algún momento los músculos del pecho dijeron basta y los ojos dijeron basta y la garganta dijo basta, y lo que quedó fue un silencio húmedo, exhausto, limpio.
+        </p>
+
+        <p class="prose">
+            Me senté en el suelo de la azotea. El concreto estaba frío y mojado. La lluvia seguía cayendo. Y en ese silencio posterior — ese silencio que solo existe después de que algo muy ruidoso ha terminado, como el silencio después de un tiroteo — los recuerdos vinieron.
+        </p>
+
+        <!-- ══════ SCENE 3: THE MEMORIES ══════ -->
+
+        <div class="rain-sep">
+            <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+            <div class="sep-space"></div>
+            <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena III</span>
+            <span class="scene-name">Lo que la lluvia trae de vuelta</span>
+        </div>
+
+        <p class="prose">
+            Vinieron sin orden. Sin cronología. Sin la estructura que DA me enseñó a imponer sobre la información. Vinieron como vienen los recuerdos cuando las defensas están abajo: en olas, desordenados, superpuestos, cada uno conteniendo una verdad que había intentado archivar y que ahora se negaba a quedarse en el cajón.
+        </p>
+
+        <div class="flashback">
+            <span class="fb-label">Recuerdo — La misión en Sumida</span>
+            <p>El cañón apuntando a mi frente. La certeza de que iba a morir. Y después, ella. Corriendo a través de balas que no podían tocarla. La sangre en su brazo. La mano que me tendió. Los ojos rojos que me miraron con algo que no tenía nombre. «Estoy aquí, Takina.» Tres palabras que lo cambiaron todo.</p>
+        </div>
+
+        <div class="flashback">
+            <span class="fb-label">Recuerdo — El vaso roto</span>
+            <p>Cuarenta y siete minutos secando el mismo vaso. La risa de Chisato dirigida a Ken. El suspiro. Mis dedos apretando el cristal. CRAC. Dos mitades en el suelo. Chisato corriendo a revisar mis manos. «¿Te cortaste?» No. Me rompí. Pero eso no se lo dije.</p>
+        </div>
+
+        <div class="flashback">
+            <span class="fb-label">Recuerdo — El papel arrugado</span>
+            <p>Una sola palabra. Siete letras. Escritas de noche, con tinta que pesaba más que una bala. Arrugadas. Tiradas a la basura. Encontradas por Kurumi, que nunca dijo nada pero que un día se sentó a mi lado y dijo: «Los nombres más difíciles de pronunciar son los que más importan.»</p>
+        </div>
+
+        <div class="flashback">
+            <span class="fb-label">Recuerdo — Mika en la barra</span>
+            <p>«Cuando amé a alguien y no se lo dije, lo perdí. No cometas mi error, Takina.» El charco de agua secándose en la barra. La pregunta que le hice: «¿Y si ya es tarde?» Su respuesta: «"Ya es tarde" es lo que me dije a mí mismo todos los días durante veinte años.»</p>
+        </div>
+
+        <div class="flashback">
+            <span class="fb-label">Recuerdo — Los fuegos artificiales</span>
+            <p>Tres metros detrás. Siempre tres metros. La máscara de kitsune. El peluche llamado «Ken-oso.» Las manos de ellos entrelazándose mientras el cielo explotaba en dorado. Y mis ojos vacíos reflejando luces que ya no tenían color.</p>
+        </div>
+
+        <div class="flashback">
+            <span class="fb-label">Recuerdo — El espejo</span>
+            <p>La persona en el cristal que no me reconoció. Los ojos opacos. Las manos apoyadas en la superficie fría. «La persona al otro lado del cristal no era alguien que Chisato pudiera amar.» Mika tocando la puerta. «¿Estás bien?» El silencio que fue mi respuesta. La luz apagándose.</p>
+        </div>
+
+        <p class="prose">
+            Cada recuerdo era un fragmento de un mapa que, visto completo, mostraba el camino que me había traído hasta esta azotea mojada. Un camino que empezaba con un sentimiento que no sabía nombrar y terminaba con una serie de decisiones que no merecían ningún nombre excepto uno: <em>error.</em>
+        </p>
+
+        <p class="prose">
+            No errores tácticos. No errores operativos. No errores del tipo que se corrigen con un informe de campo y una revisión de protocolo. Errores humanos. De los que se cometen cuando el dolor toma las decisiones que el corazón debería haber tomado. De los que no se borran con Ctrl+Z ni se limpian hackeando un registro.
+        </p>
+
+        <p class="prose">
+            Entendí algo sentada en esa azotea bajo la lluvia. Algo que Chisato me había estado enseñando desde el primer día que llegué a LycoReco y que yo había tardado meses en aprender: que mi amor por Chisato no me daba derecho a controlar con quién ella decidía compartir su corazón. Que el amor no es posesión. Que los sentimientos no justifican las acciones. Que lo que yo hice — las alertas falsificadas, los turnos manipulados, la mentira del «espacio personal», el informe del vehículo — no fue amor. Fue miedo. Miedo disfrazado de estrategia. Miedo con uniforme de DA.
+        </p>
+
+        <p class="prose">
+            Y el miedo, a diferencia del amor, destruye todo lo que toca.
+        </p>
+
+        <!-- ══════ SCENE 4: THE DECISION ══════ -->
+
+        <div class="rain-sep">
+            <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+            <div class="sep-space"></div>
+            <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena IV</span>
+            <span class="scene-name">Máxima prioridad</span>
+        </div>
+
+        <p class="prose">
+            La lluvia empezó a aflojar. No se detuvo — seguía cayendo, pero más suave, más espaciada, como si el cielo estuviera pasando de un llanto abierto a una tristeza manejable. A través de las nubes, en un punto del horizonte hacia el este, una franja de luz dorada se filtró. No era el sol — eran las seis de la tarde, demasiado temprano para un atardecer pero demasiado tarde para que la luz significara otra cosa que una grieta momentánea en la cobertura gris.
+        </p>
+
+        <p class="prose">
+            Pero la vi. Esa franja de luz. Y algo dentro de mí respondió a ella de una forma que no puedo explicar con el vocabulario de DA ni con el de Kurumi ni con el de ningún manual que haya leído en mi vida. Respondió con algo más antiguo que la lógica, más simple que la estrategia, más fuerte que el miedo.
+        </p>
+
+        <p class="prose">
+            Respondió con una decisión.
+        </p>
+
+        <p class="prose">
+            No la decisión fría del Capítulo Siete — la que tomé con la calculadora de DA encendida y el corazón apagado. Esta era otra. Esta venía del lugar donde el llanto se había originado, del fondo del pozo que llevaba meses llenándose y que acababa de desbordarse. Esta decisión no era racional. No era eficiente. No era estratégica. Era, por primera vez desde que llegué a este café, completamente mía.
+        </p>
+
+        <p class="prose">
+            Iba a arreglar lo que había roto. Todo. Pieza por pieza. Sin atajos, sin manipulación, sin la armadura de acero que DA me puso a los seis años y que Chisato llevaba meses intentando quitarme.
+        </p>
+
+        <p class="prose">
+            Primero, Ken. Le debía la verdad. Le debía una disculpa que ninguna palabra sería suficiente para contener pero que de todas formas tenía que intentar pronunciar. Ken Fujimoto no me había hecho nada. Ken Fujimoto era un chico con un marcapasos y una sonrisa y una capacidad de amar que yo había intentado destruir porque me daba miedo. Y eso — eso era imperdonable. Pero si él decidía no perdonarme, al menos sabría la verdad. Y la verdad era lo mínimo que le debía.
+        </p>
+
+        <p class="prose">
+            Después, Chisato. Pero no una confesión de amor. No todavía. Primero la verdad. Toda. Sin filtro, sin excusas, sin la máscara. Lo que hice, por qué lo hice, y lo que siento. Las tres cosas juntas, porque separarlas sería otra forma de mentir. Chisato merecía verme completa — la Takina que la ama y la Takina que la traicionó, porque ambas son la misma persona y pretender que no lo son es el último acto de cobardía que me queda por cometer.
+        </p>
+
+        <p class="prose">
+            Me puse de pie. El concreto de la azotea brillaba con el agua de la lluvia. Mi ropa estaba empapada. Mi pelo goteaba. Mis ojos estaban hinchados de una forma que cualquier persona que me viera sabría al instante que había llorado, y por primera vez, no me importó. Porque por primera vez entendí lo que Chisato me había dicho sin decirlo, lo que su forma de vivir me había enseñado sin lecciones, lo que sus balas de goma y su tarareo y su risa y su negativa absoluta a matar significaban:
+        </p>
+
+        <p class="prose">
+            Que lo que quieres hacer es lo más importante. Que tu voluntad — no la de DA, no la del miedo, no la de la estrategia — es lo que te define. Que la persona que eliges ser cuando todo se ha derrumbado es la única versión de ti que importa.
+        </p>
+
+        <div class="resolution">
+            <p>«Lo que quiero hacer, máxima prioridad.»<br><br>
+            Chisato me lo enseñó. Takina Inoue, la de antes, nunca lo entendió. Takina Inoue, la que falsificó informes y manipuló horarios y mintió mirando a los ojos, tampoco lo entendió. Pero Takina Inoue, la que está parada en una azotea bajo la lluvia con el pelo pegado a la cara y los ojos hinchados y el corazón más expuesto que en cualquier campo de batalla, finalmente lo entiende.<br><br>
+            Lo que quiero hacer: arreglar esto.<br>
+            Lo que quiero hacer: decir la verdad.<br>
+            Lo que quiero hacer: merecer estar cerca de ella, aunque ella decida que no me quiere cerca.<br><br>
+            Máxima prioridad.</p>
+        </div>
+
+        <p class="prose">
+            La franja de luz dorada en el horizonte se ensanchó un poco más. La lluvia no se detuvo, pero cambió: las gotas se hicieron más pequeñas, más ligeras, más parecidas a una brisa húmeda que a un llanto. Y Takina Inoue — mojada, rota, y por primera vez en su vida completamente honesta consigo misma — bajó las escaleras de la azotea con una decisión que no era racional ni eficiente ni estratégica.
+        </p>
+
+        <p class="prose">
+            Era simplemente lo correcto.
+        </p>
+
+        <p class="final-line">
+            La lluvia lavó la azotea.<br>
+            Las lágrimas lavaron algo más profundo.<br><br>
+            Y cuando Takina bajó las escaleras,<br>
+            no era la misma persona que las había subido.<br><br>
+            Era alguien que finalmente entendía<br>
+            que el <span class="gold">amor</span> no es una estrategia.<br>
+            Es una <span class="gold">elección</span>.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="40" height="20" viewBox="0 0 40 20" opacity="0.2">
+                <line x1="0" y1="10" x2="15" y2="10" stroke="#FFD700" stroke-width="0.5"/>
+                <circle cx="20" cy="10" r="2" fill="none" stroke="#FFD700" stroke-width="0.5"/>
+                <line x1="25" y1="10" x2="40" y2="10" stroke="#FFD700" stroke-width="0.5"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 10</p>
+        <p class="end-title">«&thinsp;Lo que quiero hacer, máxima prioridad&thinsp;»</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-09.html">← Capítulo 9</a>
+            <a href="#" class="next-chapter disabled">Capítulo 11: Dos cafés, una verdad →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose, .dialogue, .flashback, .the-cry, .resolution, .final-line, .rain-sep, .scene-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            const dawn = document.getElementById('dawnLayer');
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = Math.min(scrolled / maxScroll, 1);
+
+                if (scrolled > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+
+                if (progress > 0.6) {
+                    dawn.style.opacity = (progress - 0.6) * 2.5;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
