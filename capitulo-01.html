@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 1: El peso de una bala — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --coal: #1a1a1a;
+            --coal-light: #222;
+            --red-bullet: #c0392b;
+            --red-muzzle: #e74c3c;
+            --red-faint: rgba(192, 57, 43, 0.15);
+            --pink-whisper: #2a1a1e;
+            --pink-soft: #3d1f28;
+            --cream: #e0d6cc;
+            --cream-dim: #8a8178;
+            --cream-bright: #f5efe8;
+            --lavender: #b8a9c9;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: var(--coal);
+            color: var(--cream);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.9;
+        }
+
+        /* ===================== BULLET TRAJECTORY LINES ===================== */
+
+        .bg-trajectories {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .trajectory {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--red-bullet), transparent);
+            opacity: 0;
+            animation: bulletTrace 6s linear infinite;
+        }
+
+        .trajectory:nth-child(1) { top: 12%; width: 200px; left: -200px; animation-delay: 0s; animation-duration: 5s; }
+        .trajectory:nth-child(2) { top: 25%; width: 300px; left: -300px; animation-delay: 2.5s; animation-duration: 4s; }
+        .trajectory:nth-child(3) { top: 40%; width: 150px; left: -150px; animation-delay: 1s; animation-duration: 6.5s; }
+        .trajectory:nth-child(4) { top: 58%; width: 250px; left: -250px; animation-delay: 3.5s; animation-duration: 5.5s; }
+        .trajectory:nth-child(5) { top: 73%; width: 180px; left: -180px; animation-delay: 5s; animation-duration: 4.5s; }
+        .trajectory:nth-child(6) { top: 88%; width: 220px; left: -220px; animation-delay: 0.5s; animation-duration: 7s; }
+
+        @keyframes bulletTrace {
+            0%   { transform: translateX(0); opacity: 0; }
+            10%  { opacity: 0.3; }
+            50%  { opacity: 0.12; }
+            100% { transform: translateX(calc(100vw + 400px)); opacity: 0; }
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+            transition: background 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(10, 10, 10, 0.97);
+            box-shadow: 0 1px 0 rgba(192, 57, 43, 0.1);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--cream-dim);
+        }
+
+        .nav-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-title a:hover {
+            color: var(--red-bullet);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--cream-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--red-bullet);
+        }
+
+        .nav-links .disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* ===================== CHAPTER TITLE SECTION ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .chapter-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to bottom, transparent, var(--coal));
+            pointer-events: none;
+        }
+
+        .act-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--cream-dim);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--red-bullet);
+            opacity: 0.25;
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--cream-bright);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main span {
+            color: var(--red-bullet);
+        }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+            color: var(--cream-dim);
+            margin-top: 2rem;
+            max-width: 500px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--cream-dim);
+        }
+
+        .meta-item strong {
+            color: var(--red-bullet);
+            font-weight: 500;
+        }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene breaks ---- */
+
+        .scene-break {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .scene-break.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scene-break::before,
+        .scene-break::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--red-bullet);
+            opacity: 0.3;
+        }
+
+        .scene-break svg {
+            opacity: 0.4;
+        }
+
+        /* ---- Section headers ---- */
+
+        .scene-header {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--red-bullet);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            opacity: 0.6;
+        }
+
+        /* ---- Prose paragraphs ---- */
+
+        .prose {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            line-height: 2;
+            color: var(--cream);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .prose.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .prose em {
+            color: var(--lavender);
+        }
+
+        .prose strong {
+            font-weight: 600;
+            color: var(--cream-bright);
+        }
+
+        /* ---- Action text (tilted, spaced) ---- */
+
+        .prose.action {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            letter-spacing: 0.04em;
+            line-height: 1.9;
+            color: var(--cream);
+            text-align: left;
+        }
+
+        .prose.action .shot {
+            display: inline;
+            color: var(--red-muzzle);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            line-height: 2;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--red-faint);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .dialogue.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dialogue .speaker {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .dialogue .speaker.chisato {
+            color: var(--red-bullet);
+        }
+
+        .dialogue .speaker.takina {
+            color: var(--lavender);
+        }
+
+        .dialogue .speaker.mika {
+            color: #7f8c6e;
+        }
+
+        .dialogue .speaker.kurumi {
+            color: #5dade2;
+        }
+
+        .dialogue .speaker.mizuki {
+            color: #e0a87e;
+        }
+
+        .dialogue .speaker.kusunoki {
+            color: #999;
+        }
+
+        .dialogue .line {
+            color: var(--cream);
+        }
+
+        .dialogue .line em {
+            color: var(--lavender);
+        }
+
+        /* ---- Internal monologue (Takina) ---- */
+
+        .internal {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 2;
+            color: var(--lavender);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-top: 1px solid rgba(184, 169, 201, 0.1);
+            border-bottom: 1px solid rgba(184, 169, 201, 0.1);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .internal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ---- Final line (special) ---- */
+
+        .final-line {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            text-align: center;
+            color: var(--lavender);
+            margin: 4rem 0 2rem;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+        }
+
+        .final-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===================== BACKGROUND TRANSITION (end of chapter) ===================== */
+
+        .bg-transition {
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg-transition::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(to bottom, var(--coal), var(--pink-whisper));
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ===================== CHAPTER END NAV ===================== */
+
+        .chapter-end {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--pink-whisper);
+        }
+
+        .end-ornament {
+            margin-bottom: 2rem;
+            opacity: 0.3;
+        }
+
+        .end-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--cream-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--cream);
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--cream-dim);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover {
+            border-color: var(--red-bullet);
+            color: var(--red-bullet);
+        }
+
+        .chapter-nav a.next-chapter {
+            border-color: rgba(192, 57, 43, 0.3);
+            color: var(--cream);
+        }
+
+        .chapter-nav a.next-chapter:hover {
+            background: rgba(192, 57, 43, 0.1);
+            border-color: var(--red-bullet);
+        }
+
+        .chapter-nav a.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .prose-container {
+                padding: 0 1.5rem 4rem;
+            }
+
+            .chapter-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            .dialogue {
+                padding-left: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ BULLET TRAJECTORY BACKGROUND ============ -->
+    <div class="bg-trajectories" aria-hidden="true">
+        <div class="trajectory"></div>
+        <div class="trajectory"></div>
+        <div class="trajectory"></div>
+        <div class="trajectory"></div>
+        <div class="trajectory"></div>
+        <div class="trajectory"></div>
+    </div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="#" class="disabled">← Anterior</a>
+            <a href="#" class="disabled">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto I · Latidos</p>
+        <div class="chapter-number">01</div>
+        <h1 class="chapter-title-main">El peso de una <span>bala</span></h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Hay cosas que una bala no puede atravesar.<br>
+            El miedo a perderla es una de ellas.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Takina Inoue</span>
+            <span class="meta-item"><strong>Tema:</strong> Pólvora y Ceniza</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: THE MISSION BRIEFING ══════ -->
+        <p class="scene-header">I. Antes del disparo</p>
+
+        <p class="prose">
+            Hay un sonido que precede a cada misión. No es el clic del cargador entrando en su lugar, ni el zumbido del comunicador ajustándose al oído. Es algo más sutil. Más privado. Es el latido de mi propio corazón acelerándose un cuarto de segundo antes de que Mika abra la carpeta sobre la mesa del café y diga las palabras que transforman a dos meseras en algo que el mundo no debería saber que existe.
+        </p>
+
+        <p class="prose">
+            Esa tarde, el café olía a granos recién molidos y al perfume de jazmín que Mizuki insistía en ponerse aunque nadie se lo pidiera. Kurumi estaba en su rincón habitual, la pantalla de su laptop proyectando líneas de código sobre sus lentes como un acuario de datos. Chisato tarareaba algo — siempre tararea algo — mientras limpiaba la máquina de espresso con una dedicación que solo ella podía darle a un electrodoméstico.
+        </p>
+
+        <p class="prose">
+            Y yo estaba sentada al fondo, con una taza de té verde que había dejado de humear hacía veinte minutos, repasando el informe diario de DA en mi tableta. Ocho incidentes menores en Tokyo. Dos intervenciones de Lycoris en Shibuya. Un avistamiento no confirmado en la zona portuaria de Sumida.
+        </p>
+
+        <p class="prose">
+            La puerta trasera se abrió. Mika entró con esa expresión que conozco bien: la mandíbula un poco más tensa de lo normal, los hombros ligeramente elevados bajo su delantal. Traía una carpeta gris — no la beige de los encargos comunitarios, sino la gris. La de DA.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Chisato, Takina. Tenemos trabajo. Cierren temprano hoy.</span>
+        </div>
+
+        <p class="prose">
+            Chisato dejó de tararear. No inmediatamente — nunca hace nada inmediatamente cuando se trata de abandonar su rutina — sino con una nota final que se apagó como la última gota de un grifo mal cerrado. Se giró hacia Mika con esa sonrisa que usa para todo: para servir café, para esquivar balas, para pretender que nada le preocupa.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Ohhh! ¿Es algo emocionante? Dime que es algo emocionante. Llevo tres semanas sin acción y se me están oxidando los reflejos, Mika~</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Tráfico de armas. Distrito de Sumida. La información llegó hace una hora de Kusunoki. Un grupo no identificado está moviendo un cargamento esta noche por la zona del río, cerca del puente Kuramae.</span>
+        </div>
+
+        <p class="prose">
+            Cerré la tableta. Sumida. El puente Kuramae. Conozco esa zona — los almacenes abandonados junto al río, las calles estrechas donde la luz de los faroles apenas llega al pavimento. Terreno complicado. Demasiados puntos ciegos. Demasiadas rutas de escape.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Cuántos objetivos?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mika">Mika</span>
+            <span class="line">—Estimación: entre seis y diez. Armados. La orden de Kusunoki es interceptar y confiscar. No neutralizar. Los quiere para interrogatorio.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Perfecto. Balas de goma y mucha conversación. ¡Mi especialidad!</span>
+        </div>
+
+        <p class="prose">
+            Mizuki, que había estado escuchando desde la barra con su revista de bodas abierta en una página sobre centros de mesa con peonías, levantó la mirada.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker mizuki">Mizuki</span>
+            <span class="line">—Tengan cuidado, ¿sí? La última vez que dijeron «seis a diez» terminaron siendo veintitrés.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Veintiuno. Los otros dos eran civiles que pasaban por ahí.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker mizuki">Mizuki</span>
+            <span class="line">—El punto es el mismo, Kurumi.</span>
+        </div>
+
+        <p class="prose">
+            Chisato se estiró, levantando los brazos por encima de su cabeza con ese movimiento felino que hace antes de cada misión, como si fuera a salir a correr por el parque en vez de enfrentarse a traficantes armados. Me miró. Sus ojos rojos — del color exacto de las balas que se niega a usar — encontraron los míos.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Vamos, Takina! Tú y yo, como siempre. ¿Verdad?</span>
+        </div>
+
+        <p class="internal">
+            Como siempre. Lo dijo como si fuera lo más natural del mundo. Como si cada misión juntas no fuera un recordatorio de que, en cualquier momento, «siempre» podría convertirse en «la última vez.»
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Como siempre.</span>
+        </div>
+
+        <!-- ══════ SCENE 2: THE MISSION ══════ -->
+
+        <div class="scene-break">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="#c0392b"/></svg>
+        </div>
+
+        <p class="scene-header">II. Sumida, 22:47</p>
+
+        <p class="prose action">
+            La noche en el distrito de Sumida tiene un olor particular: agua estancada del río, aceite de motor, y el metal oxidado de los contenedores apilados junto a los almacenes. Nos movíamos en silencio entre las sombras del callejón que corre paralelo al puente Kuramae. Chisato iba tres metros adelante — siempre tres metros adelante, como si su cuerpo necesitara ese margen de espacio para procesar la información que sus reflejos recogen del ambiente.
+        </p>
+
+        <p class="prose action">
+            Comunicador abierto. Kurumi nos guiaba desde LycoReco, sus dedos tecleando un ritmo constante que se colaba como estática por el auricular.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Tengo señal térmica. Almacén cuatro, el del techo corrugado verde. Cuento... nueve cuerpos. Ocho agrupados cerca de un vehículo, uno separado, probablemente vigía. La carga está en la parte trasera de una camioneta blanca.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(susurrando)</em> Nueve. Pan comido. Takina, ¿ves al vigía?</span>
+        </div>
+
+        <p class="prose action">
+            Me asomé por la esquina del contenedor. Ahí estaba: un hombre de unos treinta años, chaqueta oscura, apoyado contra la pared exterior del almacén con un cigarrillo entre los labios y un subfusil colgado descuidadamente del hombro. Patrón respiratorio relajado. Mirada errática pero no alerta. No esperaban compañía.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Flanco izquierdo, junto a la puerta lateral. Subfusil, probablemente un MP5. No está en posición de alerta.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Yo me encargo del vigía y entro por la puerta principal. Tú rodea por detrás, entra por el acceso del techo. Les cortamos la salida. Tres minutos.</span>
+        </div>
+
+        <p class="prose action">
+            Asentí. Nos separamos. Chisato se movió hacia la izquierda, su silueta disolviéndose en la oscuridad con esa facilidad que desafía la física — una chica de un metro sesenta y dos que puede desaparecer en una sombra como si la noche fuera su idioma materno.
+        </p>
+
+        <p class="prose action">
+            Rodeé el almacén por el lado del río. El suelo estaba húmedo; cada paso era un cálculo de peso y ángulo para evitar el chapoteo. Encontré la escalera de servicio en la pared trasera, subí los peldaños oxidados con los dedos firmes en cada barra, y me posicioné junto a la claraboya del techo. Desde arriba, podía ver todo: la camioneta blanca, las cajas de madera apiladas, los ocho hombres hablando en voz baja bajo la luz amarillenta de una lámpara industrial.
+        </p>
+
+        <p class="prose action">
+            En mi oído, el comunicador crepitó.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Vigía neutralizado. ¡Ni se enteró, pobrecito! Entrando en tres... dos...</span>
+        </div>
+
+        <p class="prose action">
+            La puerta principal del almacén se abrió de golpe. La silueta de Chisato apareció recortada contra la luz de la calle como una viñeta de las películas que tanto le gustan. Llevaba su pistola en la mano derecha — cargada con sus eternas balas de goma — y esa sonrisa. Esa sonrisa imposible que lleva puesta incluso cuando está a punto de enfrentarse a ocho hombres armados.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Buenas noches~! ¡Disculpen la intromisión! Tengo entendido que están vendiendo cosas que no les pertenecen, ¿verdad? Vamos a tener que hablar de eso. Pero primero... ¿alguien quiere café? Es broma. No traje café. <em>Sí traje esto.</em></span>
+        </div>
+
+        <p class="prose action">
+            <span class="shot">BANG. BANG. BANG.</span>
+        </p>
+
+        <p class="prose action">
+            Tres disparos de goma. Tres cuerpos al suelo antes de que los demás pudieran procesar lo que estaba ocurriendo. Chisato ya estaba en movimiento — girando, agachándose, deslizándose entre las balas reales que empezaron a volar hacia ella como si el aire mismo estuviera tratando de atraparla. Pero el aire nunca la atrapa. Nadie la atrapa. Sus ojos leen las manos antes de que los dedos aprieten el gatillo, su cuerpo se mueve medio segundo antes de que la bala llegue a donde ella estaba.
+        </p>
+
+        <p class="prose action">
+            Desde el techo, abrí la claraboya y me dejé caer. Aterricé sobre una pila de cajas, rodé, y me incorporé con mi arma apuntando a los tres que habían corrido hacia la salida trasera.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Alto. Al suelo. Ahora.</span>
+        </div>
+
+        <p class="prose action">
+            Dos obedecieron. El tercero giró hacia mí con una escopeta recortada.
+        </p>
+
+        <p class="prose action">
+            No pensé. Mi cuerpo actuó con la eficiencia que DA me enseñó. <span class="shot">Dos disparos al pecho, uno al hombro.</span> Cayó. Mi munición no es de goma — nunca lo ha sido — pero esta vez usé las balas de bajo calibre que Mika me insistió en llevar. El hombre se retorcería un rato, pero viviría. Viviría porque Chisato le pidió a Mika que me convenciera, y Mika me convenció, y yo acepté porque...
+        </p>
+
+        <p class="internal">
+            Porque ella me lo pidió. Y últimamente digo que sí a todo lo que ella me pide.
+        </p>
+
+        <p class="prose action">
+            Los otros dos intentaron correr. Les corté el paso con un disparo de advertencia al suelo.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—He dicho: al suelo. No lo voy a repetir una tercera vez.</span>
+        </div>
+
+        <p class="prose action">
+            Se tiraron al piso. Del otro lado del almacén, escuché a Chisato terminando su parte — más disparos de goma, un ruido de metal cayendo, y su voz cantarina:
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Eso es todo, caballeros! Pueden quedarse ahí tiraditos, ¿vale? Prometo que la policía no tardará mucho. ¡Takina! ¿Cómo vas por allá~?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Tres neutralizados. Situación controlada.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Perfecto! Nueve de nueve. Kurumi, ¿nos confirmas?</span>
+        </div>
+
+        <p class="prose">
+            Silencio en el comunicador. Un silencio que duró un segundo más de lo que debería.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—...No. No son nueve. Estoy detectando más señales térmicas. Están entrando por... oh no. ¡Chisato, Takina, salgan de ahí! Es una emboscada. Repito: <em>es una emboscada.</em> Hay al menos doce más entrando por los tres accesos.</span>
+        </div>
+
+        <!-- ══════ SCENE 3: THE AMBUSH ══════ -->
+
+        <div class="scene-break">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="#c0392b"/></svg>
+        </div>
+
+        <p class="scene-header">III. Emboscada</p>
+
+        <p class="prose action">
+            Todo cambió en el espacio entre un latido y el siguiente.
+        </p>
+
+        <p class="prose action">
+            Las tres puertas del almacén se abrieron simultáneamente. No eran traficantes comunes — sus movimientos eran coordinados, tácticos. Entraron en formación, cubriendo ángulos, barriendo el espacio con linternas montadas en fusiles de asalto. Equipo militar. Profesionales.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Vaya, vaya... ¡Parece que alguien trajo refuerzos! Oigan, ¿no les dijeron que la fiesta ya terminó? ¡Llegaron tardísimo!</span>
+        </div>
+
+        <p class="prose action">
+            Su tono era ligero. Su cuerpo, no. Vi cómo sus hombros se tensaron una fracción de segundo — la única señal que Chisato Nishikigi da antes de entrar en modo de combate real. Sus pies se separaron. Su centro de gravedad bajó. Y empezó a moverse.
+        </p>
+
+        <p class="prose action">
+            <span class="shot">Ráfagas de disparos inundaron el almacén.</span> El sonido era ensordecedor — metal contra metal, concreto pulverizado, casquillos rebotando en el suelo como una lluvia de latón. Chisato esquivaba todo. <em>Todo.</em> Su cuerpo se movía con esa fluidez imposible que desafía toda lógica — un paso a la derecha y la bala pasa por la izquierda, una inclinación hacia atrás y el proyectil roza el aire donde su cabeza estuvo hace medio segundo. Cada movimiento era una ecuación resuelta antes de ser planteada.
+        </p>
+
+        <p class="prose action">
+            Yo no tengo esa capacidad. Yo soy rápida, precisa, letal. Pero no soy Chisato. No puedo ver las balas antes de que existan.
+        </p>
+
+        <p class="prose action">
+            Me cubrí detrás de la camioneta blanca. Los dos objetivos que había neutralizado antes se arrastraban hacia la salida, aprovechando el caos. Los dejé ir — no eran la prioridad. La prioridad era sobrevivir. Asomé el cañón por encima del capó y disparé cuatro veces. Dos impactos confirmados. Volví a cubrirme. Una ráfaga de fusil arrancó trozos del metal junto a mi cabeza.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—¡Takina, tienes tres viniendo por tu derecha, detrás de las cajas! ¡Chisato, cuidado con el del balcón interior, tiene un rifle de precisión!</span>
+        </div>
+
+        <p class="prose action">
+            Giré hacia la derecha. Demasiado tarde. Uno de ellos ya había rodeado la camioneta. Vi el cañón de su arma a menos de dos metros de mi cara. Mi cuerpo reaccionó — rodé hacia la izquierda, pero mi pie resbaló en el aceite del suelo. Caí de espaldas. El hombre se posicionó sobre mí. Apuntó.
+        </p>
+
+        <p class="prose action">
+            El tiempo no se detuvo. Eso es mentira. Lo que pasó fue peor: el tiempo se <em>comprimió.</em> Cada milisegundo contenía una eternidad de información. Vi su dedo en el gatillo. Vi la tensión en su nudillo. Vi el cañón alineado con mi frente. Calculé el ángulo, la distancia, la velocidad del proyectil. Calculé que no tenía tiempo de moverme.
+        </p>
+
+        <p class="internal">
+            Esto es todo. Este es el final. Así termina Takina Inoue: en el suelo de un almacén que huele a aceite, mirando el interior de un cañón. Sin haber dicho lo que tenía que decir. Sin haber...
+        </p>
+
+        <p class="prose action">
+            <span class="shot">BANG.</span>
+        </p>
+
+        <p class="prose action">
+            Pero no fue su arma.
+        </p>
+
+        <p class="prose action">
+            El hombre se dobló hacia atrás como si una mano invisible lo hubiera empujado desde el pecho. Bala de goma. Impacto directo al esternón. Cayó al suelo jadeando. Detrás de él, a contraluz, estaba Chisato. Tenía el brazo extendido, la pistola humeante, y el flequillo rubio pegado a la frente por el sudor. Estaba respirando con fuerza — una de las pocas veces que la he visto respirar con fuerza. Su camisa tenía un desgarro en el hombro izquierdo, y debajo, un hilo de sangre corría por su brazo.
+        </p>
+
+        <p class="prose">
+            No tarareaba.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Takina. ¿Estás bien?</span>
+        </div>
+
+        <p class="prose">
+            No había broma en su voz. No había sonrisa. Solo mis dos sílabas pronunciadas con una urgencia que le conozco solo cuando se trata de algo que le importa de verdad. De alguien que le importa de verdad.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—...Sí.</span>
+        </div>
+
+        <p class="prose">
+            Me tendió la mano. La tomé. Me levantó con una fuerza que no debería caber en un cuerpo de cincuenta kilos. Por un momento — un fragmento de segundo que duró más que toda la emboscada — su mano sostuvo la mía y sus ojos rojos me miraron con algo que no tengo el vocabulario para describir. Alivio, tal vez. O algo más profundo que el alivio.
+        </p>
+
+        <p class="prose action">
+            Después, como si alguien hubiera presionado «play» de nuevo, el mundo recuperó su velocidad. Chisato soltó mi mano, giró, y disparó tres veces más hacia los atacantes que quedaban. Yo me incorporé y cubrí su flanco derecho. Trabajamos juntas — espalda contra espalda, disparo tras disparo — hasta que el último cuerpo cayó al suelo y el almacén quedó en un silencio hecho de casquillos vacíos y respiraciones pesadas.
+        </p>
+
+        <p class="prose action">
+            Veintiún hombres neutralizados. Cero bajas fatales. Una herida menor en el brazo izquierdo de Chisato Nishikigi.
+        </p>
+
+        <p class="prose">
+            Una herida que era mi culpa.
+        </p>
+
+        <!-- ══════ SCENE 4: THE WOUND ══════ -->
+
+        <div class="scene-break">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="#c0392b"/></svg>
+        </div>
+
+        <p class="scene-header">IV. Manos que tiemblan</p>
+
+        <p class="prose">
+            El camino de regreso fue silencioso. Chisato no tarareó. No hizo bromas. Se limitó a caminar a mi lado con la mano derecha presionando un pañuelo contra la herida de su brazo izquierdo, los ojos fijos en la acera. Yo caminaba medio paso detrás de ella, mirando la mancha oscura que se expandía lentamente por la tela blanca del pañuelo.
+        </p>
+
+        <p class="prose">
+            Cuando llegamos a LycoReco, las luces ya estaban apagadas. Mika nos había dejado la puerta abierta y un botiquín sobre la barra antes de irse. Una nota junto al botiquín, con su letra precisa: <em>«Buen trabajo. Curen eso. Descansen.»</em>
+        </p>
+
+        <p class="prose">
+            Chisato se sentó en uno de los taburetes de la barra. Se quitó la chaqueta con un siseo bajo — el desgarro en la tela revelaba un surco rojo a lo largo de su bíceps. No era profundo. La bala había rozado la piel sin penetrar el músculo. Pero sangraba.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—No es nada, Takina. Un rasguño. Mañana ni se va a notar. ¿Sabes cuántas veces me han rozado? Perdí la cuenta después de la número quince. ¡Tengo la piel de un gato! Siempre caigo de pie y siempre cicatrizo rápido~</span>
+        </div>
+
+        <p class="prose">
+            Había vuelto. La Chisato de siempre, con su voz cantarina y su capacidad para restarle importancia a cualquier cosa que pudiera preocupar a los demás. Pero yo vi lo que pasó en el almacén. Vi el momento en que dejó de sonreír. Vi el momento en que dejó de tararear.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Déjame ver.</span>
+        </div>
+
+        <p class="prose">
+            No fue una petición. Abrí el botiquín, saqué el desinfectante, las gasas, el vendaje adhesivo. Me senté en el taburete frente a ella. Bajo la luz tenue del café cerrado, su brazo brillaba con una mezcla de sudor y sangre. Tomé su muñeca para acercar la herida a la luz.
+        </p>
+
+        <p class="prose">
+            Su piel estaba caliente. No la calidez normal de un cuerpo en reposo, sino algo distinto. La calidez residual del combate. La fiebre leve que produce la adrenalina al retirarse. Podía sentir su pulso bajo mis dedos — el pulso artificial de su corazón mecánico, ese ritmo que no es del todo regular, que tiene un tic imperceptible cada cuatro latidos, como un recordatorio de que lo que late en su pecho no es carne sino ingeniería.
+        </p>
+
+        <p class="prose">
+            Apliqué el desinfectante. Chisato no se movió, pero sus dedos se curvaron ligeramente.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Fffuu...! Eso pica. Oye, Takina, ¿sabes que tienes un toque muy delicado para ser alguien que derriba hombres de noventa kilos con una llave de brazo?</span>
+        </div>
+
+        <p class="prose">
+            No respondí. Estaba concentrada en limpiar la herida, en retirar los restos de tela incrustados en el surco, en aplicar la gasa con la presión exacta. Estaba concentrada en no mirarla a los ojos porque sabía — con esa certeza irracional que me invade cada vez más seguido — que si la miraba, algo dentro de mí se rompería.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Oye... <em>(pausa)</em> ...¿estás bien? No has dicho casi nada desde el almacén.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Estoy bien. Necesito que no muevas el brazo.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Takina.</span>
+        </div>
+
+        <p class="prose">
+            Dijo mi nombre de esa forma. Esa forma que solo ella tiene. No «Inoue», como me llaman en DA. No «agente», como me dicen los informes. <em>Takina.</em> Tres sílabas que, en su voz, suenan como si el nombre me perteneciera por primera vez.
+        </p>
+
+        <p class="prose">
+            La miré.
+        </p>
+
+        <p class="prose">
+            Sus ojos rojos estaban quietos. Sin broma. Sin máscara. Solo Chisato — la Chisato real, la que existe debajo de las sonrisas y las balas de goma, la que vi por un instante en el almacén cuando me tendió la mano.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—No fue tu culpa. ¿Me oyes? No fue tu culpa. Esos tipos aparecieron de la nada. Kurumi no los detectó a tiempo. Nadie podría haberlo previsto. <em>(sonrisa suave)</em> Y al final, estamos aquí. Las dos. Enteras. Bueno, yo con un rasguño fashion que me va a hacer ver muy interesante mañana. ¿Te imaginas? «¿Qué le pasó a la mesera?» «Oh, ¿esto? Me peleé con la máquina de espresso.»</span>
+        </div>
+
+        <p class="prose">
+            Intenté sonreír. No pude. Porque mientras ella hablaba, mientras hacía sus bromas y restaba importancia a todo, yo estaba reviviendo el momento. El cañón apuntando a mi frente. El dedo en el gatillo. La certeza absoluta de que iba a morir. Y después, Chisato. Chisato corriendo hacia mí a través de una lluvia de balas, sin tararear, sin sonreír, con una expresión en el rostro que gritaba algo que su boca nunca dice.
+        </p>
+
+        <p class="prose">
+            Terminé de colocar el vendaje. Alisé los bordes del adhesivo con los dedos. Y entonces lo noté.
+        </p>
+
+        <p class="prose">
+            Mis manos temblaban.
+        </p>
+
+        <p class="prose">
+            No era un temblor de frío ni de fatiga. Era algo que venía de más profundo — del lugar donde se almacenan las cosas que no tienen nombre, las cosas que DA nunca me enseñó a manejar porque DA solo entrena el cuerpo, nunca el algo-más-que-el-cuerpo.
+        </p>
+
+        <p class="prose">
+            Chisato lo vio. Por supuesto que lo vio. Ella siempre ve todo.
+        </p>
+
+        <p class="prose">
+            No dijo nada. Solo colocó su mano sobre las mías. Su mano derecha, la que sostiene el arma, la que sirve café, la que me levantó del suelo del almacén. Ahora estaba ahí, encima de mis manos temblorosas, quieta, tibia, presente.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Estoy aquí, Takina.</span>
+        </div>
+
+        <p class="prose">
+            Tres palabras. No «estoy bien», no «no te preocupes», no «es solo un rasguño.» <em>Estoy aquí.</em> Como si entendiera — como si pudiera leer mis manos igual que lee los movimientos de sus enemigos — que lo que me hacía temblar no era el recuerdo de la bala que casi me mata, sino el recuerdo de la bala que rozó su brazo. Que cada gota de sangre en ese pañuelo era una gota de algo mío que se vertía sin permiso.
+        </p>
+
+        <p class="prose">
+            Retiré mis manos. Suavemente, para que no pareciera lo que era — una huida.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—El vendaje está listo. Cámbialo mañana por la mañana. No mojes la herida en las próximas doce horas.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—<em>(sonriendo)</em> Sí, doctora Inoue~</span>
+        </div>
+
+        <p class="prose">
+            Se bajó del taburete. Se estiró de nuevo, más despacio esta vez, cuidando el brazo vendado. Se dirigió hacia la escalera que sube a los dormitorios.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Buenas noches, Takina! Mañana te preparo el desayuno para compensarte por el servicio de enfermería. Estoy pensando en pancakes. ¡No, espera! ¡Waffles! Con esa miel que compramos la semana pasada en Asakusa. ¿O prefieres algo salado? Oye, ¿Takina? ¿Takina, me estás escuchando?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—...Waffles está bien.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¡Waffles! Hecho. Descansa, ¿sí? Hoy fue... <em>(pausa)</em> ...hoy fue un día largo. Pero salió bien. Siempre sale bien cuando estamos juntas. Buenas noches~</span>
+        </div>
+
+        <p class="prose">
+            Escuché sus pasos subir la escalera. Ligeros, como siempre. Como si la gravedad le tuviera un favor pendiente. Escuché la puerta de su habitación abrirse y cerrarse. Y después, silencio. El silencio específico de Café LycoReco cuando todos duermen — un silencio hecho del zumbido del refrigerador, el tic-tac del reloj de pared, y el latido de mi propio corazón, que a diferencia del de Chisato, es completamente orgánico y completamente incapaz de obedecerme.
+        </p>
+
+        <p class="prose">
+            Me quedé sentada en el taburete. El botiquín seguía abierto frente a mí. La gasa manchada de sangre — su sangre — descansaba sobre la barra como evidencia de algo que no debería importarme tanto como me importa.
+        </p>
+
+        <!-- ══════ SCENE 5: ALONE ══════ -->
+
+        <div class="scene-break">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="#c0392b"/></svg>
+        </div>
+
+        <p class="scene-header">V. Lo que no tiene nombre</p>
+
+        <p class="prose">
+            Subí a mi habitación. Me quité el uniforme de misión — la chaqueta negra, los pantalones tácticos, las botas que aún olían a aceite del almacén. Me puse la ropa de dormir con movimientos mecánicos, como si mi cuerpo estuviera en modo automático mientras mi mente procesaba un archivo que no sabe cómo catalogar.
+        </p>
+
+        <p class="prose">
+            Me senté en el borde de la cama. La pared que separa mi habitación de la de Chisato es delgada. A veces, en las noches tranquilas, puedo escucharla moverse. El crujido de su colchón cuando se gira. El clic de la lámpara cuando se queda leyendo manga hasta tarde. El murmullo de su voz cuando habla dormida — fragmentos sin sentido que a veces suenan a nombres, a recuerdos, a cosas que ni siquiera Chisato Nishikigi puede decir despierta.
+        </p>
+
+        <p class="prose">
+            Esa noche, el silencio del otro lado de la pared era absoluto. Se había dormido rápido. El cansancio del combate, tal vez. O la tranquilidad de saber que estaba a salvo. Que las dos estábamos a salvo.
+        </p>
+
+        <p class="prose">
+            Llevé mi mano a mi pecho. Lo sentí: el golpe rítmico, constante, predecible. Mi corazón. Un órgano que durante diecisiete años cumplió su función sin exigir nada a cambio — bombear sangre, mantenerme viva, operar en segundo plano como un sistema que no necesita atención del usuario. Un órgano que DA me enseñó a ignorar porque las emociones son ruido y el ruido interfiere con la misión.
+        </p>
+
+        <p class="prose">
+            Pero esta noche, mi corazón no estaba en segundo plano. Estaba <em>aquí</em>, tan presente como el recuerdo de su mano sobre las mías, como el olor a pólvora mezclado con su perfume, como esas dos palabras — <em>«estoy aquí»</em> — que seguían resonando en algún rincón de mi cráneo como el eco de un disparo en un almacén vacío.
+        </p>
+
+        <p class="prose">
+            Cerré los ojos. Intenté dormir. Mi mente proyectó la escena de nuevo: el cañón apuntándome, el dedo en el gatillo, y después ella. Siempre ella. Corriendo hacia mí. Sangrando por mí. Sonriendo después como si sangrar por mí fuera algo que no merece más que una broma sobre la máquina de espresso.
+        </p>
+
+        <p class="prose">
+            Me giré en la cama. La almohada estaba fría. Pensé en su mano. En cómo su piel se sentía contra la mía. En el tic imperceptible de su corazón artificial bajo mis dedos. En cómo, por un momento, mis manos dejaron de temblar cuando ella las cubrió con la suya.
+        </p>
+
+        <p class="prose">
+            Esto no es miedo residual. No es estrés post-combate. No es «compañerismo» ni «lealtad» ni ninguna de las palabras que DA usa para describir los vínculos entre agentes.
+        </p>
+
+        <p class="prose">
+            Esto es algo más.
+        </p>
+
+        <p class="prose">
+            Y por primera vez en mi vida, <em>no sé qué hacer con ello.</em>
+        </p>
+
+        <p class="prose">
+            Me llevé ambas manos al pecho. Sentí el golpe. El golpe. El golpe. Constante, predecible, orgánico. Pero más fuerte que de costumbre. Más <em>presente.</em> Como si mi corazón, después de diecisiete años de operar en silencio, hubiera decidido hablar. Y lo que dice no tiene nombre en ningún manual de DA, en ningún protocolo, en ningún informe que haya leído jamás.
+        </p>
+
+        <p class="prose">
+            Apreté los ojos. Los abrí. El techo de mi habitación estaba oscuro, apenas iluminado por el resplandor lejano de la ciudad que se filtraba por la cortina.
+        </p>
+
+        <p class="prose">
+            Susurré. A nadie. A mí misma. Al espacio que hay entre mi pared y la suya.
+        </p>
+
+        <p class="final-line">
+            «&thinsp;Esto... no es racional.&thinsp;»
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <div class="bg-transition">
+        <div style="height: 200px;"></div>
+    </div>
+
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="40" height="40" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="4" fill="none" stroke="#c0392b" stroke-width="0.8" opacity="0.5"/>
+                <circle cx="20" cy="20" r="1.5" fill="#c0392b" opacity="0.4"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 1</p>
+        <p class="end-title">«&thinsp;El peso de una bala&thinsp;»</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="#" class="next-chapter disabled">Capítulo 2: El chico del marcapasos →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll('.prose, .dialogue, .internal, .final-line, .scene-break').forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const current = window.scrollY;
+                if (current > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+                lastScroll = current;
+            });
+        });
+    </script>
+</body>
+</html>
