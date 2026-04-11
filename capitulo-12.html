@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 12: Lycoris in Bloom — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@200;300;400;600&family=Rajdhani:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+        :root {
+            --black-start: #1a1a1a;
+            --rose: #FF6B9D;
+            --rose-deep: #c0392b;
+            --rose-soft: #E8A0B8;
+            --gold: #FFD700;
+            --gold-soft: #E8C050;
+            --gold-faint: rgba(255, 215, 0, 0.06);
+            --cream: #FFF8F0;
+            --cream-soft: #F0E6D6;
+            --text-light: #E8E0D8;
+            --text-body: #D0C8C0;
+            --text-soft: #A09888;
+            --text-faint: #706860;
+            --chisato-warm: #E89060;
+            --takina-lav: #A0B0D0;
+            --mika-sage: #80A070;
+            --kurumi-teal: #60A8B8;
+            --mizuki-peach: #D0A080;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Lora', serif;
+            background: var(--black-start);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 2;
+        }
+
+        /* ===================== LYCORIS FLOWERS (blooming from margins) ===================== */
+
+        .bloom-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .lycoris-bloom {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .lycoris-bloom.left  { left: -30px; }
+        .lycoris-bloom.right { right: -30px; }
+
+        .lycoris-bloom:nth-child(1)  { top: 10%;  animation: bloomIn 3s ease-out 8s forwards; }
+        .lycoris-bloom:nth-child(2)  { top: 25%;  animation: bloomIn 3s ease-out 10s forwards; }
+        .lycoris-bloom:nth-child(3)  { top: 40%;  animation: bloomIn 3s ease-out 12s forwards; }
+        .lycoris-bloom:nth-child(4)  { top: 55%;  animation: bloomIn 3s ease-out 14s forwards; }
+        .lycoris-bloom:nth-child(5)  { top: 70%;  animation: bloomIn 3s ease-out 9s forwards; }
+        .lycoris-bloom:nth-child(6)  { top: 85%;  animation: bloomIn 3s ease-out 11s forwards; }
+        .lycoris-bloom:nth-child(7)  { top: 5%;   animation: bloomIn 3s ease-out 13s forwards; }
+        .lycoris-bloom:nth-child(8)  { top: 35%;  animation: bloomIn 3s ease-out 15s forwards; }
+        .lycoris-bloom:nth-child(9)  { top: 60%;  animation: bloomIn 3s ease-out 10.5s forwards; }
+        .lycoris-bloom:nth-child(10) { top: 90%;  animation: bloomIn 3s ease-out 12.5s forwards; }
+
+        @keyframes bloomIn {
+            from { opacity: 0; transform: scale(0.3); }
+            to   { opacity: 0.12; transform: scale(1); }
+        }
+
+        /* ===================== COLOR TRANSITION LAYER ===================== */
+
+        .color-layer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(to bottom, var(--rose), var(--gold));
+            opacity: 0;
+            transition: opacity 3s;
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(26,26,26,0.97), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(26, 26, 26, 0.98);
+            box-shadow: 0 1px 0 rgba(255,107,157,0.08);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        .nav-title a:hover { color: var(--rose); }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--rose); }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            background: linear-gradient(135deg, var(--rose), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.2;
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: clamp(2rem, 7vw, 3.8rem);
+            background: linear-gradient(135deg, var(--rose), var(--gold-soft));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2vw, 1.02rem);
+            color: var(--text-soft);
+            margin-top: 2rem;
+            max-width: 500px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong { color: var(--chisato-warm); font-weight: 400; }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene header ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.2rem 2rem;
+            border-top: 1px solid rgba(255,107,157,0.08);
+            border-bottom: 1px solid rgba(255,107,157,0.08);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible { opacity: 1; transform: translateY(0); }
+
+        .scene-header .scene-num {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            display: block;
+        }
+
+        .scene-header .scene-name {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 0.15rem;
+        }
+
+        /* ---- Prose ---- */
+
+        .prose {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 2.1;
+            color: var(--text-body);
+            margin-bottom: 1.6rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose.visible { opacity: 1; transform: translateY(0); }
+        .prose em { color: var(--rose-soft); font-style: italic; }
+        .prose strong { font-weight: 600; color: var(--text-light); }
+
+        /* ---- Chisato's voice (first and only time) ---- */
+
+        .chisato-voice {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 2.1;
+            color: var(--chisato-warm);
+            margin-bottom: 1.6rem;
+            text-align: justify;
+            padding-left: 1rem;
+            border-left: 2px solid rgba(232, 144, 96, 0.2);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .chisato-voice.visible { opacity: 1; transform: translateY(0); }
+        .chisato-voice em { color: var(--rose); font-style: italic; }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(255,107,157,0.1);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.takina  { color: var(--takina-lav); }
+        .dialogue .speaker.chisato { color: var(--chisato-warm); }
+        .dialogue .speaker.mika    { color: var(--mika-sage); }
+        .dialogue .speaker.kurumi  { color: var(--kurumi-teal); }
+        .dialogue .speaker.mizuki  { color: var(--mizuki-peach); }
+        .dialogue .speaker.ken     { color: #C0A040; }
+
+        .dialogue .line {
+            font-family: 'Lora', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2;
+            color: var(--text-body);
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.6; }
+
+        /* ---- The key line (Dancing Script) ---- */
+
+        .key-line {
+            text-align: center;
+            margin: 3rem 1rem;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1.5s, transform 1.5s;
+        }
+
+        .key-line.visible { opacity: 1; transform: translateY(0); }
+
+        .key-line p {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            line-height: 1.8;
+            background: linear-gradient(135deg, var(--rose), var(--gold-soft));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ---- Flower separator ---- */
+
+        .flower-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.8s;
+        }
+
+        .flower-sep.visible { opacity: 1; }
+
+        .flower-sep .sep-line {
+            width: 40px; height: 1px;
+            background: linear-gradient(to right, transparent, var(--rose));
+            opacity: 0.2;
+        }
+
+        .flower-sep .sep-line:last-child {
+            background: linear-gradient(to left, transparent, var(--rose));
+        }
+
+        /* ---- Epilogue styling ---- */
+
+        .epilogue-header {
+            text-align: center;
+            margin: 4rem 0 2.5rem;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .epilogue-header.visible { opacity: 1; }
+
+        .epilogue-header span {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--gold-soft);
+            opacity: 0.5;
+        }
+
+        .prose.epilogue {
+            color: var(--text-soft);
+            font-style: italic;
+        }
+
+        /* ---- Closing line (Rajdhani — callback to Ch.1) ---- */
+
+        .closing-line {
+            text-align: center;
+            margin: 4rem auto 2rem;
+            max-width: 400px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 2s, transform 2s;
+        }
+
+        .closing-line.visible { opacity: 1; transform: translateY(0); }
+
+        .closing-line p {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            letter-spacing: 0.05em;
+            color: var(--takina-lav);
+            line-height: 2;
+        }
+
+        .closing-line p em {
+            font-style: italic;
+            color: var(--rose);
+        }
+
+        /* ===================== CHAPTER END / NOVEL END ===================== */
+
+        .novel-end {
+            text-align: center;
+            padding: 5rem 2rem 8rem;
+            background: linear-gradient(to bottom, var(--black-start), #1A1018);
+            border-top: 1px solid rgba(255,107,157,0.06);
+        }
+
+        .novel-end .end-flower {
+            margin-bottom: 2rem;
+        }
+
+        .novel-end .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .novel-end .end-title {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            background: linear-gradient(135deg, var(--rose), var(--gold-soft));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .novel-end .end-subtitle {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            margin-bottom: 3rem;
+        }
+
+        .novel-end .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .novel-end .chapter-nav a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid rgba(255,107,157,0.1);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .novel-end .chapter-nav a:hover {
+            border-color: var(--rose);
+            color: var(--rose);
+        }
+
+        .novel-end .credits {
+            margin-top: 4rem;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            line-height: 2.2;
+        }
+
+        .novel-end .credits .heart { color: var(--rose); }
+
+        .novel-end .credits a {
+            color: var(--takina-lav);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(160,176,208,0.2);
+        }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(25px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ LYCORIS FLOWERS BLOOMING FROM MARGINS ============ -->
+    <div class="bloom-bg" aria-hidden="true">
+        <svg class="lycoris-bloom left" width="60" height="60" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D"/></svg>
+        <svg class="lycoris-bloom right" width="50" height="50" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b"/></svg>
+        <svg class="lycoris-bloom left" width="45" height="45" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D"/></svg>
+        <svg class="lycoris-bloom right" width="55" height="55" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b"/></svg>
+        <svg class="lycoris-bloom left" width="40" height="40" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D"/></svg>
+        <svg class="lycoris-bloom right" width="50" height="50" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b"/></svg>
+        <svg class="lycoris-bloom right" width="45" height="45" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D"/></svg>
+        <svg class="lycoris-bloom left" width="55" height="55" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b"/></svg>
+        <svg class="lycoris-bloom right" width="40" height="40" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D"/></svg>
+        <svg class="lycoris-bloom left" width="50" height="50" viewBox="0 0 40 40"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#c0392b"/></svg>
+    </div>
+
+    <!-- ============ COLOR TRANSITION ============ -->
+    <div class="color-layer" id="colorLayer"></div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-11.html">← Anterior</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto IV · Recoil del Corazón — Capítulo Final</p>
+        <div class="chapter-number">12</div>
+        <h1 class="chapter-title-main">Lycoris in Bloom</h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Mi corazón artificial late por muchas razones.<br>
+            Pero solo se acelera por una.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Chisato Nishikigi</span>
+            <span class="meta-item"><strong>Tema:</strong> Florecer</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: THE CLOSED CAFÉ ══════ -->
+
+        <div class="scene-header">
+            <span class="scene-num">Escena I</span>
+            <span class="scene-name">El café después de la tormenta</span>
+        </div>
+
+        <p class="chisato-voice">
+            Hay cosas que sé sobre Takina Inoue que ella no sabe que sé.
+        </p>
+
+        <p class="chisato-voice">
+            Sé que me mira cuando cree que no la estoy mirando. Lo sé porque mis reflejos no se apagan cuando salgo del campo de batalla — siguen funcionando en el café, en las escaleras, en los pasillos del segundo piso. Mis ojos leen los cuerpos antes de que los cuerpos decidan moverse. Y el cuerpo de Takina, cuando me mira, hace algo que ningún otro cuerpo hace: se inclina. Milímetros. Imperceptible para cualquiera que no sea yo. Pero se inclina, como una planta que gira hacia la luz sin saber que lo está haciendo.
+        </p>
+
+        <p class="chisato-voice">
+            Sé que rompió el vaso el día que Ken vino por primera vez. Sé que no fue un accidente. Takina Inoue no tiene accidentes manuales — tiene manos que desarman armas en la oscuridad y que suturan heridas sin temblar. Si un vaso se rompió en sus manos, es porque algo dentro de ella se rompió primero.
+        </p>
+
+        <p class="chisato-voice">
+            Sé que escuchaba mis conversaciones con Ken a través de la pared. Sé que sus pasos se detenían frente a mi puerta por las noches y que no tocaban. Sé que el papel que Kurumi encontró en su basura contenía mi nombre — Kurumi no me lo dijo, pero Kurumi no necesita decirme las cosas: su forma de mirarme el día después de encontrarlo me contó todo lo que el papel decía.
+        </p>
+
+        <p class="chisato-voice">
+            Y sé lo que hizo. Lo de las alertas falsas. Lo de los horarios cambiados. Lo de la mentira sobre el «espacio personal.» Lo del informe del vehículo. Lo sé porque Chisato Nishikigi no es solo la chica que esquiva balas — es la chica que <em>ve.</em> Que lee las intenciones antes de que se conviertan en acciones. Que detecta la mentira en la forma en que los labios se mueven medio milímetro antes de pronunciarla.
+        </p>
+
+        <p class="chisato-voice">
+            Lo vi todo. Desde el principio. Lo vi y no dije nada.
+        </p>
+
+        <p class="chisato-voice">
+            ¿Por qué? Porque quería ver qué hacía ella. Quería saber si el sentimiento que yo veía en sus ojos — ese sentimiento que no tenía nombre en su vocabulario de DA pero que yo reconocía porque vive también en mí, en un rincón de mi corazón artificial que ninguna ingeniería puede explicar — era lo suficientemente fuerte como para destruirla. Y si era lo suficientemente fuerte como para reconstruirla después.
+        </p>
+
+        <p class="chisato-voice">
+            Tenía que saber si Takina podía llegar al fondo y encontrar el camino de vuelta. Porque si podía — si era capaz de caer, de romperse, de mirarse en un espejo y no reconocerse, y aun así levantarse y elegir la verdad — entonces lo que sentía era real. No era una obsesión. No era dependencia. No era el reflejo condicionado de una agente que confunde lealtad con amor. Era amor. El de verdad. El que sobrevive a lo peor de ti misma.
+        </p>
+
+        <p class="prose">
+            Era martes por la noche. El café estaba cerrado. Las sillas volteadas sobre las mesas. La máquina de espresso apagada. Las luces bajas — solo la lámpara del mostrador, que proyectaba un círculo de luz cálida sobre la barra como un foco en un escenario vacío. Mika se había ido. Mizuki tenía la noche libre. Kurumi estaba en su habitación.
+        </p>
+
+        <p class="prose">
+            Chisato estaba sola en el café. Limpiaba la barra con un trapo — no porque estuviera sucia, sino porque necesitaba hacer algo con las manos mientras esperaba. Porque estaba esperando. Sabía que Takina vendría. Lo supo desde la mañana, cuando la vio salir del edificio con la chaqueta puesta y una expresión que Chisato conocía: la expresión de alguien que va a hacer algo que le da miedo pero que ha decidido hacer de todas formas.
+        </p>
+
+        <p class="prose">
+            La puerta del café se abrió. No sonó la campanilla — Takina la empujó con el cuidado de alguien que entra a un lugar sagrado. Se quedó parada en el umbral. La luz de la lámpara del mostrador la iluminaba a medias — un lado dorado, el otro en sombra. Su pelo estaba desordenado por el viento. Sus ojos morados estaban rojos en los bordes. Había llorado. Chisato lo supo porque conocía la diferencia entre los ojos de Takina antes y después de algo que la rompe — los conocía como un astrónomo conoce las fases de una estrella.
+        </p>
+
+        <p class="prose">
+            Chisato no la miró. Siguió limpiando la barra. Pero dejó de tararear.
+        </p>
+
+        <!-- ══════ SCENE 2: THE CONFESSION ══════ -->
+
+        <div class="flower-sep">
+            <div class="sep-line"></div>
+            <svg width="16" height="16" viewBox="0 0 40 40" opacity="0.3"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D"/></svg>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena II</span>
+            <span class="scene-name">Lo que se dice cuando no queda nada más</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Vine a decirte algo.</span>
+        </div>
+
+        <p class="prose">
+            Su voz era la más desnuda que Chisato le había escuchado. Sin la planicie de DA. Sin la frialdad estratégica. Sin la máscara. Era la voz de alguien que ha dejado todas sus armas en la puerta y entra a un lugar sabiendo que puede ser destruida y eligiendo entrar de todas formas.
+        </p>
+
+        <p class="prose">
+            Chisato dejó el trapo. No se giró. Se quedó de espaldas, con las manos apoyadas en la barra, mirando la pared donde Mika colgaba las tazas. Silencio.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Manipulé las alertas de DA para sacarte del café cuando Ken venía. Cambié los turnos para que no coincidieran con sus visitas. Le dije a Ken que necesitabas espacio personal. Fabriqué un informe de seguridad vinculando a su compañero de piso con una alerta en nuestra zona. Todo eso lo hice yo. Cada cosa. Cada mentira. Cada movimiento.</span>
+        </div>
+
+        <p class="prose">
+            Pausa. El silencio tenía peso. Era un silencio que se podía medir en gramos.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Lo hice porque estoy enamorada de ti.</span>
+        </div>
+
+        <p class="prose">
+            Las palabras salieron y el mundo no se detuvo. El reloj seguía sonando. La luz seguía proyectando su círculo sobre la barra. La ciudad seguía existiendo al otro lado de las ventanas. Pero algo cambió — no en el espacio, sino en la textura del aire entre las dos personas que lo ocupaban. Como si una membrana invisible que las había separado durante meses se hubiera disuelto en una sola frase.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—No te lo digo para que me perdones. No te lo digo para que sientas lo mismo. Te lo digo porque mereces saberlo. Mereces saber por qué hice lo que hice. Mereces saber que la persona que vive al otro lado de tu pared lleva meses sintiendo algo que no sabe cómo decir y que en vez de decirlo eligió destruir y eso... eso es imperdonable. Lo sé. No pido perdón. No pido correspondencia. Solo digo la verdad. Toda. Por primera vez.</span>
+        </div>
+
+        <p class="prose">
+            Takina se detuvo. Estaba de pie en medio del café, a tres metros de la barra. La distancia habitual. La distancia del perímetro. La distancia que siempre mantuvo.
+        </p>
+
+        <p class="prose">
+            Chisato se giró.
+        </p>
+
+        <p class="prose">
+            Sus ojos estaban rojos. No por el llanto — los ojos de Chisato siempre eran rojos. Pero ahora tenían algo más: un brillo que no era la luz de la lámpara ni el reflejo de las tazas colgadas. Era algo que venía de adentro. Algo que llevaba meses contenido detrás de sonrisas profesionales y tarareos a medio volumen y silencios de cuatro compases que nadie notaba excepto las personas que la conocían lo suficiente como para contar los compases.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—¿Sabes cuánto tiempo esperé a que lo dijeras?</span>
+        </div>
+
+        <!-- ══════ SCENE 3: THE REVELATION ══════ -->
+
+        <div class="flower-sep">
+            <div class="sep-line"></div>
+            <svg width="16" height="16" viewBox="0 0 40 40" opacity="0.3"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FF6B9D"/></svg>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena III</span>
+            <span class="scene-name">Lo que Chisato siempre supo</span>
+        </div>
+
+        <p class="prose">
+            Takina no se movió. Las palabras de Chisato la alcanzaron como una bala que no esperaba — y ella, a diferencia de Chisato, no podía esquivar balas.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—...¿Qué?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Lo sabía, Takina. <em>(caminando hacia ella, despacio)</em> Lo sabía todo. Las alertas falsas, los horarios, lo de Ken. Lo supe desde la segunda semana. Porque te conozco. Porque vivo contigo. Porque mis ojos leen a las personas antes de que decidan moverse, y tú eres la persona que más he leído en toda mi vida.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Si lo sabías... ¿por qué no me detuviste?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Porque necesitaba que llegaras aquí tú sola. Necesitaba saber que podías hacerlo. Que podías caer hasta el fondo y elegir subir. Que podías mirarte en el espejo, no reconocerte, y decidir que la persona que querías ser no era la del reflejo. <em>(voz quebrándose)</em> Necesitaba saber que lo que sentías por mí era más fuerte que lo peor de ti misma.</span>
+        </div>
+
+        <p class="prose">
+            Chisato estaba ahora a un metro de Takina. La distancia se había reducido sin que ninguna de las dos tomara una decisión consciente de avanzar — la gravedad, de nuevo, haciendo lo que la gravedad hace.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Las mariposas con Ken eran reales. No voy a mentir sobre eso. Él me hacía sentir algo que nadie me había hecho sentir: comprendida. Alguien que sabía lo que era vivir con un corazón prestado. Eso fue real, Takina. Fue hermoso. Fue importante.</span>
+        </div>
+
+        <p class="prose">
+            Takina bajó la mirada. Cada palabra era un peso que se añadía a los que ya cargaba. Pero Chisato no había terminado.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Pero lo que siento por ti no se parece a las mariposas. Las mariposas son bonitas. Son ligeras. Vuelan. Lo que siento por ti es algo que no tiene nombre en ningún idioma. Es más pesado. Más profundo. Es la persona que saltó de una torre gritando que su corazón se escapaba para salvarme. Es la persona que curó mi herida a las dos de la mañana con manos que temblaban. Es la persona que rompió un vaso porque no podía romper otra cosa. Es la persona que escribió mi nombre en un papel de noche y lo destruyó porque la realidad de lo que sentía la aterraba más que cualquier misión.</span>
+        </div>
+
+        <p class="chisato-voice">
+            Porque mi corazón artificial late por muchas razones, Takina. Late porque una máquina le dice que lata. Late porque alguien me lo regaló cuando era niña. Late porque la ingeniería es capaz de mantener vivo algo que la biología dejó de sostener.
+        </p>
+
+        <p class="chisato-voice">
+            Pero solo se <em>acelera</em> por una.
+        </p>
+
+        <div class="key-line">
+            <p>«&thinsp;Mi corazón artificial late por muchas razones.<br>Pero solo se acelera por una.&thinsp;»</p>
+        </div>
+
+        <p class="prose">
+            Se abrazaron.
+        </p>
+
+        <p class="prose">
+            No fue un abrazo de película. No fue cinematográfico ni coreografiado ni acompañado de una banda sonora. Fue torpe. Urgente. El abrazo de dos personas que llevan demasiado tiempo conteniendo demasiado y que, al soltar, no saben cómo sostener sin aplastar. Los brazos de Takina rodearon la cintura de Chisato con una fuerza que habría derribado a un adulto de noventa kilos. Los brazos de Chisato rodearon los hombros de Takina con la firmeza de alguien que no piensa soltar. Sus cuerpos encajaron con la torpeza precisa de dos piezas de rompecabezas que fueron cortadas juntas.
+        </p>
+
+        <p class="prose">
+            Chisato tarareó. Por primera vez en semanas. Una melodía que Takina no reconoció — nueva, suave, improvisada. Una melodía que no existía antes de este momento porque fue creada para este momento. Y Takina, con la cara enterrada en el hombro de Chisato, escuchó el tarareo mezclarse con algo más: el latido del corazón artificial. Ese tic cada cuatro latidos. El metrónomo mecánico que le recordaba que Chisato estaba viva. Que seguía viva. Que la máquina seguía funcionando.
+        </p>
+
+        <p class="prose">
+            Pero ahora latía más rápido. Takina lo sintió contra su propio pecho. El tic se aceleró. Un diecisiete por ciento más rápido, tal vez. O un veinte. O un número que no importaba porque lo que significaba sí importaba: que el corazón artificial de Chisato Nishikigi, que latía por ingeniería y no por biología, se aceleraba por algo que la ingeniería no podía explicar.
+        </p>
+
+        <p class="prose">
+            Se aceleraba por ella.
+        </p>
+
+        <!-- ══════ EPILOGUE ══════ -->
+
+        <div class="flower-sep">
+            <div class="sep-line"></div>
+            <svg width="16" height="16" viewBox="0 0 40 40" opacity="0.3"><path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z" fill="#FFD700"/></svg>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="epilogue-header"><span>Epílogo — Semanas después</span></div>
+
+        <p class="prose epilogue">
+            Ken visitó el café un sábado de noviembre. Entró con la chaqueta universitaria, la mochila en un hombro, y un libro nuevo bajo el brazo. La campanilla sonó con el mismo tintineo de siempre. Se sentó en su taburete. Chisato le sirvió su café favorito — americano, granos colombianos, la reserva de Mika — y le dijo que le quedaba debiendo tres horas de conversación sobre Banana Yoshimoto y que pensaba pagarlas con intereses.
+        </p>
+
+        <p class="prose epilogue">
+            Ken rio. Chisato rio. Y Takina, detrás de la barra, le sirvió una sonrisa. No la sonrisa profesional del café. No la sonrisa contenida de alguien que esconde lo que siente. Una sonrisa genuina, pequeña, del tipo que nace cuando has destruido algo y lo has reconstruido y sabes que lo reconstruido no es perfecto pero es honesto, y lo honesto es suficiente.
+        </p>
+
+        <p class="prose epilogue">
+            Ken la miró. Le devolvió la sonrisa. Y en esa mirada compartida — breve, sin palabras, del tipo que contiene una novela entera comprimida en dos segundos — se dijo todo lo que faltaba: el perdón que no necesitaba ser pronunciado porque ya existía, el respeto que se había ganado con verdad en vez de con estrategia, y la aceptación tranquila de que las historias no siempre terminan como uno quiere pero siempre terminan como necesitan.
+        </p>
+
+        <p class="prose epilogue">
+            Los tres rieron.
+        </p>
+
+        <p class="prose epilogue">
+            Mizuki, en su mesa junto a la ventana, lloró leyendo una revista de bodas — la edición de invierno, con un artículo sobre ceremonias en templos nevados que ya tenía marcado con cinco post-its. Kurumi hackeó algo en su rincón — o no hackeó nada, solo tecleaba para mantener las apariencias mientras escuchaba la risa del café llenar el espacio que semanas de silencio habían vaciado. Mika sonrió detrás de la barra con esa sonrisa que tienen los padres cuando ven a sus hijos hacer algo que ellos nunca pudieron hacer: elegir el corazón antes que el miedo.
+        </p>
+
+        <p class="prose epilogue">
+            Café LycoReco siguió abierto. Las sillas se llenaron. Las tazas se vaciaron. La máquina de espresso silbó. La campanilla sonó. Los clientes vinieron y se fueron y volvieron y se fueron otra vez, porque así funcionan los cafés y así funciona la vida: un ciclo de entradas y salidas que se repite con variaciones infinitas, como una canción que nunca suena exactamente igual pero que siempre es reconocible.
+        </p>
+
+        <p class="prose epilogue">
+            Y Chisato tarareó. Una melodía que ahora tenía nombre, aunque solo dos personas en el mundo lo conocían. Lo tarareó mientras servía cafés, mientras limpiaba mesas, mientras esquivaba las quejas de Fuki por teléfono y los informes de Kusunoki por tableta y las preguntas de Mizuki sobre si Takina y ella habían «oficializado algo» porque «necesito saberlo para actualizar mi tabla de planificación de regalo de bodas.»
+        </p>
+
+        <p class="prose epilogue">
+            La vida continuó. No perfecta. No sin cicatrices. No sin la memoria de lo que fue destruido y lo que fue reconstruido con las manos desnudas y la verdad como único material. Pero continuó. Como continúan los corazones — los de carne y los de metal — mientras haya algo que los haga latir.
+        </p>
+
+        <div class="closing-line">
+            <p>«&thinsp;Esto... <em>sí</em> es racional.&thinsp;»</p>
+        </div>
+
+    </div>
+
+    <!-- ============ NOVEL END ============ -->
+    <section class="novel-end">
+        <div class="end-flower">
+            <svg width="60" height="60" viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M20 2 C22 10, 30 14, 38 20 C30 22, 26 30, 20 38 C18 30, 10 26, 2 20 C10 18, 14 10, 20 2Z"
+                      fill="none" stroke="#FF6B9D" stroke-width="0.6" opacity="0.3"/>
+                <circle cx="20" cy="20" r="3" fill="#c0392b" opacity="0.3"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin</p>
+        <p class="end-title">Lycoris in Bloom</p>
+        <p class="end-subtitle">Una novela ligera en 12 episodios</p>
+        <div class="chapter-nav">
+            <a href="index.html">Volver al índice</a>
+            <a href="capitulo-01.html">Releer desde el principio</a>
+        </div>
+        <div class="credits">
+            <p>
+                Basada en el universo de <a href="https://lycorisrecoil.com/" target="_blank" rel="noopener">Lycoris Recoil</a>
+                © A-1 Pictures / Spider Lily / Asaura / Imigimuru.<br>
+                Todos los derechos de los personajes originales pertenecen a sus respectivos creadores.<br><br>
+                Hecho con <span class="heart">♥</span> como proyecto final de literatura.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose, .chisato-voice, .dialogue, .key-line, .closing-line, .flower-sep, .scene-header, .epilogue-header, .cups-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            const colorLayer = document.getElementById('colorLayer');
+
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = Math.min(scrolled / maxScroll, 1);
+
+                if (scrolled > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+
+                if (progress > 0.4) {
+                    colorLayer.style.opacity = (progress - 0.4) * 0.12;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

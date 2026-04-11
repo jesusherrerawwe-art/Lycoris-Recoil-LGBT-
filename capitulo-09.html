@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 9: Colapso — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Raleway:wght@200;300;400&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+        :root {
+            --bg-parchment: #F0E6D3;
+            --bg-parchment-deep: #E8DCC8;
+            --bg-parchment-dark: #D8C8AA;
+            --bg-dark-end: #2A2420;
+            --text-dark: #2A2018;
+            --text-body: #3A3028;
+            --text-soft: #6A5E50;
+            --text-faint: #9A9080;
+            --clock-gold: #A08850;
+            --clock-gold-faint: rgba(160, 136, 80, 0.1);
+            --kurumi-green: #00FF41;
+            --kurumi-bg: #0A0E08;
+            --kurumi-border: rgba(0, 255, 65, 0.15);
+            --takina-lav: #6A7898;
+            --chisato-warm: #C07048;
+            --ken-amber: #B08838;
+            --mika-sage: #608050;
+            --red-pain: #A03028;
+            --silence-grey: #888078;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background: var(--bg-parchment);
+            color: var(--text-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 2;
+        }
+
+        /* ===================== CLOCK SVG (decorative, fixed) ===================== */
+
+        .clock-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+        }
+
+        .clock-bg svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .clock-hand-min {
+            animation: clockSpin 3600s linear infinite;
+            transform-origin: 200px 200px;
+        }
+
+        .clock-hand-hr {
+            animation: clockSpin 43200s linear infinite;
+            transform-origin: 200px 200px;
+        }
+
+        @keyframes clockSpin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* ===================== PROGRESSIVE DARKENING ===================== */
+
+        .darken-layer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: var(--bg-dark-end);
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(240,230,211,0.97), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(240, 230, 211, 0.98);
+            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        .nav-title a:hover { color: var(--clock-gold); }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--clock-gold); }
+        .nav-links .disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-weight: 700;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--bg-parchment-dark);
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-weight: 600;
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            color: var(--text-dark);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main span { color: var(--red-pain); }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.88rem, 2vw, 1rem);
+            color: var(--text-soft);
+            margin-top: 2rem;
+            max-width: 480px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong { color: var(--clock-gold); font-weight: 400; }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene header ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.2rem 2rem;
+            border-top: 1px solid var(--clock-gold-faint);
+            border-bottom: 1px solid var(--clock-gold-faint);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible { opacity: 1; transform: translateY(0); }
+
+        .scene-header .scene-num {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            display: block;
+        }
+
+        .scene-header .scene-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-top: 0.15rem;
+        }
+
+        /* ---- Prose ---- */
+
+        .prose {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 2.1;
+            color: var(--text-body);
+            margin-bottom: 1.6rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose.visible { opacity: 1; transform: translateY(0); }
+        .prose em { color: var(--text-soft); font-style: italic; }
+        .prose strong { font-weight: 700; color: var(--text-dark); }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--clock-gold-faint);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.takina  { color: var(--takina-lav); }
+        .dialogue .speaker.chisato { color: var(--chisato-warm); }
+        .dialogue .speaker.ken     { color: var(--ken-amber); }
+        .dialogue .speaker.mika    { color: var(--mika-sage); }
+        .dialogue .speaker.kurumi  { color: #00CC33; }
+
+        .dialogue .line {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2;
+            color: var(--text-body);
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.6; }
+
+        /* ---- Kurumi's terminal dialogue ---- */
+
+        .kurumi-terminal {
+            margin: 2.5rem 0;
+            padding: 1.5rem;
+            background: var(--kurumi-bg);
+            border: 1px solid var(--kurumi-border);
+            border-radius: 4px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .kurumi-terminal.visible { opacity: 1; transform: translateY(0); }
+
+        .kurumi-terminal .term-speaker {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--kurumi-green);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .kurumi-terminal .term-text {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(0.88rem, 1.8vw, 0.95rem);
+            line-height: 1.9;
+            color: var(--kurumi-green);
+            opacity: 0.8;
+        }
+
+        .kurumi-terminal .term-text em { font-style: italic; opacity: 0.5; }
+
+        /* ---- Tick-tock text (silence at the end) ---- */
+
+        .tick-tock {
+            text-align: center;
+            margin: 2rem 0;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            color: var(--silence-grey);
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .tick-tock.visible { opacity: 0.4; }
+
+        .tick-tock .tick {
+            display: inline-block;
+            font-size: 0.9rem;
+            letter-spacing: 0.5em;
+        }
+
+        .tick-tock.spread .tick { letter-spacing: 1em; }
+        .tick-tock.wide .tick { letter-spacing: 2em; }
+        .tick-tock.vast .tick { letter-spacing: 3.5em; }
+
+        /* ---- Ken's farewell block ---- */
+
+        .ken-farewell {
+            margin: 3rem auto;
+            max-width: 520px;
+            padding: 2rem 2.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(176, 136, 56, 0.04), transparent);
+            border: 1px solid rgba(176, 136, 56, 0.1);
+            border-radius: 4px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .ken-farewell.visible { opacity: 1; transform: translateY(0); }
+
+        .ken-farewell p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(0.93rem, 2.2vw, 1.05rem);
+            line-height: 2.1;
+            color: var(--ken-amber);
+        }
+
+        /* ---- Clock separator ---- */
+
+        .clock-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .clock-sep.visible { opacity: 1; }
+
+        .clock-sep .sep-line {
+            width: 40px; height: 1px;
+            background: var(--clock-gold);
+            opacity: 0.15;
+        }
+
+        .clock-sep .clock-icon {
+            width: 20px; height: 20px;
+            border: 1px solid var(--clock-gold);
+            border-radius: 50%;
+            opacity: 0.2;
+            position: relative;
+        }
+
+        .clock-sep .clock-icon::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 50%;
+            width: 1px; height: 5px;
+            background: var(--clock-gold);
+            transform: translateX(-50%);
+        }
+
+        .clock-sep .clock-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 4px; height: 1px;
+            background: var(--clock-gold);
+            transform: translateY(-50%);
+        }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            text-align: center;
+            color: var(--silence-grey);
+            margin: 4rem auto 2rem;
+            max-width: 500px;
+            line-height: 2.2;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.5s, transform 1.5s;
+        }
+
+        .final-line.visible { opacity: 1; transform: translateY(0); }
+        .final-line .red { color: var(--red-pain); }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--bg-parchment-deep);
+            border-top: 1px solid var(--clock-gold-faint);
+        }
+
+        .end-ornament { margin-bottom: 2rem; opacity: 0.2; }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-soft);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-act-close {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--red-pain);
+            opacity: 0.4;
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid var(--clock-gold-faint);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover { border-color: var(--clock-gold); color: var(--clock-gold); }
+        .chapter-nav a.next-chapter { border-color: rgba(160,48,40,0.15); color: var(--red-pain); }
+        .chapter-nav a.next-chapter:hover { background: rgba(160,48,40,0.04); }
+        .chapter-nav a.disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(25px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+            .clock-bg { width: 300px; height: 300px; }
+            .ken-farewell { padding: 1.5rem; max-width: 95%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ CLOCK BACKGROUND ============ -->
+    <div class="clock-bg" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="190" fill="none" stroke="currentColor" stroke-width="0.5"/>
+            <circle cx="200" cy="200" r="3" fill="currentColor"/>
+            <!-- Hour marks -->
+            <line x1="200" y1="15" x2="200" y2="30" stroke="currentColor" stroke-width="1"/>
+            <line x1="200" y1="370" x2="200" y2="385" stroke="currentColor" stroke-width="1"/>
+            <line x1="15" y1="200" x2="30" y2="200" stroke="currentColor" stroke-width="1"/>
+            <line x1="370" y1="200" x2="385" y2="200" stroke="currentColor" stroke-width="1"/>
+            <!-- Hands -->
+            <line class="clock-hand-min" x1="200" y1="200" x2="200" y2="40" stroke="currentColor" stroke-width="0.8"/>
+            <line class="clock-hand-hr" x1="200" y1="200" x2="200" y2="80" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+    </div>
+
+    <!-- ============ DARKENING LAYER ============ -->
+    <div class="darken-layer" id="darkenLayer"></div>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-08.html">← Anterior</a>
+            <a href="capitulo-10.html">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto III · Guerra Silenciosa</p>
+        <div class="chapter-number">09</div>
+        <h1 class="chapter-title-main"><span>Colapso</span></h1>
+        <p class="chapter-epigraph">
+            «&thinsp;El reloj no se detuvo cuando la verdad salió a la luz.<br>
+            Solo se hizo más ruidoso.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong>Perspectiva:</strong> Narrador omnisciente</span>
+            <span class="meta-item"><strong>Tema:</strong> El Reloj</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: KURUMI KNOWS ══════ -->
+
+        <div class="scene-header">
+            <span class="scene-num">Escena I</span>
+            <span class="scene-name">El código no miente</span>
+        </div>
+
+        <p class="prose">
+            Kurumi lo descubrió un martes a las tres de la mañana, de la forma en que descubría la mayoría de las cosas: siguiendo un hilo de datos hasta que el hilo se convertía en una cuerda y la cuerda en una soga.
+        </p>
+
+        <p class="prose">
+            Había empezado por la anomalía de la alerta de DA — el campo de asignación modificado que detectó semanas atrás. En aquel momento lo archivó como sospechoso pero no urgente. Ahora, después de observar el deterioro progresivo de Chisato, la desaparición gradual de Ken, y el silencio impenetrable de Takina, decidió tirar del hilo hasta el final.
+        </p>
+
+        <p class="prose">
+            Tres horas de rastreo. Tres horas de comparar registros, cruzar timestamps, analizar los logs de acceso de la tableta de Takina. Lo que encontró no era un hackeo sofisticado — Takina no tenía las habilidades de Kurumi para eso. Era algo más simple y, por eso mismo, más difícil de detectar a primera vista: ediciones manuales en los campos de texto de los informes locales antes de que se sincronizaran con la red. Cambios pequeños. Quirúrgicos. Del tipo que solo alguien con entrenamiento en operaciones de campo sabría hacer.
+        </p>
+
+        <p class="prose">
+            La alerta de DA que sacó a Chisato del café el primer lunes: editada. El registro de seguridad del vehículo vinculado al compañero de Ken: fabricado. Los cambios de horario en el sistema del café que casualmente coincidían con las horas de visita de Ken: todos sugeridos por Takina.
+        </p>
+
+        <p class="prose">
+            Kurumi se quitó los lentes. Los limpió con el borde de la camiseta. Se los volvió a poner. La pantalla seguía mostrando lo mismo. Los datos no cambian porque los mires más tiempo — solo se vuelven más innegables.
+        </p>
+
+        <div class="kurumi-terminal">
+            <span class="term-speaker">Kurumi — registro personal</span>
+            <span class="term-text">Tres alteraciones confirmadas en el sistema local de LycoReco. Todas realizadas desde la tableta asignada a Takina Inoue. Todas diseñadas para reducir o eliminar el contacto entre Chisato Nishikigi y Ken Fujimoto. Patrón consistente con operaciones de aislamiento psicológico — módulo 7B del manual de campo de DA. <em>Nota personal: No quería tener razón.</em></span>
+        </div>
+
+        <p class="prose">
+            Cerró la laptop. Se quedó sentada en la oscuridad de su habitación, escuchando los sonidos de la casa dormida. El zumbido del servidor. El goteo del grifo del baño que nadie se acordaba de arreglar. Y, a través de la pared, la respiración de Takina — irregular, cortada, la respiración de alguien que no duerme pero que finge hacerlo.
+        </p>
+
+        <p class="prose">
+            Kurumi tenía trece años. Había fingido su propia muerte. Había vivido en las sombras de la red más peligrosa del mundo. Había visto cosas que la mayoría de los adultos no verían en toda su vida. Pero nada de eso la había preparado para esto: descubrir que alguien que le importaba había hecho algo terrible por una razón que Kurumi entendía perfectamente.
+        </p>
+
+        <p class="prose">
+            Porque Kurumi entendía el amor. No el amor romántico — no todavía, tal vez nunca, eso estaba por verse. Pero entendía el impulso de proteger algo que valoras tanto que eres capaz de destruir todo lo demás para conservarlo. Entendía que el código y las personas funcionan de maneras opuestas: el código hace exactamente lo que le pides, sin consecuencias imprevistas; las personas hacen lo que sienten, y las consecuencias son siempre imprevistas.
+        </p>
+
+        <p class="prose">
+            Esperó hasta la tarde del día siguiente. Esperó a que Chisato saliera a hacer las compras del café. Esperó a que Mika se fuera a su revisión médica mensual. Esperó a que Mizuki empezara su turno nocturno de «inteligencia personal.» Y cuando el segundo piso quedó vacío excepto por dos personas — ella y Takina —, caminó hasta la puerta de su habitación y tocó dos veces.
+        </p>
+
+        <!-- ══════ SCENE 2: THE CONFRONTATION ══════ -->
+
+        <div class="clock-sep">
+            <div class="sep-line"></div>
+            <div class="clock-icon"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena II</span>
+            <span class="scene-name">Dos golpes en la puerta</span>
+        </div>
+
+        <p class="prose">
+            Takina abrió. Kurumi estaba en el pasillo con su laptop bajo el brazo y esa expresión que usaba cuando había resuelto un problema de código particularmente difícil — concentrada, quieta, sin emoción visible, como una superficie de agua que no revela lo que hay debajo.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—¿Puedo pasar?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Estoy ocupada.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—No, no lo estás. Llevas cuarenta minutos sentada en tu cama mirando la pared. Lo sé porque tu tableta no ha registrado actividad y la señal de tu teléfono ha estado estática desde las 15:22.</span>
+        </div>
+
+        <p class="prose">
+            Takina la miró. Kurumi le sostuvo la mirada con la impasibilidad de alguien que ha apostado todo a una sola mano y está esperando ver las cartas del otro.
+        </p>
+
+        <p class="prose">
+            Se hizo a un lado. Kurumi entró. Se sentó en la silla del escritorio. Abrió la laptop. Giró la pantalla hacia Takina.
+        </p>
+
+        <div class="kurumi-terminal">
+            <span class="term-speaker">Kurumi</span>
+            <span class="term-text">—Hackeé los registros de DA. Bueno, técnicamente no hackeé nada — la puerta trasera ya estaba abierta porque yo misma la dejé ahí hace meses. Lo que hice fue seguir tus huellas. Y esto es lo que encontré.</span>
+        </div>
+
+        <p class="prose">
+            La pantalla mostraba tres ventanas abiertas. En la primera, el registro de la alerta de DA falsificada con el campo de asignación original resaltado en rojo junto a la versión que Takina había editado. En la segunda, el informe de seguridad del vehículo con las marcas de edición destacadas en amarillo. En la tercera, un gráfico de los horarios del café superpuesto con las horas de visita de Ken, mostrando una correlación que no podía ser coincidencia.
+        </p>
+
+        <p class="prose">
+            Takina miró la pantalla. No dijo nada. Su cara no se movió. Pero sus manos — esas manos que habían curado la herida de Chisato, que habían roto un vaso, que habían escrito un nombre en un papel y luego lo habían destruido — sus manos se cerraron sobre sus rodillas con una fuerza que blanqueó los nudillos.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Sé lo que hiciste. Sé por qué lo hiciste. Y sé que en algún lugar de ti sabes que estuvo mal. <em>(pausa)</em> Lo que no sé es qué vas a hacer ahora.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—...</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Takina. Mírame.</span>
+        </div>
+
+        <p class="prose">
+            Takina la miró. Los ojos morados estaban secos pero opacos, como cristal empañado. Kurumi, que había visto ese tipo de ojos en su propio reflejo cuando vivía escondida y fingía ser alguien que no era, reconoció lo que veía: el vacío particular de alguien que se ha perdido a sí misma.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Puedo borrar estas huellas. Puedo limpiar los registros para que nadie más los encuentre. Puedo hacer que, desde el punto de vista técnico, nada de esto haya pasado. Pero no puedo borrar lo que le hiciste a Ken. No puedo borrar lo que le hiciste a Chisato. Y no puedo borrar lo que te hiciste a ti misma.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—<em>(voz apenas audible)</em> ...Yo sé.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—¿Qué sabes exactamente?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Que no soy yo. Que lo que hice no es algo que yo haría. Que en algún punto dejé de ser Takina y empecé a ser... otra cosa. Algo que DA construyó. Algo frío. Algo que calcula y ejecuta sin pensar en las consecuencias para las personas que...</span>
+        </div>
+
+        <p class="prose">
+            Se detuvo. La frase se cortó como un cable sometido a demasiada tensión. No lloró. Pero su voz, al detenerse, dejó un hueco en el aire que era más elocuente que cualquier lágrima.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Takina. No soy yo quien debería preocuparte.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—...¿Qué?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker kurumi">Kurumi</span>
+            <span class="line">—Ken viene hoy. Le mandó un mensaje a Chisato esta mañana. Dice que viene a despedirse.</span>
+        </div>
+
+        <p class="prose">
+            La palabra «despedirse» cayó en la habitación como una piedra en un pozo. Cayó durante mucho tiempo antes de tocar el fondo.
+        </p>
+
+        <!-- ══════ SCENE 3: KEN'S LAST VISIT ══════ -->
+
+        <div class="clock-sep">
+            <div class="sep-line"></div>
+            <div class="clock-icon"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena III</span>
+            <span class="scene-name">La última campanilla</span>
+        </div>
+
+        <p class="prose">
+            La campanilla sonó a las cuatro de la tarde. El sonido era el mismo de siempre — bronce contra bronce, dulce, anticuado — pero el café que lo recibió era un lugar diferente al que Ken Fujimoto había encontrado la primera vez que cruzó ese umbral con las manos en los bolsillos y una sonrisa que era una invitación al mundo.
+        </p>
+
+        <p class="prose">
+            Ken entró sin sonrisa. No porque estuviera enojado — Ken Fujimoto no tenía la capacidad de estar enojado con alguien durante más de una hora antes de buscarle explicaciones, contexto, matices. Entró sin sonrisa porque la sonrisa requería una energía que las últimas semanas le habían extraído gota a gota, como un grifo que pierde agua sin que nadie lo note hasta que el tanque está vacío.
+        </p>
+
+        <p class="prose">
+            El café estaba casi vacío. Un anciano en la mesa del fondo leía el periódico. Mika estaba detrás de la barra. Chisato salió de la cocina cuando escuchó la campanilla y se detuvo a tres metros de la barra, con un trapo en la mano y una expresión que intentaba ser de bienvenida pero que no podía esconder lo que había debajo: miedo. Miedo de que lo que estaba a punto de pasar fuera exactamente lo que sabía que iba a pasar.
+        </p>
+
+        <p class="prose">
+            Takina estaba sentada al final de la barra. Inmóvil. Con las manos sobre la superficie de madera y los ojos fijos en un punto del aire que no existía. Kurumi le había dicho que Ken venía. Y Takina, en lugar de huir — cosa que habría sido fácil, cosa que la versión de las últimas semanas habría hecho sin pensarlo —, decidió quedarse. Porque la versión del espejo, la versión fría, la versión que calculaba y manipulaba, no era la que estaba sentada en ese taburete. La que estaba sentada era la otra Takina. La que rompió el vaso. La que escribió un nombre en un papel. La que necesitaba ver las consecuencias de lo que había hecho, aunque verlas la destruyera.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Hola, Chisato.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker chisato">Chisato</span>
+            <span class="line">—Hola, Ken. <em>(intentando sonreír)</em> ¿Quieres...?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—No, gracias. No me voy a quedar mucho. Solo... quería verte. Una vez más. Antes de dejar de venir.</span>
+        </div>
+
+        <p class="prose">
+            «Dejar de venir.» Chisato tragó. El trapo en su mano se arrugó como si sus dedos tuvieran voluntad propia. Mika, detrás de la barra, detuvo el movimiento de sus manos sobre la máquina de espresso. El anciano del fondo pasó una página de su periódico. El mundo seguía funcionando alrededor de un momento que merecía que el mundo se detuviera.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—No sé qué pasó, Chisato. De verdad que no. Hace un mes estábamos sentados aquí hablando de libros y de corazones que necesitan ayuda para latir, y todo se sentía como algo que había estado esperando toda mi vida. Y de pronto... <em>(buscando las palabras)</em> ...de pronto empezó a sentirse como si algo estuviera empujándote lejos de mí. No tú. Algo fuera de ti. Algo que no puedo ver.</span>
+        </div>
+
+        <p class="prose">
+            Takina, al final de la barra, sintió que cada palabra era un clavo que entraba en madera viva.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Me dijeron que necesitabas espacio. Respeté eso. Vine menos. Hablé menos. Intenté ser lo que creí que necesitabas que fuera. Pero el espacio no ayudó. Y cuando me preguntaste por el coche de mi compañero de piso con esa voz que no era la tuya, entendí que algo había cambiado. Algo que yo no provoqué y que tú no me vas a explicar.</span>
+        </div>
+
+        <p class="prose">
+            Chisato abrió la boca. La cerró. La volvió a abrir. Pero no salió sonido. Chisato Nishikigi, la chica que siempre tenía una palabra, un chiste, una broma, un tarareo para llenar cualquier vacío, estaba muda. Y esa mudez era más aterradora que cualquier cosa que pudiera haber dicho.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Alguien cerca de ti no me quiere aquí.</span>
+        </div>
+
+        <p class="prose">
+            Lo dijo mirando a Chisato. Pero después, lentamente — con la lentitud de alguien que gira una página que sabe que contiene la respuesta que no quiere leer —, giró la cabeza y miró a Takina.
+        </p>
+
+        <p class="prose">
+            Y Takina le sostuvo la mirada.
+        </p>
+
+        <p class="prose">
+            No la desvió. No la esquivó. No la escondió detrás de la máscara de hielo que DA le había enseñado a construir. Le sostuvo la mirada con los ojos abiertos, desnudos, con todo lo que contenían visible por primera vez — la culpa, el dolor, el amor envenenado, la vergüenza de ser exactamente la persona que Ken sospechaba que era.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—<em>(volviendo a mirar a Chisato, suavemente)</em> Y creo que ya sé quién.</span>
+        </div>
+
+        <p class="prose">
+            Chisato miró a Takina.
+        </p>
+
+        <p class="prose">
+            Takina miró a Chisato.
+        </p>
+
+        <p class="prose">
+            El café quedó en silencio.
+        </p>
+
+        <p class="prose">
+            No el silencio cómodo de las tardes tranquilas. No el silencio profesional de una misión en curso. Este era un silencio con dientes. Un silencio que mordía. Un silencio que contenía todas las palabras que nadie estaba diciendo y que, por no ser dichas, ocupaban más espacio que si fueran gritadas.
+        </p>
+
+        <div class="ken-farewell">
+            <p>Ken se levantó. Dejó sobre la barra un billete por el café que no pidió. Miró a Chisato una última vez con esa expresión que tienen las personas que aceptan una pérdida sin convertirla en resentimiento — la expresión más difícil del catálogo humano, porque requiere que el dolor y la generosidad coexistan en el mismo rostro.<br><br>No dijo «hasta mañana.» No prometió volver. Solo dijo:</p>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Cuídate, Chisato. Y cuida lo que tienes. A veces lo que más necesitamos está más cerca de lo que creemos. Solo que no lo vemos porque estamos mirando en la dirección equivocada.</span>
+        </div>
+
+        <p class="prose">
+            Se fue. La campanilla sonó por última vez para Ken Fujimoto. El eco permaneció tres segundos. Después, nada.
+        </p>
+
+        <!-- ══════ SCENE 4: THE AFTERMATH ══════ -->
+
+        <div class="clock-sep">
+            <div class="sep-line"></div>
+            <div class="clock-icon"></div>
+            <div class="sep-line"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena IV</span>
+            <span class="scene-name">Después del eco</span>
+        </div>
+
+        <p class="prose">
+            Chisato no se movió durante quince segundos. Una eternidad en tiempo-Chisato. Quince segundos en los que el café entero contuvo la respiración — Mika con las manos inmóviles sobre la barra, Kurumi observando desde la entrada de la cocina donde se había posicionado sin que nadie la viera, el anciano del fondo mirando por encima de su periódico con la expresión discreta de quien sabe que no debe intervenir pero no puede dejar de mirar.
+        </p>
+
+        <p class="prose">
+            Luego Chisato se dio la vuelta. Caminó hacia la trastienda. No corrió — Chisato Nishikigi no corre de las cosas. Camina hacia ellas o camina lejos de ellas, pero siempre caminando, siempre con esa postura recta que le enseñaron en DA y que usa como columna vertebral emocional cuando la biológica no es suficiente. Abrió la puerta de la trastienda. Entró. Cerró la puerta detrás de ella.
+        </p>
+
+        <p class="prose">
+            El clic de la cerradura fue el sonido más pequeño y más devastador que Café LycoReco había escuchado desde la noche en que un vaso se rompió en dos.
+        </p>
+
+        <p class="prose">
+            Takina se quedó en la barra.
+        </p>
+
+        <p class="prose">
+            Sola.
+        </p>
+
+        <p class="prose">
+            El reloj de pared — el que Mika había colgado cuando abrió el café, un reloj analógico con números romanos y un mecanismo que producía un tic-tac audible solo cuando el resto del mundo callaba — empezó a sonar. No porque hubiera empezado a funcionar en ese momento — siempre había funcionado, siempre había producido ese sonido, desde el primer día. Solo que nadie lo escuchaba. El café siempre tenía suficiente ruido — conversaciones, tarareos, risas, el silbido de la espresso, el tecleo de Kurumi, la música de las revistas de Mizuki — como para tapar el tic-tac.
+        </p>
+
+        <p class="prose">
+            Ahora no había nada que lo tapara.
+        </p>
+
+        <div class="tick-tock"><span class="tick">tic, tac, tic, tac</span></div>
+
+        <p class="prose">
+            Takina escuchó el reloj. Escuchó cada tic como un segundo que se restaba de algo que no podía recuperar. Cada tac como un recordatorio de que el tiempo avanza en una sola dirección y que las cosas que destruyes en un momento no se reconstruyen en el siguiente.
+        </p>
+
+        <div class="tick-tock spread"><span class="tick">tic, tac, tic, tac</span></div>
+
+        <p class="prose">
+            Mika se acercó a la barra. No dijo nada. Solo empezó a recoger las tazas con movimientos lentos, metódicos, con el peso de un hombre que ha visto este tipo de silencio antes — en otra vida, con otra persona, por las mismas razones — y que sabe que las palabras, en este momento, son inútiles. Lo único que se puede hacer es seguir moviendo las manos. Seguir lavando los vasos. Seguir existiendo en el mismo espacio que el dolor, sin intentar arreglarlo, sin intentar minimizarlo, solo acompañándolo.
+        </p>
+
+        <div class="tick-tock wide"><span class="tick">tic, tac, tic, tac</span></div>
+
+        <p class="prose">
+            Desde la puerta de la trastienda no salía ningún sonido. Chisato estaba al otro lado, en silencio. Chisato, que nunca estaba en silencio. Chisato, que llenaba cada espacio con su voz, su risa, su tarareo. Chisato, que era ruido y luz y movimiento, estaba al otro lado de una puerta cerrada, sin hacer ningún sonido, y ese no-sonido era más ensordecedor que cualquier explosión que Takina hubiera escuchado en cualquier misión.
+        </p>
+
+        <div class="tick-tock vast"><span class="tick">tic,   tac,   tic,   tac</span></div>
+
+        <p class="prose">
+            El reloj seguía sonando. El café estaba vacío — el anciano se había ido mientras nadie miraba, dejando unas monedas sobre la mesa y el periódico doblado como si quisiera preservar la dignidad del lugar con un gesto de orden. Las luces de la calle empezaban a encenderse afuera. El sol se ponía sobre Asakusa con la indiferencia de los fenómenos naturales que ocurren sin importar lo que pase debajo de ellos.
+        </p>
+
+        <p class="prose">
+            Takina seguía sentada en la barra. Sin moverse. Sin hablar. Con las manos sobre la madera, los dedos extendidos, como si estuviera midiendo la distancia entre ella y la puerta de la trastienda. Tres metros. La misma distancia que había mantenido detrás de Chisato y Ken en el festival. La distancia del perímetro de seguridad. La distancia que Takina Inoue había perfeccionado para estar cerca sin estar presente.
+        </p>
+
+        <p class="prose">
+            Pero ahora esos tres metros eran un abismo. Y la puerta de la trastienda era la orilla opuesta de algo que Takina no sabía cómo cruzar.
+        </p>
+
+        <p class="prose">
+            Porque cruzarla significaría enfrentar a Chisato. Y enfrentar a Chisato significaría decir la verdad. Y decir la verdad significaría que Chisato la miraría con esos ojos rojos que leían el futuro medio segundo antes de que ocurriera y vería, finalmente, lo que Takina había hecho. Y lo que Takina era. Y lo que Takina sentía.
+        </p>
+
+        <p class="prose">
+            Todo al mismo tiempo. Sin filtro. Sin máscara. Sin los tres metros de distancia que la habían protegido durante meses.
+        </p>
+
+        <p class="prose">
+            El reloj marcó las siete de la tarde. Luego las ocho. Luego las nueve. Takina no se movió. La trastienda siguió en silencio. Mika terminó de limpiar, apagó la máquina de espresso, colgó el trapo, y subió las escaleras sin decir una palabra. Kurumi lo siguió poco después, su laptop bajo el brazo, sus pasos silenciosos como los de alguien que sale de una habitación donde alguien está durmiendo y no quiere despertarlo.
+        </p>
+
+        <p class="prose">
+            A las diez de la noche, Café LycoReco estaba a oscuras. Solo la luz del reloj de pared proyectaba un resplandor tenue sobre la barra. Takina seguía sentada. La puerta de la trastienda seguía cerrada.
+        </p>
+
+        <p class="prose">
+            Y el reloj seguía sonando.
+        </p>
+
+        <p class="final-line">
+            El silencio de Chisato detrás de la puerta<br>
+            era más ruidoso que cualquier fuego artificial.<br><br>
+            El silencio de Takina frente a la barra<br>
+            era más pesado que cualquier bala.<br><br>
+            Y el reloj entre las dos<br>
+            marcaba cada segundo<br>
+            con la precisión <span class="red">insoportable</span><br>
+            de las cosas que no se pueden deshacer.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="30" height="30" viewBox="0 0 30 30">
+                <circle cx="15" cy="15" r="12" fill="none" stroke="#A08850" stroke-width="0.8" opacity="0.3"/>
+                <line x1="15" y1="15" x2="15" y2="6" stroke="#A08850" stroke-width="0.6" opacity="0.3"/>
+                <line x1="15" y1="15" x2="22" y2="15" stroke="#A08850" stroke-width="0.8" opacity="0.3"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 9</p>
+        <p class="end-title">«&thinsp;Colapso&thinsp;»</p>
+        <p class="end-act-close">— Fin del Acto III: Guerra Silenciosa —</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-08.html">← Capítulo 8</a>
+            <a href="capitulo-10.html" class="next-chapter">Capítulo 10: Lo que quiero hacer, máxima prioridad →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose, .dialogue, .kurumi-terminal, .ken-farewell, .tick-tock, .final-line, .clock-sep, .scene-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            const darken = document.getElementById('darkenLayer');
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = Math.min(scrolled / maxScroll, 1);
+
+                if (scrolled > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+
+                darken.style.opacity = progress * 0.35;
+            });
+        });
+    </script>
+</body>
+</html>

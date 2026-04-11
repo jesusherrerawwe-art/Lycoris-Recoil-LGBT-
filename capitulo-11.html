@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 11: Dos cafés, una verdad — Lycoris in Bloom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+        :root {
+            --bg-clean: #FFFEF7;
+            --bg-warm: #FFF9F0;
+            --takina-lav: #8898B8;
+            --takina-bg: #F0F2F8;
+            --takina-border: rgba(136, 152, 184, 0.15);
+            --ken-amber: #C0A040;
+            --ken-bg: #FFF8E8;
+            --ken-border: rgba(192, 160, 64, 0.15);
+            --merge-pink: #E8C8D0;
+            --merge-bg: #FFF5F8;
+            --text-dark: #2A2830;
+            --text-body: #3A3840;
+            --text-soft: #6A6870;
+            --text-faint: #9A98A0;
+            --chisato-warm: #D08050;
+            --border-light: rgba(0,0,0,0.04);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-clean);
+            color: var(--text-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.95;
+        }
+
+        /* ===================== TOP NAV ===================== */
+
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(255,254,247,0.97), transparent);
+            transition: all 0.3s;
+        }
+
+        .top-nav.scrolled {
+            background: rgba(255,254,247,0.98);
+            box-shadow: 0 1px 8px rgba(0,0,0,0.03);
+        }
+
+        .nav-title {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .nav-title a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        .nav-title a:hover { color: var(--text-dark); }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--text-dark); }
+        .nav-links .disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== TWO CUPS HEADER ===================== */
+
+        .cups-header {
+            text-align: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .cups-header.visible { opacity: 1; transform: translateY(0); }
+
+        .cups-header svg { opacity: 0.25; }
+
+        /* ===================== CHAPTER HERO ===================== */
+
+        .chapter-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .act-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .chapter-number {
+            font-weight: 600;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--border-light);
+            margin-bottom: -0.5rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .chapter-title-main {
+            font-weight: 600;
+            font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+            color: var(--text-dark);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .chapter-title-main .lav { color: var(--takina-lav); }
+        .chapter-title-main .amb { color: var(--ken-amber); }
+
+        .chapter-epigraph {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.88rem, 2vw, 1rem);
+            color: var(--text-soft);
+            margin-top: 2rem;
+            max-width: 500px;
+            line-height: 1.8;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .meta-item {
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .meta-item strong { font-weight: 500; }
+        .meta-item strong.lav { color: var(--takina-lav); }
+        .meta-item strong.amb { color: var(--ken-amber); }
+
+        /* ===================== PROSE CONTAINER ===================== */
+
+        .prose-container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ---- Scene header ---- */
+
+        .scene-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.2rem 2rem;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .scene-header.visible { opacity: 1; transform: translateY(0); }
+
+        .scene-header .scene-num {
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            display: block;
+        }
+
+        .scene-header .scene-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-top: 0.15rem;
+        }
+
+        /* ---- Prose (Takina column — lavender tint) ---- */
+
+        .prose-tak {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 2;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            padding-left: 1rem;
+            border-left: 2px solid var(--takina-border);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose-tak.visible { opacity: 1; transform: translateY(0); }
+        .prose-tak em { color: var(--takina-lav); font-style: italic; }
+
+        /* ---- Prose (Ken column — amber tint) ---- */
+
+        .prose-ken {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 2;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            padding-left: 1rem;
+            border-left: 2px solid var(--ken-border);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose-ken.visible { opacity: 1; transform: translateY(0); }
+        .prose-ken em { color: var(--ken-amber); font-style: italic; }
+
+        /* ---- Merged prose (when they reach understanding) ---- */
+
+        .prose-merge {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            font-weight: 400;
+            line-height: 2;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .prose-merge.visible { opacity: 1; transform: translateY(0); }
+        .prose-merge em { color: var(--chisato-warm); font-style: italic; }
+        .prose-merge strong { font-weight: 600; color: var(--text-dark); }
+
+        /* ---- Dialogue ---- */
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border-light);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .dialogue.visible { opacity: 1; transform: translateY(0); }
+
+        .dialogue .speaker {
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .dialogue .speaker.takina { color: var(--takina-lav); }
+        .dialogue .speaker.ken    { color: var(--ken-amber); }
+
+        .dialogue .line {
+            font-size: clamp(0.93rem, 2vw, 1.02rem);
+            line-height: 2;
+            color: var(--text-body);
+        }
+
+        .dialogue .line em { font-style: italic; opacity: 0.6; }
+
+        /* ---- Ken's revelation block ---- */
+
+        .ken-reveal {
+            margin: 2.5rem auto;
+            max-width: 560px;
+            padding: 2rem 2.5rem;
+            text-align: center;
+            background: var(--ken-bg);
+            border: 1px solid var(--ken-border);
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .ken-reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .ken-reveal p {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+            line-height: 2.1;
+            color: var(--ken-amber);
+        }
+
+        /* ---- Silence block (shared coffee moment) ---- */
+
+        .shared-silence {
+            margin: 3rem auto;
+            max-width: 400px;
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--takina-bg) 0%, var(--bg-clean) 50%, var(--ken-bg) 100%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 1.2s;
+        }
+
+        .shared-silence.visible { opacity: 1; }
+
+        .shared-silence p {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.9rem, 2vw, 0.98rem);
+            line-height: 2;
+            color: var(--text-soft);
+        }
+
+        /* ---- Cup separator ---- */
+
+        .cup-sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3.5rem 0;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .cup-sep.visible { opacity: 1; }
+
+        .cup-sep .sep-line {
+            width: 40px;
+            height: 1px;
+        }
+
+        .cup-sep .sep-line.lav { background: var(--takina-lav); opacity: 0.2; }
+        .cup-sep .sep-line.amb { background: var(--ken-amber); opacity: 0.2; }
+
+        .cup-sep .sep-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--merge-pink);
+            opacity: 0.3;
+        }
+
+        /* ---- Final line ---- */
+
+        .final-line {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            text-align: center;
+            color: var(--text-soft);
+            margin: 4rem auto 2rem;
+            max-width: 520px;
+            line-height: 2.2;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.5s, transform 1.5s;
+        }
+
+        .final-line.visible { opacity: 1; transform: translateY(0); }
+        .final-line .lav { color: var(--takina-lav); }
+        .final-line .amb { color: var(--ken-amber); }
+        .final-line .warm { color: var(--chisato-warm); }
+
+        /* ===================== CHAPTER END ===================== */
+
+        .chapter-end {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--bg-warm);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .end-ornament { margin-bottom: 2rem; }
+
+        .end-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .end-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-soft);
+            margin-bottom: 3rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-nav a {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            text-decoration: none;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            transition: all 0.3s;
+        }
+
+        .chapter-nav a:hover { border-color: var(--text-soft); color: var(--text-dark); }
+        .chapter-nav a.next-chapter { border-color: rgba(208,128,80,0.2); color: var(--chisato-warm); }
+        .chapter-nav a.next-chapter:hover { background: rgba(208,128,80,0.04); }
+        .chapter-nav a.disabled { opacity: 0.3; pointer-events: none; }
+
+        /* ===================== ANIMATIONS ===================== */
+
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(25px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        @media (max-width: 600px) {
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .prose-container { padding: 0 1.5rem 4rem; }
+            .chapter-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+            .ken-reveal { padding: 1.5rem; max-width: 95%; }
+            .shared-silence { max-width: 90%; border-radius: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ TOP NAVIGATION ============ -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-title"><a href="index.html">Lycoris in Bloom</a></div>
+        <div class="nav-links">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-10.html">← Anterior</a>
+            <a href="capitulo-12.html">Siguiente →</a>
+        </div>
+    </nav>
+
+    <!-- ============ CHAPTER HERO ============ -->
+    <section class="chapter-hero">
+        <p class="act-label">Acto IV · Recoil del Corazón</p>
+        <div class="chapter-number">11</div>
+        <h1 class="chapter-title-main"><span class="lav">Dos</span> cafés, <span class="amb">una</span> verdad</h1>
+        <p class="chapter-epigraph">
+            «&thinsp;Fui a pedirle perdón a la persona que destruí.<br>
+            Me dio algo que no merecía: comprensión.&thinsp;»
+        </p>
+        <div class="chapter-meta">
+            <span class="meta-item"><strong class="lav">Takina</strong> · <strong class="amb">Ken</strong></span>
+            <span class="meta-item"><strong>Tema:</strong> Dos Tazas</span>
+        </div>
+    </section>
+
+    <!-- ============ PROSE ============ -->
+    <div class="prose-container">
+
+        <!-- ══════ SCENE 1: FINDING KEN ══════ -->
+
+        <div class="scene-header">
+            <span class="scene-num">Escena I</span>
+            <span class="scene-name">El campus</span>
+        </div>
+
+        <p class="prose-tak">
+            La Universidad de Tokyo era un mundo que Takina no conocía. No la universidad como concepto — DA le había enseñado más de lo que cualquier universidad podía ofrecer en términos de conocimiento aplicado. Lo que no conocía era la atmósfera. Los grupos de estudiantes caminando entre edificios de ladrillo con mochilas demasiado pesadas y conversaciones demasiado ruidosas. Las bicicletas apoyadas contra los árboles del campus Hongo. Los carteles de clubes de lectura, festivales de cine, torneos de ajedrez. Un mundo donde las personas de su edad hacían cosas normales — estudiar, reír, equivocarse, crecer — sin que nadie les pusiera un arma en las manos a los seis años y les dijera que su propósito era eliminar amenazas.
+        </p>
+
+        <p class="prose-tak">
+            Encontrar a Ken no fue difícil. Takina tenía acceso a su horario a través de la base de datos que ya había violado una vez — la ironía de usar la misma herramienta de destrucción como instrumento de reparación no se le escapaba. Sabía que los jueves tenía clase de Literatura Comparada de 10:00 a 12:00 en el edificio Komaba, y que después solía ir a la cafetería del campus norte, donde pedía un americano y leía durante una hora antes de su siguiente clase.
+        </p>
+
+        <p class="prose-tak">
+            Lo encontró a las 12:20, sentado solo en una mesa junto a la ventana de la cafetería, con un libro abierto y un café a medio terminar. Llevaba la misma chaqueta universitaria azul marino del primer día. El sol de octubre caía sobre la mesa y convertía las páginas del libro en rectángulos de luz.
+        </p>
+
+        <p class="prose-tak">
+            Takina se detuvo a tres metros de su mesa. La distancia del perímetro de seguridad. La distancia que había mantenido detrás de él y de Chisato en el festival. La distancia que, después de todo, seguía siendo su instinto por defecto.
+        </p>
+
+        <p class="prose-tak">
+            Pero esta vez, en lugar de quedarse ahí, la cruzó.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Ken.</span>
+        </div>
+
+        <p class="prose-ken">
+            Ken levantó la vista del libro. La sorpresa fue breve — un parpadeo, una elevación mínima de las cejas — y después se convirtió en algo que Takina no esperaba: reconocimiento. No el reconocimiento de alguien que identifica una cara, sino el de alguien que identifica un momento. Como si hubiera estado esperando que esto pasara.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Takina. <em>(cerrando el libro despacio)</em> Siéntate.</span>
+        </div>
+
+        <p class="prose-tak">
+            No fue una invitación cálida ni una fría. Fue neutral — la neutralidad de alguien que ha decidido escuchar antes de juzgar. Takina se sentó frente a él. La mesa era pequeña. La distancia entre ellos, ahora, era de cincuenta centímetros. La más corta que habían compartido jamás.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—¿Quieres un café?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—No vine por café.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Lo sé. Pero vas a necesitarlo para lo que viniste a decirme. <em>(levantando la mano hacia el mesero)</em> Dos americanos, por favor.</span>
+        </div>
+
+        <!-- ══════ SCENE 2: THE TRUTH ══════ -->
+
+        <div class="cup-sep">
+            <div class="sep-line lav"></div>
+            <div class="sep-dot"></div>
+            <div class="sep-line amb"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena II</span>
+            <span class="scene-name">Lo que se dice cuando ya no queda nada que perder</span>
+        </div>
+
+        <p class="prose-tak">
+            Takina habló. No con la voz plana de los informes de DA. No con la frialdad calculada de las últimas semanas. Habló con una voz que Ken nunca le había escuchado — una voz que temblaba en los bordes como una hoja de papel que alguien sostiene contra el viento.
+        </p>
+
+        <p class="prose-tak">
+            Contó todo. Desde el principio. Desde la misión en Sumida donde Chisato la salvó y algo se despertó dentro de ella que no sabía cómo nombrar. Desde el vaso roto. Desde las mariposas que Kurumi le explicó con neuroquímica y que la neuroquímica no pudo resolver. Desde el papel arrugado con una sola palabra. Desde la noche en que Mika le dijo «no cometas mi error» y ella decidió cometer uno peor.
+        </p>
+
+        <p class="prose-tak">
+            Contó la alerta de DA falsificada. Los turnos manipulados. La mentira sobre el «espacio personal.» El informe del vehículo fabricado. Cada pieza del tablero de ajedrez que había movido para separar a Ken de Chisato, nombrada sin eufemismos, sin justificaciones, sin la armadura del lenguaje operativo.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Tú no hiciste nada malo. Nunca hiciste nada malo. Todo lo que pasó — la distancia, la frialdad, que Chisato te pidiera tiempo — fue por mí. Yo lo causé. Yo manipulé la situación para alejarte de ella. Porque estoy enamorada de Chisato. Y en vez de decírselo, en vez de aceptar que ella podría elegir a alguien más, decidí destruir lo que ustedes tenían.</span>
+        </div>
+
+        <p class="prose-ken">
+            Ken la escuchó sin interrumpir. No porque estuviera paralizado ni porque no tuviera preguntas — Ken Fujimoto siempre tenía preguntas; era un estudiante de literatura, y los estudiantes de literatura entienden que las preguntas son más valiosas que las respuestas. Escuchó sin interrumpir porque reconoció que lo que Takina estaba haciendo requería un tipo de valentía que él, con todos sus libros y su marcapasos y sus horas de conversación con Chisato, nunca había necesitado ejercer.
+        </p>
+
+        <p class="prose-ken">
+            El café llegó mientras Takina hablaba. Dos tazas blancas, idénticas, colocadas frente a ellos como espejos de cerámica. Ken tomó la suya. Le dio un sorbo. La dejó de nuevo en la mesa. Todo con una lentitud deliberada que no era indiferencia sino procesamiento — la velocidad a la que un cerebro humano absorbe la información cuando la información es demasiado densa para tragarla de un solo golpe.
+        </p>
+
+        <p class="prose-tak">
+            Cuando Takina terminó de hablar, el café de ella estaba intacto. El de Ken, a la mitad. El silencio entre ellos tenía la textura de una página en blanco que espera a ser escrita.
+        </p>
+
+        <p class="prose-ken">
+            Ken la miró. Y luego hizo algo que Takina no esperaba.
+        </p>
+
+        <p class="prose-ken">
+            Sonrió.
+        </p>
+
+        <p class="prose-ken">
+            No la sonrisa amplia del primer día en LycoReco. No la sonrisa rota de la despedida. Una sonrisa nueva — más pequeña, más triste, más sabia. La sonrisa de alguien que ha recibido una puñalada y, en lugar de devolver el golpe, mira la herida y dice: <em>«Así que esto es lo que pasó.»</em>
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Lo sé.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—...¿Qué?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Lo supe desde el primer día que entré al café.</span>
+        </div>
+
+        <!-- ══════ SCENE 3: WHAT KEN ALWAYS KNEW ══════ -->
+
+        <div class="cup-sep">
+            <div class="sep-line lav"></div>
+            <div class="sep-dot"></div>
+            <div class="sep-line amb"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena III</span>
+            <span class="scene-name">Lo que Ken siempre supo</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—El primer día, cuando me senté en la barra y Chisato empezó a hablar conmigo, tú estabas detrás del mostrador secando un vaso. Y la forma en que la mirabas... <em>(pausa)</em> ...Takina, estudio literatura. Leo historias. Y lo que vi en tus ojos ese día no era algo que se pueda esconder detrás de un vaso seco. Era la forma en que los personajes miran a la persona que aman en las novelas que me hacen llorar a las dos de la mañana.</span>
+        </div>
+
+        <p class="prose-merge">
+            Takina sintió que el suelo de la cafetería se volvía líquido. No metafóricamente — la sensación fue física, un mareo breve que hizo que sus manos se aferraran al borde de la mesa.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Si lo sabías... ¿por qué seguiste viniendo?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Porque también vi algo más. Vi cómo Chisato te miraba a ti.</span>
+        </div>
+
+        <div class="ken-reveal">
+            <p>Ella habla de ti como si fueras el sol, Takina. No con esas palabras — Chisato no usa metáforas porque ella misma es una metáfora andante. Pero cuando te menciona, su voz cambia. Se vuelve más suave. Más lenta. Como si tu nombre fuera una canción que le gusta tararear sin darse cuenta. Yo escuché eso. Desde el primer día. Y pensé: «Esta chica me gusta mucho. Pero esta chica ya quiere a alguien. Y ese alguien está a tres metros de distancia, secando un vaso, sin saber que el universo ya tomó una decisión.»</p>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Entonces... ¿por qué no dijiste nada?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Porque no era mi historia que contar. <em>(dando otro sorbo al café)</em> Yo soy un estudiante de literatura, Takina. Sé que en las buenas historias, los personajes tienen que llegar a sus propias conclusiones. Si yo te hubiera dicho «oye, Chisato te quiere a ti, hazte a un lado y déjame intentarlo de todas formas» o «oye, deberías confesarte antes de que yo lo haga»... eso habría sido escribir el final de la historia de otra persona. Y yo no tengo ese derecho.</span>
+        </div>
+
+        <p class="prose-merge">
+            Ken se reclinó en la silla. La luz del sol se había movido y ahora caía sobre la taza de Takina, calentándola sin que ella la hubiera tocado. Hizo girar su propia taza entre las manos con ese movimiento pensativo que Takina le había visto hacer docenas de veces en la barra de LycoReco, siempre justo antes de decir algo que parecía simple pero que dejaba eco.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—¿Quieres saber algo que me llevó semanas entender? Cuando Chisato me contó lo de su corazón artificial — cuando compartimos eso, esa conexión de «dos personas con corazones prestados» que fue tan real que casi me convenzo de que era suficiente para construir algo — hubo un momento, justo después, en que ella miró hacia la puerta de la cocina. Donde tú estabas. Y la expresión que tuvo durante ese segundo — un segundo, Takina — fue la expresión de alguien que tiene algo que quiere compartir con la persona más importante de su vida y que esa persona no es la que tiene sentada enfrente.</span>
+        </div>
+
+        <p class="prose-merge">
+            Takina bajó la mirada. La taza de café frente a ella era blanca, simple, sin ornamento. El líquido dentro estaba tibio. Lo miró como si fuera una ventana hacia algo que no se atrevía a creer.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Yo solo soy un chico con un marcapasos que la hace reír. Eso es real. Eso tiene valor. Pero no es lo mismo que lo que tú eres para ella. Tú eres la persona que saltó de una torre gritando que su corazón se escapaba. Tú eres la que curó su herida a las dos de la mañana con manos que temblaban. Tú eres la que rompió un vaso porque no podía romper otra cosa. <em>(sonrisa triste)</em> Yo leí los libros sobre el amor. Tú lo viviste.</span>
+        </div>
+
+        <p class="prose-merge">
+            Silencio. La cafetería seguía funcionando alrededor de ellos — el murmullo de otros estudiantes, el sonido de tazas, el chirrido de sillas — pero la mesa junto a la ventana existía en su propio espacio temporal, separada del resto del mundo por la membrana invisible que rodea a las conversaciones que cambian la vida.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Ken... lo que te hice fue imperdonable.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Sí. Lo fue.</span>
+        </div>
+
+        <p class="prose-merge">
+            No lo suavizó. No lo minimizó. Lo dijo con la misma honestidad directa con la que decía todo lo demás. Y esa honestidad, paradójicamente, fue más reconfortante que cualquier absolución rápida habría sido. Porque significaba que lo que dijera después también sería verdad.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Fue imperdonable. Pero entiendo por qué lo hiciste. No lo justifico — entender y justificar son cosas muy diferentes, y la literatura me enseñó a distinguirlas. Entiendo que el miedo a perder algo te hizo hacer cosas que la persona que eres de verdad nunca habría hecho. Y la persona que tengo sentada enfrente — la que tomó un tren hasta esta universidad para decirme la verdad mirándome a los ojos — esa persona no es la que me mintió. Esa persona es la real.</span>
+        </div>
+
+        <!-- ══════ SCENE 4: THE FAVOR ══════ -->
+
+        <div class="cup-sep">
+            <div class="sep-line lav"></div>
+            <div class="sep-dot"></div>
+            <div class="sep-line amb"></div>
+        </div>
+
+        <div class="scene-header">
+            <span class="scene-num">Escena IV</span>
+            <span class="scene-name">Un favor entre dos personas honestas</span>
+        </div>
+
+        <p class="prose-merge">
+            Takina tomó su café por primera vez. Le dio un sorbo largo. Estaba tibio. Sabía a algo — no a café exactamente, sino a la sensación de tragar después de horas sin poder hacerlo, como si la garganta finalmente se hubiera destensado lo suficiente para permitir que algo entrara.
+        </p>
+
+        <p class="prose-merge">
+            Ken la observó beber con la paciencia de alguien que sabe que los momentos importantes no se aceleran. Cuando Takina dejó la taza, sus ojos se encontraron sobre la mesa. Lavanda y ámbar. Dos personas que no se eligieron como aliadas pero que la vida había sentado frente a frente con una verdad entre ellas como un tercer café que nadie había pedido pero que ambas necesitaban.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Takina. Voy a pedirte un favor.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—No merece que me pidas un favor. Me merezco lo opuesto.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—No es un favor para ti. Es para Chisato. <em>(pausa)</em> Dile lo que sientes. Todo. Sin filtro. Sin estrategia. Sin la armadura que llevas puesta desde que eras niña. Dile que la amas. Dile lo que hiciste y por qué lo hiciste. Dile la verdad completa, porque Chisato merece tomar una decisión basada en la verdad y no en las sombras que yo dejé al irme y que tú construiste para que yo me fuera.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Y si no me perdona?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Entonces al menos sabrá. Y saber es siempre mejor que no saber. <em>(sonrisa que esta vez alcanza los ojos)</em> Créeme. Yo vivo con un marcapasos. Sé lo que significa vivir sin certezas. La peor certeza es la que nunca llega.</span>
+        </div>
+
+        <div class="shared-silence">
+            <p>Terminaron sus cafés en silencio. No el silencio tenso de las semanas anteriores. Un silencio limpio, como una habitación recién barrida. El silencio de dos personas que han dicho lo que necesitaban decir y que ahora pueden simplemente existir en el mismo espacio sin que ese espacio duela.</p>
+        </div>
+
+        <p class="prose-merge">
+            Ken cerró su libro. Se puso la mochila al hombro. Se levantó. Takina se levantó también. Se miraron de pie, a medio metro de distancia, bajo la luz de octubre que entraba por la ventana de la cafetería universitaria.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Oye, Takina.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—¿Sí?</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—Cuando le digas, dile también algo de mi parte. Dile que el chico del marcapasos la recuerda con cariño. Que su café era el mejor de Tokyo. Y que no se preocupe por mí. Los buenos personajes siempre encuentran su próximo capítulo. <em>(extendiendo la mano)</em></span>
+        </div>
+
+        <p class="prose-merge">
+            Takina miró la mano de Ken. Una mano que ella había intentado borrar de la historia de Chisato. Una mano que, a pesar de todo, se extendía hacia ella sin resentimiento, sin condiciones, con la generosidad absurda de alguien que elige la decencia cuando el mundo le ha dado razones suficientes para elegir la amargura.
+        </p>
+
+        <p class="prose-merge">
+            La estrechó.
+        </p>
+
+        <p class="prose-merge">
+            No fue un apretón de manos formal ni un gesto vacío. Fue un acuerdo silencioso entre dos personas que amaban a la misma chica de formas diferentes y que, en esa diferencia, habían encontrado algo inesperado: no amistad — era demasiado pronto para eso — pero sí respeto. El respeto que nace cuando alguien te muestra lo peor de sí mismo y tú decides ver lo mejor.
+        </p>
+
+        <div class="dialogue">
+            <span class="speaker takina">Takina</span>
+            <span class="line">—Gracias, Ken.</span>
+        </div>
+
+        <div class="dialogue">
+            <span class="speaker ken">Ken</span>
+            <span class="line">—No me des las gracias. Ve y dile. Hoy. No mañana. No la semana que viene. <em>Hoy.</em> Porque «ya es tarde» es lo que dicen las personas que no se atreven. Y tú, Takina Inoue, te atreviste a venir hasta aquí. Así que atrévete a cruzar esos tres metros que siempre mantienes entre tú y ella. <em>(guiño)</em> Un lector de novelas se da cuenta de estas cosas.</span>
+        </div>
+
+        <p class="prose-merge">
+            Se fue. Su chaqueta azul marino desapareció entre el flujo de estudiantes que cruzaban el patio del campus. Y Takina se quedó de pie junto a la mesa con dos tazas vacías, la luz de octubre cayendo sobre el lugar donde él había estado, y una decisión que ya no era una decisión sino una certeza.
+        </p>
+
+        <p class="prose-merge">
+            Hoy.
+        </p>
+
+        <p class="final-line">
+            <span class="lav">Dos cafés</span> sobre una mesa de universidad.<br>
+            <span class="amb">Una verdad</span> que tardó meses en pronunciarse.<br>
+            Y un favor que no era un favor<br>
+            sino un acto de <span class="warm">generosidad</span><br>
+            que Takina no olvidaría jamás.
+        </p>
+
+    </div>
+
+    <!-- ============ CHAPTER END ============ -->
+    <section class="chapter-end">
+        <div class="end-ornament">
+            <svg width="60" height="30" viewBox="0 0 60 30" opacity="0.15">
+                <ellipse cx="15" cy="20" rx="10" ry="6" fill="none" stroke="#8898B8" stroke-width="0.8"/>
+                <ellipse cx="45" cy="20" rx="10" ry="6" fill="none" stroke="#C0A040" stroke-width="0.8"/>
+                <line x1="25" y1="20" x2="35" y2="20" stroke="#E8C8D0" stroke-width="0.5"/>
+            </svg>
+        </div>
+        <p class="end-label">Fin del Capítulo 11</p>
+        <p class="end-title">«&thinsp;Dos cafés, una verdad&thinsp;»</p>
+        <div class="chapter-nav">
+            <a href="index.html">Índice</a>
+            <a href="capitulo-10.html">← Capítulo 10</a>
+            <a href="capitulo-12.html" class="next-chapter">Capítulo 12: Lycoris in Bloom →</a>
+        </div>
+    </section>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            document.querySelectorAll(
+                '.prose-tak, .prose-ken, .prose-merge, .dialogue, .ken-reveal, .shared-silence, .cups-header, .final-line, .cup-sep, .scene-header'
+            ).forEach(el => {
+                observer.observe(el);
+            });
+
+            const nav = document.getElementById('topNav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
